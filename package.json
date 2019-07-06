@@ -1,0 +1,19 @@
+{
+  "name": "baja",
+  "version": "1.0.0",
+  "description": "McMaster Baja",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samacluka/baja.git"
+  },
+  "author": "Luka Samac",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samacluka/baja/issues"
+  },
+  "homepage": "https://github.com/samacluka/baja#readme"
+}
