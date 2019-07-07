@@ -2,114 +2,15 @@
 <html>
     <head>
         <title>McMaster Baja Racing</title>
+        <link rel="stylesheet" href="/stylesheets/landing.css" type="text/css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <!-- <link rel="stylesheet" href="/public/stylesheets/landing.css" type="text/css"> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
-        <style media="screen">
-          body {
-            background: black;
-          }
-
-          #landing-header {
-            z-index: 1;
-            position: relative;
-            text-align: center;
-            padding-top: 40vh;
-            color: white;
-          }
-
-          .slideshow {
-            position: fixed;
-            width: 100%;
-            height: 95%;
-            top: 102;
-            left: 0;
-            z-index: 0;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-          }
-
-          .slideshow li {
-            width: 100%;
-            height: 95%;
-            position: absolute;
-            top: 102;
-            left: 0;
-            background-size: cover;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            opacity: 0;
-            z-index: 0;
-            animation: imageAnimation 30s linear infinite;
-          }
-
-          .slideshow li:nth-child(1) {
-            background-image: url(http://www.mcmasterbaja.com/img/bgPic4wd2.jpg);
-          }
-          .slideshow li:nth-child(2) {
-            background-image: url(http://scontent.cdninstagram.com/vp/a28861cf3cd87d8838388ad9b3d35c8d/5DBC3098/t51.2885-15/sh0.08/e35/s640x640/50833879_382820802496106_9042629535802535321_n.jpg?_nc_ht=scontent.cdninstagram.com);
-            animation-delay: 10s;
-          }
-          .slideshow li:nth-child(3) {
-            background-image: url(https://process.filestackapi.com/ArMfObYDFQeyV03Ao3NMrz/resize=width:685/https://cdn.filepicker.io/api/file/Ms4j2KZTRlioD2g9BdAT);
-            animation-delay: 20s;
-          }
-
-
-          @keyframes imageAnimation {
-            0% {
-              opacity: 0;
-              animation-timing-function: ease-in;
-            }
-            10% {
-              opacity: 1;
-              animation-timing-function: ease-out;
-            }
-            20% {
-              opacity: 1
-            }
-            30% {
-              opacity: 0
-            }
-          }
-
-          /* Older browser support - .no-cssanimations class added by modernizr */
-          .no-cssanimations .slideshow li {
-          	opacity: 1;
-          }
-        </style>
-
     </head>
     <body>
 
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">
-          <img src="http://mcmasterbaja.com/img/bajaWhiteLogo.png" width="100" height="60">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Gallery</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Calendar</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Sponsors</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <div id="landing-header">
+      <a href="/home" class="btn btn-lg btn-success">GET DIRTY!</a>
+    </div>
 
     <ul class="slideshow">
       <li></li>
