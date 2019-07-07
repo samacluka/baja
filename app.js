@@ -37,15 +37,19 @@ app.use(flash());
 // app.use("/",indexRoutes);
 
 app.get("/",function(req,res){
-  res.render("landing");
+  res.render("home");
 });
 
 app.get("/home",function(req,res){
   res.render("home");
 });
 
-app.get("/login", function(req,res){
-  res.render("login");
+app.get("/behindTheScenes/expenseReport", function(req,res){
+  res.render("behindTheScenes/expenseReport");
+});
+
+app.get("/behindTheScenes/login",function(req,res){
+  res.render("behindTheScenes/login");
 });
 
 /*=================================INIT - END=================================*/
