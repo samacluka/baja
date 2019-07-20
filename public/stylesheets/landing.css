@@ -37,17 +37,24 @@ body {
 }
 
 .slideshow li:nth-child(1) {
-  background-image: url(http://mcmasterbaja.com/img/events/laval.jpg);
+  background-image: url(/images/land1.jpg);
 }
 .slideshow li:nth-child(2) {
-  background-image: url(http://mcmasterbaja.com/img/events/midnight.jpg);
+  background-image: url(/images/land2.jpg);
   animation-delay: 10s;
 }
 .slideshow li:nth-child(3) {
-  background-image: url(http://mcmasterbaja.com/img/events/tennesse.jpg);
+  background-image: url(/images/land3.jpg);
   animation-delay: 20s;
 }
-
+.slideshow li:nth-child(4) {
+  background-image: url(/images/land4.jpg);
+  animation-delay: 30s;
+}
+.slideshow li:nth-child(5) {
+  background-image: url(/images/land5.jpg);
+  animation-delay: 40s;
+}
 
 @keyframes imageAnimation {
   0% {

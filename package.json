@@ -1,30 +1,24 @@
 {
   "name": "baja",
   "version": "1.0.0",
-  "description": "McMaster Baja",
+  "description": "McMaster Baja Racing",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/samacluka/baja.git"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Luka Samac",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/samacluka/baja/issues"
-  },
-  "homepage": "https://github.com/samacluka/baja#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "express-session": "^1.16.2",
     "method-override": "^3.0.0",
-    "mongoose": "^5.6.3",
+    "mongoose": "^5.6.4",
+    "nodemon": "^1.19.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.1"
   }
 }

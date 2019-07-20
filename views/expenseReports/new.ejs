@@ -1,0 +1,77 @@
+<% include ../partials/header %>
+
+<div class="container">
+  <div class="row">
+    <h1 style="text-align: center;">Create a New Expense Report</h1>
+    <div style="width: 30%; margin: 35px auto" class="">
+      <form class="" action="/expenseReports" method="post">
+        <div class="form-group"><input class="form-control" type="text" name="itemName" placeholder="Item Name"></div>
+        <div class="form-group">
+          <select class="form-control" name="category" placeholder="Cateogry">
+            <option value="-- Select Category --">-- Select Category --</option>
+            <option value="Material">Material</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Component">Component</option>
+            <option value="Machining">Machining</option>
+            <option value="Tooling">Tooling</option>
+            <option value="Carbon">Carbon</option>
+            <option value="Sponsorship">Sponsorship</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Competition Registration">Competition Registration</option>
+            <option value="Shop Supplies">Shop Supplies</option>
+            <option value="Service">Service</option>
+            <option value="Team Bonding">Team Bonding</option>
+            <option value="Fuel for Baja">Fuel for Baja</option>
+            <option value="Fuel for Transportation">Fuel for Transportation</option>
+            <option value="Driver Equipment">Driver Equipment</option>
+            <option value="Safety Equipment">Safety Equipment</option>
+            <option value="Other">Other</option>
+            <option value="Outreach and Sponsorship">Outreach and Sponsorship</option>
+            <option value="Software">Software</option>
+            <option value="Research Project">Research Projects</option>
+            <option value="Apparel">Apparel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select class="form-control" name="subteam" placeholder="Subteam">
+            <option value="-- Subteam --">-- Select Subteam --</option>
+            <option value="Business/Sales">Business/Sales</option>
+            <option value="Chassis">Chassis</option>
+            <option value="Controls">Controls</option>
+            <option value="DAQ">DAQ</option>
+            <option value="Drivetrain">Drivetrain</option>
+            <option value="Ergonomics">Ergonomics</option>
+            <option value="General Team Items - NOT MATERIAL">General Team Items - NOT MATERIAL</option>
+            <option value="Suspension">Suspension</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <span class="form-span">
+            <label class="form-label-bg" for="CAD">CAD</label>
+            <input class="form-group" type="Radio" id="CAD" name="currency" checked>
+            <input class="form-group" type="Radio" id="USD" name="currency">
+            <label class="form-label-bg" for="USD">USD</label>
+          </span>
+        </div>
+        <div class="form-group"><input class="form-control" type="text" name="store" placeholder="Store/Company"></div>
+        <div class="form-group"><input class="form-control" type="number" name="subtotal" placeholder="Subtotal"></div>
+        <div class="form-group"><input class="form-control" type="number" name="tax" placeholder="Tax"></div>
+        <div class="form-group"><input class="form-control" type="number" name="shipping" placeholder="Shipping"></div>
+        <div class="form-group"><input class="form-control" type="number" name="total" placeholder="Total"></div>
+        <!-- <div class="form-group">
+          <span class="form-span">
+            <label class="form-label-bg" for="Reciept">Reciept: </label>
+            <input class="form-group" type="file" name="Reciept" accept=".pdf">
+          </span>
+        </div> -->
+        <div class="from-group"><input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit"></div>
+      </form>
+      <a href="/expenseReports">Go Home</a>
+    </div>
+  </div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,16 @@
+<% include ../partials/header %>
+
+<div class="container">
+  <div class="row">
+    <h1 style="text-align: center;">Edit ExpenseItem to <%= expenseReport.name %></h1>
+    <div style="width: 30%; margin: 35px auto" class="">
+      <form action="/expenseReports/<%= expenseReport._id %>/expenseItems/<%= expenseItem._id %>?_method=PUT" method="post">
+        <div class="form-group"><input class="form-control" type="text" placeholder="text" name="expenseItem[text]" value="<%= expenseItem.text %>"></div>
+        <div class="from-group"><input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit"></div>
+      </form>
+      <a href="/expenseReports">Go to expenseReports</a>
+    </div>
+  </div>
+</div>
+
+<% include ../partials/footer %>

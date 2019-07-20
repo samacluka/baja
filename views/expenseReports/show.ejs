@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<% const mongoose = require("mongoose"); %>
+<% const dburl = process.env.DATABASEURL || "mongodb://localhost/baja"; %>
+<% mongoose.connect(dburl, { useNewUrlParser: true, useCreateIndex: true }); %>
+
+<% expenseReport.expenseItems.forEach(function(expenseItem){ %>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Item: <%= expenseItem.itemName %></h3>
+      <h5>Category: <%= expenseItem.category %></h5>
+      <h5>Subteam: <%= expenseItem.subteam %></h5>
+      <h5>Store: <%= expenseItem.store %></h5>
+      <h5>Currency: <%= expenseItem.currency %></h5>
+      <h5>Subtotal: <%= expenseItem.subtotal %></h5>
+      <h5>Tax: <%= expenseItem.tax %></h5>
+      <h5>Shipping: <%= expenseItem.shipping %></h5>
+      <h5>Total: <%= expenseItem.total %></h5>
+      <% if(currentUser && expenseItem.expenseReport.author.id.equals(currentUser._id)){ %>
+        <a class="btn btn-xs btn-warning" href="/expenseReports/<%= expenseItem.expenseReport._id %>/expenseItems/<%= expenseItem._id %>/edit">Edit</a>
+        <form class="delete-form" action="/expenseReports/<%= expenseItem.expenseReport._id %>/expenseItems/<%= expenseItem._id %>?_method=DELETE" method="post">
+          <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+        </form>
+      <% } %>
+    </div>
+    <div class="col-8">
+      <!-- This is where the reciept picture will go -->
+    </div>
+  </div>
+</div>
+
+<% }); %>
+
+
+
+<% include ../partials/footer %>
