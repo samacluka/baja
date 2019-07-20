@@ -6,7 +6,7 @@ var userSchema = new mongoose.Schema({
   lastName: String,
   clearance: Number,
   image: String,
-  isAccepted: Boolean,
+  isAccepted: {type: Boolean, default: false},
   username: String,
   password: String
 });

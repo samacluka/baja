@@ -4,16 +4,12 @@ var mongoose    = require("mongoose"),
 
 
 var expenseReportSchema = new mongoose.Schema({
-   author:{
-             type: mongoose.Schema.Types.ObjectId,
-             ref: "User"
-          },
-   expenseItems: [
-      {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "ExpenseItem"
-      }
-   ]
+   name: String,
+   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+   expenseItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ExpenseItem' }],
+   viewed: {type: Boolean, default: false},
+   approved: {type: Boolean, default: false},
+   created: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("ExpenseReport", expenseReportSchema);

@@ -50,11 +50,47 @@ app.use(function(req,res,next){
 const expenseItemRoutes = require("./routes/expenseItems"),
       expenseReportRoutes = require("./routes/expenseReports"),
       indexRoutes = require("./routes/index");
-      
+
 //require routes
 app.use("/expenseReports/:id/expenseItems",expenseItemRoutes);
 app.use("/expenseReports",expenseReportRoutes);
 app.use("/",indexRoutes);
+
+
+// User.create({firstName: "bob", lastName: "smith", username: "dontmatter"}, function(err1, newUser){
+//   if(err1 || !newUser){
+//     console.log(err1);
+//   } else {
+//     ExpenseItem.create({itemName: "the best item", category: "material", subteam: "chassis", store: "canadian tire"},function(err2, newItem1){
+//       if(err2 || !newItem1){
+//         console.log(err2);
+//       } else {
+//         ExpenseItem.create({itemName: "the best item2", category: "material2", subteam: "ergonomics", store: "bass pro shop"},function(err3, newItem2){
+//           if(err3 || !newItem2){
+//             console.log(err3);
+//           } else {
+//             ExpenseReport.create({name: "REPORT NAME"}, function(err4, newReport){
+//               if(err4){
+//                 console.log(err4);
+//               } else {
+//                 newReport.expenseItems.push(newItem1);
+//                 newReport.expenseItems.push(newItem2);
+//                 newReport.author = newUser;
+//                 newReport.save(function(err5,data){
+//                   if(err5){
+//                     console.log(err5);
+//                   } else {
+//                     console.log(data);
+//                   }
+//                 });
+//               }
+//             });
+//           }
+//         });
+//       }
+//     });
+//   }
+// });
 
 /*=================================INIT - END=================================*/
 /*=================================LISTEN - BEGIN=============================*/

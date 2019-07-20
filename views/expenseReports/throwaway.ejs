@@ -59,17 +59,34 @@
  <!-- PUTTT BACKKKKK!!!!  -->
  <div class="row text-center" style="display: flex; flex-wrap: wrap;">
    <% expenseReports.forEach(function(expenseReport){ %>
-     <% var expenseItem = ExpenseReport.findById(expenseReport.expenseItem); %>
      <div class="col-md-3 col-sm-6">
        <div class="thumbnail">
          <div class="caption">
-           <h4><%=  expenseItem.itemName %></h4>
+           <h4><%=  expenseReport.name %></h4>
+
          </div>
          <p>
            <a class="btn btn-primary" href="/expenseReports/<%= expenseReport._id %>">More Info</a>
          </p>
        </div>
       </div>
+   <% }); %>
+ </div>
+
+ <!-- PUTTT BACKKKKK!!!!  -->
+ <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+   <% expenseReports.forEach(function(expenseReport){ %>
+     <a class="btn btn-primary" href="/expenseReports/<%= expenseReport._id %>">
+       <div class="col-md-3 col-sm-6">
+         <div class="thumbnail">
+           <div class="caption">
+             <h4><%=  expenseReport.name %></h4>
+             <img src="<% expenseReport.populate('author').exec(function(err, popExpenseReport){if(err || !popExpenseReport){console.log(err);}else{ popExpenseReport.author.image }}) %>">
+             <h6> expenseReport.created </h6>
+            </div>
+           </div>
+        </div>
+      </a>
    <% }); %>
  </div>
 <!-- ------------------------------------------------------------------------------- -->

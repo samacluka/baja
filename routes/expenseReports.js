@@ -51,7 +51,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                               ExpenseReport.create({author: req.user, expenseItems: newItem}, function(err, newReport){
                                 if(err){
                                   console.log(err);
-                                } else {
+                                } else {                                  
                                   ExpenseItem.findOne({_id: newReport.expenseItems}, function(err, foundItem){
                                     if(err){
                                       console.log(err);

@@ -4,14 +4,31 @@
 
   <header class="jumbotron">
     <div class="container">
-      <h1>Welcome to McMaster Baja Racing!</h1>
+      <h2>Welcome to McMaster Baja Racing!</h2>
       <p>
         <a class="btn btn-primary btn-lg" href="/expenseReports/new">Add a new Expense Report</a>
       </p>
     </div>
   </header>
 
-
+  <!-- PUTTT BACKKKKK!!!!  -->
+  <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+    <% expenseReports.forEach(function(expenseReport){ %>
+      <a href="/expenseReports/<%= expenseReport._id %>">
+        <div class="col-md-3 col-sm-6">
+          <div class="thumbnail">
+            <div class="caption">
+              <h4><%=  expenseReport.name %></h4>
+              <h6><%= expenseReport.created.toDateString() %></h6>
+             </div>
+             <p>
+               <a class="btn btn-primary" href="/expenseReports/<%= expenseReport._id %>">More Info</a>
+             </p>
+            </div>
+         </div>
+       </a>
+    <% }); %>
+  </div>
 
 
 
