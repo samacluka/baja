@@ -20,6 +20,8 @@
             <div class="caption">
               <h4><%=  expenseReport.name %></h4>
               <h6><%= expenseReport.created.toDateString() %></h6>
+                <h6><%= expenseReport.author %></h6>
+                <h6><%= expenseReport.populate('author') %></h6>
              </div>
              <p>
                <a class="btn btn-primary" href="/expenseReports/<%= expenseReport._id %>">More Info</a>
