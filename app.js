@@ -9,10 +9,11 @@ const express       = require("express"),
       flash         = require("connect-flash");
 
 /* Create DB variables */
-const ExpenseReport  = require("./models/expenseReport.js"),
+const ExpenseReport   = require("./models/expenseReport.js"),
       ExpenseItem     = require("./models/expenseItem.js"),
-      User        = require("./models/user"),
-      seedDB      = require("./models/seeds.js");
+      User            = require("./models/user"),
+      seedDB          = require("./models/seeds.js"),
+      Clearance       = require("./models/clearance.js");
 
 const dburl = process.env.DATABASEURL || "mongodb://localhost/baja";
 mongoose.connect(dburl, { useNewUrlParser: true, useCreateIndex: true });
@@ -41,20 +42,20 @@ passport.deserializeUser(User.deserializeUser());
 app.use(function(req,res,next){
   res.locals.currentUser = req.user;
   res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success");
+  res.locals.success = req.flash("success");  
   next();
 });
 
 
 /* Create route variables*/
-const expenseItemRoutes = require("./routes/expenseItems"),
-      expenseReportRoutes = require("./routes/expenseReports"),
-      indexRoutes = require("./routes/index");
+const expenseReportRoutes = require("./routes/expenseReports"),
+      indexRoutes = require("./routes/index"),
+      userRoutes  = require("./routes/users");
 
 //require routes
-app.use("/expenseReports/:id/expenseItems",expenseItemRoutes);
 app.use("/expenseReports",expenseReportRoutes);
 app.use("/",indexRoutes);
+app.use("/users",userRoutes);
 
 
 // User.create({firstName: "bob", lastName: "smith", username: "dontmatter"}, function(err1, newUser){

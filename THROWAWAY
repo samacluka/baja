@@ -1,0 +1,14 @@
+// expensereports/show.ejs
+
+<% if(currentUser >= clearance.captain){ %>
+ <% if(expenseReport.approved = false){ %>
+   <a class="btn btn-lg btn-info" href="/expenseReports/<%= expenseItem.expenseReport %>/expenseItems/<%= expenseItem._id %>/approve">Approve</a>
+ <% } else { %>
+   <a class="btn btn-lg btn-warning" href="/expenseReports/<%= expenseItem.expenseReport %>/expenseItems/<%= expenseItem._id %>/unapprove">Unapprove</a>
+ <% } %>
+<% } %>
+
+
+
+// ExpenseReports/index.ejs
+<h6>Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h6>

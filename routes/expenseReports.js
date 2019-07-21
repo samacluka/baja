@@ -9,11 +9,11 @@ var   middleware  = require("../middleware/index");
 
 // Get Routes
 router.get("/",function(req,res){
-  ExpenseReport.find({},function(err,DBexpenseReports){
+  ExpenseReport.find().populate('author').exec(function(err,allExpenseReports){
     if(err){
       console.log(err);
     } else {
-      res.render("expenseReports/index",{expenseReports: DBexpenseReports})
+      res.render("expenseReports/index",{expenseReports: allExpenseReports})
     }
   });
 });
@@ -23,11 +23,11 @@ router.get("/new", middleware.isLoggedIn, function(req,res){
 });
 
 router.get("/:id", function(req,res){      //"/expenseReports/new" must be declared first because it follows the same pattern
-  ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err,foundCG){
+  ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err,foundExpenseReport){
     if(err){
       console.log(err);
     } else {
-      res.render("expenseReports/show", {expenseReport: foundCG});
+      res.render("expenseReports/show", {expenseReport: foundExpenseReport});
     }
   });
 });
@@ -99,6 +99,29 @@ router.delete("/:id", middleware.isExpenseReportOwner, function(req,res){
       req.flash("success","ExpenseReport Deleted");
       res.redirect("/expenseReports");
     }
+  });
+});
+
+// Approval  Routes
+router.put("/:id/approve", function(req,res){
+  ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
+    if(err || !foundExpenseReport){
+      console.log(err);
+    } else {
+      foundExpenseReport.approved = true;
+    }
+    res.redirect("back");
+  });
+});
+
+router.put("/:id/unapprove", function(req,res){
+  ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
+    if(err || !foundExpenseReport){
+      console.log(err);
+    } else {
+      foundExpenseReport.approved = false;
+    }
+    res.redirect("back");
   });
 });
 

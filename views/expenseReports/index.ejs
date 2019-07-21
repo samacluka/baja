@@ -11,7 +11,7 @@
     </div>
   </header>
 
-  <!-- PUTTT BACKKKKK!!!!  -->
+
   <div class="row text-center" style="display: flex; flex-wrap: wrap;">
     <% expenseReports.forEach(function(expenseReport){ %>
       <a href="/expenseReports/<%= expenseReport._id %>">
@@ -19,9 +19,8 @@
           <div class="thumbnail">
             <div class="caption">
               <h4><%=  expenseReport.name %></h4>
-              <h6><%= expenseReport.created.toDateString() %></h6>
-                <h6><%= expenseReport.author %></h6>
-                <h6><%= expenseReport.populate('author') %></h6>
+              <h6>Created on <%= expenseReport.created.toDateString() %></h6>
+              <h6>Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h6>
              </div>
              <p>
                <a class="btn btn-primary" href="/expenseReports/<%= expenseReport._id %>">More Info</a>
