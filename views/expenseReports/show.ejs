@@ -19,40 +19,55 @@
   <% } %>
 </div>
 
-
-<% expenseReport.expenseItems.forEach(function(expenseItem){ %>
+<% if(currentUser && expenseReport.author.equals(currentUser._id)){ %>
+  <a class="btn btn-xs btn-warning" href="/expenseReports/<%= expenseItem.expenseReport %>/expenseItems/<%= expenseItem._id %>/edit">Edit</a>
+  <form class="delete-form" action="/expenseReports/<%= expenseItem.expenseReport %>/expenseItems/<%= expenseItem._id %>?_method=DELETE" method="post">
+    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+  </form>
+<% } %>
 
 <div class="container">
-  <div class="row">
-    <div class="col">
-      <h3>Item: <%= expenseItem.itemName %></h3>
-      <h5>Category: <%= expenseItem.category %></h5>
-      <h5>Subteam: <%= expenseItem.subteam %></h5>
-      <h5>Store: <%= expenseItem.store %></h5>
-      <h5>Currency: <%= expenseItem.currency %></h5>
-      <h5>Subtotal: <%= expenseItem.subtotal %></h5>
-      <h5>Tax: <%= expenseItem.tax %></h5>
-      <h5>Shipping: <%= expenseItem.shipping %></h5>
-      <h5>Total: <%= expenseItem.total %></h5>
-
-      <% if(currentUser && expenseReport.author.equals(currentUser._id)){ %>
-        <a class="btn btn-xs btn-warning" href="/expenseReports/<%= expenseItem.expenseReport %>/expenseItems/<%= expenseItem._id %>/edit">Edit</a>
-        <form class="delete-form" action="/expenseReports/<%= expenseItem.expenseReport %>/expenseItems/<%= expenseItem._id %>?_method=DELETE" method="post">
-          <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-        </form>
-      <% } %>
-
-    </div>
-    <div class="col-8">
-      <div class="image-responsive">
-        <img src="/images/cmp3.jpg" alt="">
-      </div>
-    </div>
-  </div>
+  <table style="width:100%">
+    <tr>
+      <th>Item</th>
+      <th>Category</th>
+      <th>Subteam</th>
+      <th>Store</th>
+      <th>Currency</th>
+      <th>Subtotal</th>
+      <th>Tax</th>
+      <th>Shipping</th>
+      <th>Item Total</th>
+    </tr>
+    <% expenseReport.expenseItems.forEach(function(expenseItem){ %>
+      <tr>
+        <td><%= expenseItem.itemName %></td>
+        <td><%= expenseItem.category %></td>
+        <td><%= expenseItem.subteam %></td>
+        <td><%= expenseItem.store %></td>
+        <td><%= expenseItem.currency %></td>
+        <td><%= expenseItem.subtotal %></td>
+        <td><%= expenseItem.tax %></td>
+        <td><%= expenseItem.shipping %></td>
+        <td><%= expenseItem.total %></td>
+      </tr>
+    <% }); %>
+    <tr>
+      <td>Total</td>
+      <td>---</td>
+      <td>---</td>
+      <td>---</td>
+      <td>---</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
 </div>
-<hr class="style-two">
-<% }); %>
 
+
+<hr class="style-two">
 
 
 <% include ../partials/footer %>

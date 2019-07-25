@@ -23,7 +23,7 @@ router.get("/new", middleware.isLoggedIn, function(req,res){
 });
 
 router.get("/:id", function(req,res){      //"/expenseReports/new" must be declared first because it follows the same pattern
-  ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err,foundExpenseReport){
+  ExpenseReport.findById(req.params.id).populate("expenseItems").populate('author').exec(function(err,foundExpenseReport){
     if(err){
       console.log(err);
     } else {
@@ -35,41 +35,55 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
 
 // Post Routes -- Working
 router.post("/",middleware.isLoggedIn,function(req,res){
-  ExpenseItem.create({itemName:    req.body.itemName,
-                      category:     req.body.category,
-                      subteam:      req.body.subteam,
-                      store:        req.body.store,
-                      currency:     req.body.currency,
-                      subtotal:     req.body.subtotal,
-                      tax:          req.body.tax,
-                      shipping:     req.body.shipping,
-                      total:        req.body.total},
-                      function(err, newItem){
-                        if(err){
-                          console.log(err);
-                        } else {
-                              ExpenseReport.create({author: req.user, expenseItems: newItem}, function(err, newReport){
-                                if(err){
-                                  console.log(err);
-                                } else {
-                                  ExpenseItem.findOne({_id: newReport.expenseItems}, function(err, foundItem){
-                                    if(err){
-                                      console.log(err);
-                                    } else {
-                                      foundItem.expenseReport.push(newReport);
-                                      foundItem.save(function(err, data){
-                                        if(err){
-                                          console.log(err);
-                                        } else {
-                                          console.log(data);
-                                          res.redirect("/expenseReports");
-                                        }
-                                      });
-                                    }
-                                  });
-                                }
-                              });
-                        }});
+  ExpenseReport.create({author: req.user, name: req.body.expenseReportName}, function(err1, newExpenseReport){
+    if(err){
+      console.log(err1);
+    } else {
+      for(var i = 0; i < 30; i++){
+        if(req.body.itemName[i] != ""){
+        ExpenseItem.create({itemName:    req.body.itemName[i],
+                            category:     req.body.category[i],
+                            subteam:      req.body.subteam[i],
+                            store:        req.body.store[i],
+                            currency:     req.body.currency[i],
+                            subtotal:     req.body.subtotal[i],
+                            tax:          req.body.tax[i],
+                            shipping:     req.body.shipping[i],
+                            total:        req.body.total[i],
+                            expenseReport: newExpenseReport},
+                            function(err2, newExpenseItem){
+                              if(err2){
+                                console.log(err2);
+                              } else {
+                                newExpenseReport.expenseItems.push(newExpenseItem);
+                                newExpenseReport.save(function(err4,data){
+                                  if(err4){
+                                    console.log(err4);
+                                  } else {
+                                    console.log(data);
+                                  }
+                                });
+
+                                // ExpenseReport.findOne({_id: newExpenseItem.expenseReport}, function(err3, foundExpenseReport){
+                                //   if(err3){
+                                //     console.log(err3);
+                                //   } else {
+                                //     foundExpenseReport.expenseItems.push(newExpenseItem);
+                                //     foundExpenseReport.save(function(err4,data){
+                                //       if(err4){
+                                //         console.log(err4);
+                                //       } else {
+                                //         console.log(data);
+                                //       }
+                                //     });
+                                //   }
+                                // });
+                              }
+                            });
+        }
+      }
+    }
+  });
 });
 
 // Edit Route

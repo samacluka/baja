@@ -25,13 +25,10 @@ hr.style-two {
 }
 
 /* LUKA'S CSS */
-.form-span {
-  text-align: center;
-  display: block;
-}
 
 .form-label-bg {
   font-size: 18px;
+  text-align: left;
   vertical-align: middle;
   margin-left: 20px;
   margin-right: 20px;
