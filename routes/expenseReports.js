@@ -47,7 +47,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                         if(err1){
                           console.log(err1);
                         } else {
-                          for(var i = 0; i < 30; i++){
+                          for(var i = 0; i < 3; i++){
                             if(req.body.itemName[i] != ""){
                             ExpenseItem.create({itemName:     req.body.itemName[i],
                                                 category:     req.body.category[i],
@@ -98,7 +98,8 @@ router.get("/:id/edit", function(req,res){
   });
 });
 
-router.put("/:id", middleware.isExpenseReportOwner, function(req,res){
+///// middleware.isExpenseReportOwner,
+router.put("/:id",  function(req,res){
   ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
     if(err){
       console.log(err);
@@ -128,6 +129,13 @@ router.put("/:id/approve", function(req,res){
       console.log(err);
     } else {
       foundExpenseReport.approved = true;
+      foundExpenseReport.save(function(err,data){
+        if(err){
+          console.log(err);
+        } else {
+          console.log(data);
+        }
+      });
     }
     res.redirect("back");
   });
@@ -139,6 +147,13 @@ router.put("/:id/unapprove", function(req,res){
       console.log(err);
     } else {
       foundExpenseReport.approved = false;
+      foundExpenseReport.save(function(err,data){
+        if(err){
+          console.log(err);
+        } else {
+          console.log(data);
+        }
+      });
     }
     res.redirect("back");
   });
