@@ -5,13 +5,7 @@ var expenseItemSchema = mongoose.Schema({
     itemName: String,
     category: String,
     subteam: String,
-    subtotal: Number,
-    store: String,
-    currency: String,
-    tax: Number,
-    shipping: Number,
-    total: Number,
-    image: String,
+    itemPrice: String,
     expenseReport:{
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "ExpenseReport"

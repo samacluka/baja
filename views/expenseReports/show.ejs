@@ -26,48 +26,35 @@
   </form>
 <% } %>
 
+<hr class="style-two">
+
 <div class="container">
   <table style="width:100%">
     <tr>
       <th>Item</th>
       <th>Category</th>
       <th>Subteam</th>
-      <th>Store</th>
-      <th>Currency</th>
-      <th>Subtotal</th>
-      <th>Tax</th>
-      <th>Shipping</th>
-      <th>Item Total</th>
+      <th>Item Price</th>
     </tr>
     <% expenseReport.expenseItems.forEach(function(expenseItem){ %>
       <tr>
         <td><%= expenseItem.itemName %></td>
         <td><%= expenseItem.category %></td>
         <td><%= expenseItem.subteam %></td>
-        <td><%= expenseItem.store %></td>
-        <td><%= expenseItem.currency %></td>
-        <td><%= expenseItem.subtotal %></td>
-        <td><%= expenseItem.tax %></td>
-        <td><%= expenseItem.shipping %></td>
-        <td><%= expenseItem.total %></td>
+        <td><%= expenseItem.itemPrice %></td>
       </tr>
     <% }); %>
-    <tr>
-      <td>Total</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
   </table>
 </div>
 
-
 <hr class="style-two">
 
+<div class="container">
+    <h5>Currency: <%= expenseReport.currency %></h5>
+    <h5>Subtotal: <%= expenseReport.subtotal %></h5>
+    <h5>Tax: <%= expenseReport.tax %></h5>
+    <h5>Shipping: <%= expenseReport.shipping %></h5>
+    <h5>Total: <%= expenseReport.total %></h5>
+</div>
 
 <% include ../partials/footer %>

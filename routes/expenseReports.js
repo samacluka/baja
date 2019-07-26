@@ -35,61 +35,66 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
 
 // Post Routes -- Working
 router.post("/",middleware.isLoggedIn,function(req,res){
-  ExpenseReport.create({author: req.user, name: req.body.expenseReportName}, function(err1, newExpenseReport){
-    if(err){
-      console.log(err1);
-    } else {
-      for(var i = 0; i < 30; i++){
-        if(req.body.itemName[i] != ""){
-        ExpenseItem.create({itemName:    req.body.itemName[i],
-                            category:     req.body.category[i],
-                            subteam:      req.body.subteam[i],
-                            store:        req.body.store[i],
-                            currency:     req.body.currency[i],
-                            subtotal:     req.body.subtotal[i],
-                            tax:          req.body.tax[i],
-                            shipping:     req.body.shipping[i],
-                            total:        req.body.total[i],
-                            expenseReport: newExpenseReport},
-                            function(err2, newExpenseItem){
-                              if(err2){
-                                console.log(err2);
-                              } else {
-                                newExpenseReport.expenseItems.push(newExpenseItem);
-                                newExpenseReport.save(function(err4,data){
-                                  if(err4){
-                                    console.log(err4);
-                                  } else {
-                                    console.log(data);
-                                  }
-                                });
+  ExpenseReport.create({name: req.body.expenseReportName,
+                      author: req.user,
+                      store: req.body.store,
+                      currency: req.body.currency,
+                      subtotal: req.body.subtotal,
+                      tax: req.body.tax,
+                      shipping: req.body.shipping,
+                      total: req.body.total},
+                      function(err1, newExpenseReport){
+                        if(err1){
+                          console.log(err1);
+                        } else {
+                          for(var i = 0; i < 30; i++){
+                            if(req.body.itemName[i] != ""){
+                            ExpenseItem.create({itemName:     req.body.itemName[i],
+                                                category:     req.body.category[i],
+                                                subteam:      req.body.subteam[i],
+                                                itemPrice:    req.body.itemPrice[i],
+                                                expenseReport: newExpenseReport},
+                                                function(err2, newExpenseItem){
+                                                  if(err2){
+                                                    console.log(err2);
+                                                  } else {
+                                                    newExpenseReport.expenseItems.push(newExpenseItem);
+                                                    newExpenseReport.save(function(err4,data){
+                                                      if(err4){
+                                                        console.log(err4);
+                                                      } else {
+                                                        console.log(data);
+                                                      }
+                                                    });
 
-                                // ExpenseReport.findOne({_id: newExpenseItem.expenseReport}, function(err3, foundExpenseReport){
-                                //   if(err3){
-                                //     console.log(err3);
-                                //   } else {
-                                //     foundExpenseReport.expenseItems.push(newExpenseItem);
-                                //     foundExpenseReport.save(function(err4,data){
-                                //       if(err4){
-                                //         console.log(err4);
-                                //       } else {
-                                //         console.log(data);
-                                //       }
-                                //     });
-                                //   }
-                                // });
-                              }
-                            });
-        }
-      }
-    }
-  });
+                                                    // ExpenseReport.findOne({_id: newExpenseItem.expenseReport}, function(err3, foundExpenseReport){
+                                                    //   if(err3){
+                                                    //     console.log(err3);
+                                                    //   } else {
+                                                    //     foundExpenseReport.expenseItems.push(newExpenseItem);
+                                                    //     foundExpenseReport.save(function(err4,data){
+                                                    //       if(err4){
+                                                    //         console.log(err4);
+                                                    //       } else {
+                                                    //         console.log(data);
+                                                    //       }
+                                                    //     });
+                                                    //   }
+                                                    // });
+                                                  }
+                                                });
+                            }
+                          }
+                        }
+                      });
 });
 
 // Edit Route
-router.get("/:id/edit", middleware.isExpenseReportOwner, function(req,res){
-  ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
-      res.render("expenseReports/edit",{expenseItem: foundExpenseReport.expenseItems});
+////// rETURN BELOW : middleware.isExpenseReportOwner,
+router.get("/:id/edit", function(req,res){
+  // ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
+  ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err, foundExpenseReport){
+      res.render("expenseReports/edit",{expenseReport: foundExpenseReport});
   });
 });
 

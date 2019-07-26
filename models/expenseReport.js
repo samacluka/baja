@@ -9,7 +9,14 @@ var expenseReportSchema = new mongoose.Schema({
    expenseItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ExpenseItem' }],
    viewed: {type: Boolean, default: false},
    approved: {type: Boolean, default: false},
-   created: { type: Date, default: Date.now }
+   created: { type: Date, default: Date.now },
+   store: String,
+   currency: String,
+   subtotal: Number,
+   tax: Number,
+   shipping: Number,
+   total: Number,
+   image: String,
 });
 
 module.exports = mongoose.model("ExpenseReport", expenseReportSchema);

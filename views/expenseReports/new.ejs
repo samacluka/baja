@@ -5,12 +5,13 @@
     <h1 style="text-align: center;">Create a New Expense Report</h1>
     <div style="width: 95%; margin: 35px auto" class="">
       <form class="" action="/expenseReports" method="post">
+        <div class="form-group"><input class="form-control" type="number" name="expenseReportName" placeholder="Expense Report Name"></div>
         <table>
           <tr>
             <th>Item</th>
             <th>Category</th>
             <th>Subteam</th>
-            <th>Subtotal</th>
+            <th>Item Price</th>
           </tr>
 
             <% for(var i = 0; i < 30; i++){ %>
@@ -67,7 +68,7 @@
                   </div>
                 </td>
                 <td>
-                  <div class="form-group"><input class="form-control" type="number" name="subtotal[]" placeholder="Subtotal"></div>
+                  <div class="form-group"><input class="form-control" type="number" name="itemPrice[]" placeholder="Item Price"></div>
                 </td>
               </tr>
             <% } %>
@@ -85,6 +86,7 @@
           </span>
         </div>
         <div class="form-group"><input class="form-control" type="text" name="store" placeholder="Store/Company"></div>
+        <div class="form-group"><input class="form-control" type="number" name="Subtotal" placeholder="Subtotal"></div>
         <div class="form-group"><input class="form-control" type="number" name="tax" placeholder="Tax"></div>
         <div class="form-group"><input class="form-control" type="number" name="shipping" placeholder="Shipping"></div>
         <div class="form-group"><input class="form-control" type="number" name="total" placeholder="Total"></div>

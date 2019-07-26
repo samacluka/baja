@@ -3,96 +3,102 @@
 <div class="container">
   <div class="row">
     <h1 style="text-align: center;">Edit <%= expenseReport.name %></h1>
-    <div style="width: 30%; margin: 35px auto" class="">
-      <form action="/expenseReports/<%= expenseReport._id %>?_method=PUT" method="post">
-        <div class="form-group"><input class="form-control" type="text" placeholder="name" name="expenseReport[name]" value="<%= expenseReport.name %>"></div>
-        <div class="form-group"><input class="form-control" type="text" placeholder="image" name="expenseReport[image]" value="<%= expenseReport.image %>"></div>
-        <div class="form-group"><input class="form-control" type="number" placeholder="price" name="expenseReport[price]" min="0.01" step="0.01"></div>
-        <div class="form-group"><input class="form-control" type="text" placeholder="description" name="expenseReport[description]" value="<%= expenseReport.description %>"></div>
-        <div class="from-group"><input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit"></div>
-      </form>
-      <a class="" href="/expenseReports">Go Home</a>
-    </div>
-  </div>
-</div>
-
-<% include ../partials/footer %>
-
-
-<% include ../partials/header %>
-
-<div class="container">
-  <div class="row">
-    <h1 style="text-align: center;">Edit <%= expenseItem.itemName %></h1>
-    <div style="width: 30%; margin: 35px auto" class="">
+    <hr class="style-two">
+    <div style="width: 95%; margin: 35px auto" class="">
       <form class="" action="/expenseReports" method="post">
-        <div class="form-group"><input class="form-control" type="text" name="expenseItem[itemName]" placeholder="Item Name" value="<%=expenseItem.itemName %>"></div>
+        <div class="form-group"><input class="form-control" type="number" name="expenseReport[expenseReportName]" value="<%= expenseReport.name %>"></div>
+        <table>
+          <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Subteam</th>
+            <th>Item Price</th>
+          </tr>
+
+            <% expenseReport.expenseItems.forEach(function(expenseItem){ %>
+              <tr>
+                <td>
+                  <div class="form-group"><input class="form-control" type="text" name="expenseItem[itemName]" value="<%= expenseItem.itemName %>"></div>
+                </td>
+
+                <td>
+                  <div class="form-group">
+                    <select class="form-control" name="expenseItem[category]" value="<%= expenseItem.cateogry %>">
+                      <option value="" disabled selected>-- Select Category --</option>
+                      <option value="Material">Material</option>
+                      <option value="Hardware">Hardware</option>
+                      <option value="Component">Component</option>
+                      <option value="Machining">Machining</option>
+                      <option value="Tooling">Tooling</option>
+                      <option value="Carbon">Carbon</option>
+                      <option value="Sponsorship">Sponsorship</option>
+                      <option value="Transportation">Transportation</option>
+                      <option value="Competition Registration">Competition Registration</option>
+                      <option value="Shop Supplies">Shop Supplies</option>
+                      <option value="Service">Service</option>
+                      <option value="Team Bonding">Team Bonding</option>
+                      <option value="Fuel for Baja">Fuel for Baja</option>
+                      <option value="Fuel for Transportation">Fuel for Transportation</option>
+                      <option value="Driver Equipment">Driver Equipment</option>
+                      <option value="Safety Equipment">Safety Equipment</option>
+                      <option value="Other">Other</option>
+                      <option value="Outreach and Sponsorship">Outreach and Sponsorship</option>
+                      <option value="Software">Software</option>
+                      <option value="Research Project">Research Projects</option>
+                      <option value="Apparel">Apparel</option>
+                    </select>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="form-group">
+                    <select class="form-control" name="expenseItem[subteam]" value="<%= expenseItem.subteam %>">
+                      <option value="" disabled selected>-- Select Subteam --</option>
+                      <option value="Business/Sales">Business/Sales</option>
+                      <option value="Chassis">Chassis</option>
+                      <option value="Controls">Controls</option>
+                      <option value="DAQ">DAQ</option>
+                      <option value="Drivetrain">Drivetrain</option>
+                      <option value="Ergonomics">Ergonomics</option>
+                      <option value="General Team Items - NOT MATERIAL">General Team Items - NOT MATERIAL</option>
+                      <option value="Suspension">Suspension</option>
+                      <option value="2016">2016</option>
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group"><input class="form-control" type="number" name="expenseItem[itemPrice]" value="<%= expenseItem.itemPrice %>"></div>
+                </td>
+              </tr>
+            <% }); %>
+
+        </table>
+
+        <hr class="style-two">
+
         <div class="form-group">
-          <select class="form-control" name="expenseItem[category]" placeholder="Cateogry" value="<%= exepenseItem.cateogry %>">
-            <option value="-- Select Category --">-- Select Category --</option>
-            <option value="Material">Material</option>
-            <option value="Hardware">Hardware</option>
-            <option value="Component">Component</option>
-            <option value="Machining">Machining</option>
-            <option value="Tooling">Tooling</option>
-            <option value="Carbon">Carbon</option>
-            <option value="Sponsorship">Sponsorship</option>
-            <option value="Transportation">Transportation</option>
-            <option value="Competition Registration">Competition Registration</option>
-            <option value="Shop Supplies">Shop Supplies</option>
-            <option value="Service">Service</option>
-            <option value="Team Bonding">Team Bonding</option>
-            <option value="Fuel for Baja">Fuel for Baja</option>
-            <option value="Fuel for Transportation">Fuel for Transportation</option>
-            <option value="Driver Equipment">Driver Equipment</option>
-            <option value="Safety Equipment">Safety Equipment</option>
-            <option value="Other">Other</option>
-            <option value="Outreach and Sponsorship">Outreach and Sponsorship</option>
-            <option value="Software">Software</option>
-            <option value="Research Project">Research Projects</option>
-            <option value="Apparel">Apparel</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <select class="form-control" name="expenseItem[subteam]" placeholder="Subteam" value="<%= exepenseItem.subteam %>">
-            <option value="-- Subteam --">-- Select Subteam --</option>
-            <option value="Business/Sales">Business/Sales</option>
-            <option value="Chassis">Chassis</option>
-            <option value="Controls">Controls</option>
-            <option value="DAQ">DAQ</option>
-            <option value="Drivetrain">Drivetrain</option>
-            <option value="Ergonomics">Ergonomics</option>
-            <option value="General Team Items - NOT MATERIAL">General Team Items - NOT MATERIAL</option>
-            <option value="Suspension">Suspension</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <span class="form-span">
-            <label class="form-label-bg" for="CAD">CAD</label>
-            <input class="form-group" type="Radio" id="CAD" name="expenseItem[currency]" checked>
-            <input class="form-group" type="Radio" id="USD" name="expenseItem[currency]">
-            <label class="form-label-bg" for="USD">USD</label>
+          <span class="">
+            <label class="" for="CAD">CAD</label>
+            <input class="form-group" type="Radio" id="CAD" name="currency" checked>
+            <input class="form-group" type="Radio" id="USD" name="currency">
+            <label class="" for="USD">USD</label>
           </span>
         </div>
-        <div class="form-group"><input class="form-control" type="text" name="expenseItem[store]" placeholder="Store/Company" value="<%= exepenseItem.store %>"></div>
-        <div class="form-group"><input class="form-control" type="number" name="expenseItem[subtotal]" placeholder="Subtotal" value="<%= exepenseItem.subtotal %>"></div>
-        <div class="form-group"><input class="form-control" type="number" name="expenseItem[tax]" placeholder="Tax" value="<%= exepenseItem.tax %>"></div>
-        <div class="form-group"><input class="form-control" type="number" name="expenseItem[shipping]" placeholder="Shipping" value="<%= exepenseItem.shipping %>"></div>
-        <div class="form-group"><input class="form-control" type="number" name="expenseItem[total]" placeholder="Total" value="<%= exepenseItem.total %>"></div>
-        <!-- <div class="form-group">
-          <span class="form-span">
-            <label class="form-label-bg" for="Reciept">Reciept: </label>
-            <input class="form-group" type="file" name="Reciept" accept=".pdf">
-          </span>
-        </div> -->
+        <div class="form-group"><input class="form-control" type="text" name="expenseItem[store]" value="<%= expenseReport.store %>"></div>
+        <div class="form-group"><input class="form-control" type="number" name="expenseItem[subtotal]" value="<%= expenseReport.subtotal %>"></div>
+        <div class="form-group"><input class="form-control" type="number" name="expenseItem[tax]" value="<%= expenseReport.tax %>"></div>
+        <div class="form-group"><input class="form-control" type="number" name="expenseItem[shipping]" value="<%= expenseReport.shipping %>"></div>
+        <div class="form-group"><input class="form-control" type="number" name="expenseItem[total]" value="<%= expenseReport.total %>"></div>
+
+        <div class="form-group">
+          <label class="form-label-bg" for="Reciept">Reciept: </label>
+          <input class="form-group" type="file" name="Reciept" accept=".pdf">
+        </div>
         <div class="from-group"><input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit"></div>
       </form>
       <a href="/expenseReports">Go Home</a>
     </div>
   </div>
 </div>
-
-<% include ../partials/footer %>
