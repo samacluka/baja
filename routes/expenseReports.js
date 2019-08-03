@@ -33,7 +33,7 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
 });
 
 
-// Post Routes -- Working
+// Post Routes -- NOT Working
 router.post("/",middleware.isLoggedIn,function(req,res){
   ExpenseReport.create({name: req.body.expenseReportName,
                       author: req.user,
@@ -47,44 +47,41 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                         if(err1){
                           console.log(err1);
                         } else {
+                          var expenseItems = [];
                           for(var i = 0; i < 3; i++){
-                            if(req.body.itemName[i] != ""){
-                            ExpenseItem.create({itemName:     req.body.itemName[i],
+                            try{
+                              expenseItems[i] = {itemName:     req.body.itemName[i],
                                                 category:     req.body.category[i],
                                                 subteam:      req.body.subteam[i],
                                                 itemPrice:    req.body.itemPrice[i],
-                                                expenseReport: newExpenseReport},
-                                                function(err2, newExpenseItem){
-                                                  if(err2){
-                                                    console.log(err2);
-                                                  } else {
-                                                    newExpenseReport.expenseItems.push(newExpenseItem);
-                                                    newExpenseReport.save(function(err4,data){
-                                                      if(err4){
-                                                        console.log(err4);
-                                                      } else {
-                                                        console.log(data);
-                                                      }
-                                                    });
-
-                                                    // ExpenseReport.findOne({_id: newExpenseItem.expenseReport}, function(err3, foundExpenseReport){
-                                                    //   if(err3){
-                                                    //     console.log(err3);
-                                                    //   } else {
-                                                    //     foundExpenseReport.expenseItems.push(newExpenseItem);
-                                                    //     foundExpenseReport.save(function(err4,data){
-                                                    //       if(err4){
-                                                    //         console.log(err4);
-                                                    //       } else {
-                                                    //         console.log(data);
-                                                    //       }
-                                                    //     });
-                                                    //   }
-                                                    // });
-                                                  }
-                                                });
-                            }
+                                                expenseReport: newExpenseReport};
+                            } catch(err2){} // Empty catch acts like "try pass"
                           }
+                          ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
+                            if(err3 || !newExpenseItems){
+                              console.log(err3);
+                            } else {
+                              newExpenseItems.forEach(function(expenseItem){
+
+                                new Promise(function(resolve,reject){
+                                  newExpenseReport.expenseItems.push(expenseItem);
+                                  setTimeout(function(){
+                                    resolve(1);
+                                  },500)}).then(function(result){
+                                    newExpenseReport.save(function(err4,data){
+                                      if(err4 || data){
+                                        console.log(err4);
+                                      } else {
+                                        console.log(data);
+                                        res.redirect("expenseReports/index");
+                                      }
+                                    });
+
+
+                                });
+                              });
+                              }
+                          });
                         }
                       });
 });

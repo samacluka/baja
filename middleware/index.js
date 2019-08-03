@@ -11,17 +11,25 @@ middlewareObj.isLoggedIn = function(req,res,next){
         req.flash("error","You need to be logged in to do that");
         res.redirect("/login");
       } else {
-        // return next();
-        if(foundUser.approved == false){
-          req.flash("error","Your account has not been approved yet");
-          res.redirect("/expenseReports");
-        } else {
-            return next();
-        }
+        return next();
       }
     });
   }
 }
+
+middlewareObj.isApproved = function(req,res,next){
+  if(req.isAuthenticated()){
+    User.findById(req.user._id, function(err,foundUser){
+      if(foundUser.approved == false){
+        req.flash("error","Your account has not been approved yet");
+        res.redirect("/expenseReports");
+      } else {
+          return next();
+      }
+    });
+  }
+}
+
 
 middlewareObj.isExpenseItemOwner = function(req, res, next){
   if(req.isAuthenticated()){
