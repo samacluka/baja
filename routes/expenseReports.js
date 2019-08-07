@@ -49,37 +49,23 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                         } else {
                           var expenseItems = [];
                           for(var i = 0; i < 3; i++){
-                            try{
-                              expenseItems[i] = {itemName:     req.body.itemName[i],
-                                                category:     req.body.category[i],
-                                                subteam:      req.body.subteam[i],
-                                                itemPrice:    req.body.itemPrice[i],
-                                                expenseReport: newExpenseReport};
-                            } catch(err2){} // Empty catch acts like "try pass"
+                            if(req.body.itemName[i] !== ""){
+                              try{
+                                expenseItems[i] = {itemName:     req.body.itemName[i],
+                                                  category:     req.body.category[i],
+                                                  subteam:      req.body.subteam[i],
+                                                  itemPrice:    req.body.itemPrice[i],
+                                                  expenseReport: newExpenseReport};
+                              } catch(err2){} // Empty catch acts like "try pass"
+                            }
                           }
                           ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
                             if(err3 || !newExpenseItems){
                               console.log(err3);
                             } else {
-                              newExpenseItems.forEach(function(expenseItem){
-
-                                new Promise(function(resolve,reject){
-                                  newExpenseReport.expenseItems.push(expenseItem);
-                                  setTimeout(function(){
-                                    resolve(1);
-                                  },500)}).then(function(result){
-                                    newExpenseReport.save(function(err4,data){
-                                      if(err4 || data){
-                                        console.log(err4);
-                                      } else {
-                                        console.log(data);
-                                        res.redirect("expenseReports/index");
-                                      }
-                                    });
-
-
-                                });
-                              });
+                              newExpenseReport.expenseItems.concat(newExpenseItems);
+                              newExpenseReport.save();
+                              res.redirect("expenseReports");
                               }
                           });
                         }
