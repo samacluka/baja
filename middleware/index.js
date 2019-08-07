@@ -3,18 +3,12 @@ var ExpenseItem = require("../models/expenseItem");
 var User        = require("../models/user");
 var middlewareObj = {};
 
-
 middlewareObj.isLoggedIn = function(req,res,next){
   if(req.isAuthenticated()){
-    User.findById(req.user._id, function(err, foundUser){
-      if(err || !foundUser){
-        req.flash("error","You need to be logged in to do that");
-        res.redirect("/login");
-      } else {
-        return next();
-      }
-    });
+    return next();
   }
+  req.flash("error","You need to be logged in to do that");
+  res.redirect("/login");
 }
 
 middlewareObj.isApproved = function(req,res,next){

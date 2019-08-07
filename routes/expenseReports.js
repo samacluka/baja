@@ -32,17 +32,42 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
   });
 });
 
+function checkCategory(i){
+  try{
+    if(req.body.cateogry[i] == "-- Select Cateogry --"){
+      return checkCategory(i-1);
+    } else {
+      return req.body.category;
+    }
+  } catch(err){
+    console.log(err);
+    return "*** Category Undeclared By Report Author ***"
+  }
+}
+
+function checkSubteam(i){
+  try {
+    if(req.body.subteam[i] == "-- Select Subteam --"){
+      return checkSubteam(i-1);
+    } else {
+      return req.body.subteam[i];
+    }
+  } catch(err){
+    console.log(err);
+    return "*** Category Undeclared By Report Author ***"
+  }
+}
 
 // Post Routes -- NOT Working
 router.post("/",middleware.isLoggedIn,function(req,res){
-  ExpenseReport.create({name: req.body.expenseReportName,
-                      author: req.user,
+  ExpenseReport.create({author: req.user,
                       store: req.body.store,
                       currency: req.body.currency,
                       subtotal: req.body.subtotal,
                       tax: req.body.tax,
                       shipping: req.body.shipping,
-                      total: req.body.total},
+                      total: req.body.total,
+                      name: req.body.notes},
                       function(err1, newExpenseReport){
                         if(err1){
                           console.log(err1);
@@ -63,7 +88,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                             if(err3 || !newExpenseItems){
                               console.log(err3);
                             } else {
-                              newExpenseReport.expenseItems.concat(newExpenseItems);
+                              newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems);
                               newExpenseReport.save();
                               res.redirect("expenseReports");
                               }
