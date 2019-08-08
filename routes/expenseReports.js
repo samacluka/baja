@@ -3,9 +3,10 @@ const express = require("express"),
 
 const ExpenseReport   = require("../models/expenseReport.js"),
       ExpenseItem     = require("../models/expenseItem.js"),
-      User            = require("../models/user");
+      User            = require("../models/user.js");
 
-var   middleware  = require("../middleware/index");
+var   middleware  = require("../middleware/index.js");
+var   userClearance = require("../models/clearance.js");
 
 // Get Routes
 router.get("/",function(req,res){
@@ -19,7 +20,7 @@ router.get("/",function(req,res){
 });
 
 router.get("/new", middleware.isLoggedIn, function(req,res){
-  if(req.user.clearanceIsGET(6)){
+  if(req.user.clearanceIsGET(userClearance.captain)){
       res.render("expenseReports/new");
   } else {
     req.flash("error","You don't have the clearance to do that");
@@ -47,12 +48,30 @@ function checkArray(arr,i){
     }
   } catch(err) {
     console.log(err);
-    return "*** Undeclared By Report Author ***"
+    return "*** Undeclared By Report Author ***";
   }
 }
 
-// Post Routes -- NOT Working
-router.post("/",middleware.isLoggedIn,function(req,res){
+// Creates array of [item] objects with organized item data
+function organizeItemData(data){
+  var expenseItems = [];
+  for(var i = 0; i < 3; i++){
+    if(data.itemName[i] !== ""){
+      try{
+        expenseItems[i] = {itemName:     data.itemName[i],
+                          quantity:     data.quantity[i],
+                          category:     checkArray(data.category, i), //data.category[i],
+                          subteam:      checkArray(data.subteam, i), //data.subteam[i],
+                          itemPrice:    data.itemPrice[i],
+                          expenseReport: newExpenseReport};
+      } catch(err2){} // Empty catch acts like "try pass"
+    }
+  }
+  return expenseItems;
+}
+
+// Post Routes
+router.post("/", middleware.isLoggedIn,function(req,res){
   ExpenseReport.create({author: req.user,
                       store: req.body.store,
                       currency: req.body.currency,
@@ -66,25 +85,14 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                         if(err1){
                           console.log(err1);
                         } else {
-                          var expenseItems = [];
-                          for(var i = 0; i < 3; i++){
-                            if(req.body.itemName[i] !== ""){
-                              try{
-                                expenseItems[i] = {itemName:     req.body.itemName[i],
-                                                  quantity:     req.body.quantity[i],
-                                                  category:     checkArray(req.body.category, i), //req.body.category[i],
-                                                  subteam:      checkArray(req.body.subteam, i), //req.body.subteam[i],
-                                                  itemPrice:    req.body.itemPrice[i],
-                                                  expenseReport: newExpenseReport};
-                              } catch(err2){} // Empty catch acts like "try pass"
-                            }
-                          }
+                          var expenseItems = organizeItemData(req.body);
                           ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
                             if(err3 || !newExpenseItems){
                               console.log(err3);
                             } else {
                               newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems);
                               newExpenseReport.save();
+                              req.flash("success","Report successfully created");
                               res.redirect("expenseReports");
                               }
                           });
@@ -95,13 +103,11 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 // Edit Route
 ////// rETURN BELOW : middleware.isExpenseReportOwner,
 router.get("/:id/edit", function(req,res){
-  // ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
   ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err, foundExpenseReport){
       res.render("expenseReports/edit",{expenseReport: foundExpenseReport});
   });
 });
 
-///// middleware.isExpenseReportOwner,
 router.put("/:id",  function(req,res){
   ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
     if(err){
@@ -114,13 +120,19 @@ router.put("/:id",  function(req,res){
 });
 
 // Delete Route
-router.delete("/:id", middleware.isExpenseReportOwner, function(req,res){
-  ExpenseReport.findByIdAndRemove(req.params.id, function(err){
-    if(err){
-      res.redirect("/expenseReports");
+router.delete("/:id", middleware.isExpenseReportAuthor, function(req,res){
+  ExpenseItem.deleteMany({expenseReport: req.params.id},function(err1){
+    if(err1){
+      console.log(err1);
     } else {
-      req.flash("success","ExpenseReport Deleted");
-      res.redirect("/expenseReports");
+      ExpenseReport.deleteOne({_id: req.params.id}, function(err2){
+        if(err2){
+          console.log(err2);
+        } else {
+          req.flash("success","Report successfully deleted");
+          res.redirect("/expenseReports");
+        }
+      });
     }
   });
 });

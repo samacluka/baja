@@ -7,17 +7,19 @@
 </div>
 
 <div class="container">
-  <% if(expenseReport.approved == false){ %>
-    <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
-      <input type="submit" class="btn btn-lg btn-info" value="Approve">
-    </form>
-  <% } else { %>
-    <form class="" action="/expenseReports/<%= expenseReport._id %>/unapprove?_method=PUT" method="post">
-      <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
-    </form>
+  <% if(currentUser.clearanceIsGET(userClearance.captain)){ %>
+    <% if(expenseReport.approved == false){ %>
+      <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
+        <input type="submit" class="btn btn-lg btn-info" value="Approve">
+      </form>
+    <% } else { %>
+      <form class="" action="/expenseReports/<%= expenseReport._id %>/unapprove?_method=PUT" method="post">
+        <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
+      </form>
+    <% } %>
   <% } %>
 
-  <% if(currentUser && expenseReport.author.equals(currentUser._id)){ %>
+  <% if(currentUser && (expenseReport.author.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
     <!-- <a class="btn btn-xs btn-warning" href="/expenseReports/<%= expenseReport._id %>/edit">Edit</a> -->
     <form class="delete-form" action="/expenseReports/<%= expenseReport._id %>?_method=DELETE" method="post">
       <input type="submit" class="btn btn-lg btn-danger" value="Delete">
@@ -34,6 +36,7 @@
       <th>Category</th>
       <th>Subteam</th>
       <th>Item Price</th>
+      <th>Quantity</th>
     </tr>
     <% expenseReport.expenseItems.forEach(function(expenseItem){ %>
       <tr>
@@ -41,6 +44,7 @@
         <td><%= expenseItem.category %></td>
         <td><%= expenseItem.subteam %></td>
         <td><%= expenseItem.itemPrice %></td>
+        <td><%= expenseItem.quantity %></td>
       </tr>
     <% }); %>
   </table>
