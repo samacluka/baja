@@ -18,9 +18,8 @@
         <div class="col-md-3 col-sm-6">
           <div class="thumbnail">
             <div class="caption">
-              <h4><%=  expenseReport.name %></h4>
-              <h6>Created on <%= expenseReport.created.toDateString() %></h6>
-              <h6>Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h6>
+              <h5>Created on <%= expenseReport.created.toDateString() %></h5>
+              <h5>Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h5>
              </div>
              <p>
                <a class="btn btn-primary" href="/expenseReports/<%= expenseReport._id %>">More Info</a>

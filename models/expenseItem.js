@@ -3,6 +3,7 @@ var mongoose = require("mongoose"),
 
 var expenseItemSchema = mongoose.Schema({
     itemName: String,
+    quantity: Number,
     category: String,
     subteam: String,
     itemPrice: String,

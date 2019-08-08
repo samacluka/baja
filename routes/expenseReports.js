@@ -32,29 +32,17 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
   });
 });
 
-function checkCategory(i){
+// Check for subteam or cateogry form items and if not available go to prev index
+function checkArray(arr,i){
   try{
-    if(req.body.cateogry[i] == "-- Select Cateogry --"){
-      return checkCategory(i-1);
+    if(arr[i] == ""){
+      return checkArray(arr, i-1);
     } else {
-      return req.body.category;
+      return arr[i];
     }
-  } catch(err){
+  } catch(err) {
     console.log(err);
-    return "*** Category Undeclared By Report Author ***"
-  }
-}
-
-function checkSubteam(i){
-  try {
-    if(req.body.subteam[i] == "-- Select Subteam --"){
-      return checkSubteam(i-1);
-    } else {
-      return req.body.subteam[i];
-    }
-  } catch(err){
-    console.log(err);
-    return "*** Category Undeclared By Report Author ***"
+    return "*** Undeclared By Report Author ***"
   }
 }
 
@@ -67,6 +55,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                       tax: req.body.tax,
                       shipping: req.body.shipping,
                       total: req.body.total,
+                      notes: req.body.notes,
                       name: req.body.notes},
                       function(err1, newExpenseReport){
                         if(err1){
@@ -77,8 +66,9 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                             if(req.body.itemName[i] !== ""){
                               try{
                                 expenseItems[i] = {itemName:     req.body.itemName[i],
-                                                  category:     req.body.category[i],
-                                                  subteam:      req.body.subteam[i],
+                                                  quantity:     req.body.quantity[i],
+                                                  category:     checkArray(req.body.category, i), //req.body.category[i],
+                                                  subteam:      checkArray(req.body.subteam, i), //req.body.subteam[i],
                                                   itemPrice:    req.body.itemPrice[i],
                                                   expenseReport: newExpenseReport};
                               } catch(err2){} // Empty catch acts like "try pass"
