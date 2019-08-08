@@ -19,7 +19,12 @@ router.get("/",function(req,res){
 });
 
 router.get("/new", middleware.isLoggedIn, function(req,res){
-  res.render("expenseReports/new");
+  if(req.user.clearanceIsGET(6)){
+      res.render("expenseReports/new");
+  } else {
+    req.flash("error","You don't have the clearance to do that");
+    res.redirect("/expenseReports");
+  }
 });
 
 router.get("/:id", function(req,res){      //"/expenseReports/new" must be declared first because it follows the same pattern
