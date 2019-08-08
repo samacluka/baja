@@ -37,54 +37,55 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
   });
 });
 
+// Check for subteam or cateogry form items and if not available go to prev index
+function checkArray(arr,i){
+  try{
+    if(arr[i] == ""){
+      return checkArray(arr, i-1);
+    } else {
+      return arr[i];
+    }
+  } catch(err) {
+    console.log(err);
+    return "*** Undeclared By Report Author ***"
+  }
+}
 
 // Post Routes -- NOT Working
 router.post("/",middleware.isLoggedIn,function(req,res){
-  ExpenseReport.create({name: req.body.expenseReportName,
-                      author: req.user,
+  ExpenseReport.create({author: req.user,
                       store: req.body.store,
                       currency: req.body.currency,
                       subtotal: req.body.subtotal,
                       tax: req.body.tax,
                       shipping: req.body.shipping,
-                      total: req.body.total},
+                      total: req.body.total,
+                      notes: req.body.notes,
+                      name: req.body.notes},
                       function(err1, newExpenseReport){
                         if(err1){
                           console.log(err1);
                         } else {
                           var expenseItems = [];
                           for(var i = 0; i < 3; i++){
-                            try{
-                              expenseItems[i] = {itemName:     req.body.itemName[i],
-                                                category:     req.body.category[i],
-                                                subteam:      req.body.subteam[i],
-                                                itemPrice:    req.body.itemPrice[i],
-                                                expenseReport: newExpenseReport};
-                            } catch(err2){} // Empty catch acts like "try pass"
+                            if(req.body.itemName[i] !== ""){
+                              try{
+                                expenseItems[i] = {itemName:     req.body.itemName[i],
+                                                  quantity:     req.body.quantity[i],
+                                                  category:     checkArray(req.body.category, i), //req.body.category[i],
+                                                  subteam:      checkArray(req.body.subteam, i), //req.body.subteam[i],
+                                                  itemPrice:    req.body.itemPrice[i],
+                                                  expenseReport: newExpenseReport};
+                              } catch(err2){} // Empty catch acts like "try pass"
+                            }
                           }
                           ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
                             if(err3 || !newExpenseItems){
                               console.log(err3);
                             } else {
-                              newExpenseItems.forEach(function(expenseItem){
-
-                                new Promise(function(resolve,reject){
-                                  newExpenseReport.expenseItems.push(expenseItem);
-                                  setTimeout(function(){
-                                    resolve(1);
-                                  },500)}).then(function(result){
-                                    newExpenseReport.save(function(err4,data){
-                                      if(err4 || data){
-                                        console.log(err4);
-                                      } else {
-                                        console.log(data);
-                                        res.redirect("expenseReports/index");
-                                      }
-                                    });
-
-
-                                });
-                              });
+                              newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems);
+                              newExpenseReport.save();
+                              res.redirect("expenseReports");
                               }
                           });
                         }

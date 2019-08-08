@@ -4,7 +4,6 @@ var mongoose    = require("mongoose"),
 
 
 var expenseReportSchema = new mongoose.Schema({
-   name: String,
    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
    expenseItems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ExpenseItem' }],
    viewed: {type: Boolean, default: false},
@@ -16,6 +15,7 @@ var expenseReportSchema = new mongoose.Schema({
    tax: Number,
    shipping: Number,
    total: Number,
+   notes: String,
    image: String,
 });
 
