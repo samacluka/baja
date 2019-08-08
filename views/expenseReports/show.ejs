@@ -1,31 +1,33 @@
 <% include ../partials/header %>
 
-<div class="container">
-  <div class="page-header title-ls">
-    <h2><%= expenseReport.name %></h2>
+<% if(currentUser && (expenseReport.author.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
+          <% if(expenseReport.approved == false){ %>
+            <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
+              <input type="submit" class="btn btn-lg btn-info" value="Approve">
+            </form>
+          <% } else { %>
+            <form class="" action="/expenseReports/<%= expenseReport._id %>/unapprove?_method=PUT" method="post">
+              <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
+            </form>
+          <% } %>
+        <% } %>
+      </div>
+      <div class="col">
+        <a class="btn btn-lg btn-warning" href="/expenseReports/<%= expenseReport._id %>/edit">Edit</a>
+      </div>
+      <div class="col">
+        <form class="delete-form" action="/expenseReports/<%= expenseReport._id %>?_method=DELETE" method="post">
+          <input type="submit" class="btn btn-lg btn-danger" value="Delete">
+        </form>
+      </div>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="container">
-  <% if(currentUser.clearanceIsGET(userClearance.captain)){ %>
-    <% if(expenseReport.approved == false){ %>
-      <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
-        <input type="submit" class="btn btn-lg btn-info" value="Approve">
-      </form>
-    <% } else { %>
-      <form class="" action="/expenseReports/<%= expenseReport._id %>/unapprove?_method=PUT" method="post">
-        <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
-      </form>
-    <% } %>
-  <% } %>
-
-  <% if(currentUser && (expenseReport.author.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
-    <!-- <a class="btn btn-xs btn-warning" href="/expenseReports/<%= expenseReport._id %>/edit">Edit</a> -->
-    <form class="delete-form" action="/expenseReports/<%= expenseReport._id %>?_method=DELETE" method="post">
-      <input type="submit" class="btn btn-lg btn-danger" value="Delete">
-    </form>
-  <% } %>
-</div>
+<% } %>
 
 <hr class="style-two">
 
