@@ -1,5 +1,5 @@
-const express = require("express"),
-      router  = express.Router({mergeParams: true});
+const express         = require("express"),
+      router          = express.Router({mergeParams: true});
 
 const ExpenseReport   = require("../models/expenseReport.js"),
       ExpenseItem     = require("../models/expenseItem.js"),
@@ -9,43 +9,8 @@ const support         = require("../middleware/support.js"),
       auth            = require("../middleware/auth.js"),
       userClearance   = require("../interface/clearance.js");
 
-const cloudinary  = require('../API/cloudinary.js'),    //{ cloudinaryConfig, uploader }
-      multer      = require('../middleware/multer.js'); //{ upload, dataUri }
-
-
-// Check for subteam or cateogry form items and if not available go to prev index
-function checkArray(arr,i){
-  try{
-    if(arr[i] == ""){
-      return checkArray(arr, i-1);
-    } else {
-      return arr[i];
-    }
-  } catch(err) {
-    console.log(err);
-    return "*** Undeclared By Report Author ***";
-  }
-}
-
-// Creates array of [item] objects with organized item data
-function organizeItemData(data, expenseReport){
-  var expenseItems = [];
-  for(var i = 0; i < 3; i++){
-    if(data.itemName[i] !== ""){
-      try{
-        expenseItems[i] = {itemName:     data.itemName[i],
-                          quantity:     data.quantity[i],
-                          category:     checkArray(data.category, i), //data.category[i],
-                          subteam:      checkArray(data.subteam, i), //data.subteam[i],
-                          itemPrice:    data.itemPrice[i],
-                          expenseReport: expenseReport};
-      } catch(err2){} // Empty catch acts like "try pass"
-    }
-  }
-  return expenseItems;
-}
-
-
+const cloudinary      = require('../API/cloudinary.js'),    //{ cloudinaryConfig, uploader }
+      multer          = require('../middleware/multer.js'); //{ upload, dataUri }
 
 // Get Routes
 router.get("/",function(req,res){
@@ -59,7 +24,7 @@ router.get("/",function(req,res){
 });
 
 router.get("/new", auth.isLoggedIn, function(req,res){
-  if(req.user.clearanceIsGET(userClearance.captain)){
+  if(req.user.clearanceIsGET(userClearance.lead)){
       res.render("expenseReports/new");
   } else {
     req.flash("error","You don't have the clearance to do that");
@@ -103,12 +68,12 @@ router.post("/", auth.isLoggedIn, multer.upload, function(req,res){
                                   folder: "receipts",             // Folder the image is being saved to on cloud
                                   eager : [{quality: "auto:low"}], // Reduce image quality for speed
                                   eager_async: true,              // Do operations async
-                                  async: true                     // Do all operations async
                                 },
                                 function(err4, result){ // Upload image to cloudinary
                                   if(err4){
                                     console.log(err4);
                                   } else {
+                                    console.log(result);
                                     newExpenseReport.image = result.url;
                                     newExpenseReport.image_id = result.public_id;
                                     newExpenseReport.save();
