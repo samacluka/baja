@@ -86,3 +86,9 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Personal local files
+.personal
+
+#All junk files
+junk/

@@ -5,7 +5,7 @@ const ExpenseReport   = require("../models/expenseReport.js"),
       ExpenseItem     = require("../models/expenseItem.js"),
       User            = require("../models/user");
 
-var   middleware  = require("../middleware/index");
+var   auth  = require("../middleware/auth.js");
 
 // Get Routes
 
