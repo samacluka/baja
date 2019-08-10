@@ -2,28 +2,25 @@ var ExpenseReport = require("../models/expenseReport");
 var ExpenseItem = require("../models/expenseItem");
 var User        = require("../models/user");
 
-var   userClearance = require("../models/clearance.js");
+var   userClearance = require("../interface/clearance.js");
 
 var middleware = {};
+
+
+function isApproved(req, res, next){
+  if(req.isAuthenticated()){
+    User.findById(req.user._id, function(err,foundUser){
+      return foundUser.approved;
+    });
+  }
+}
 
 middleware.isLoggedIn = function(req,res,next){
   if(req.isAuthenticated()){
     return next();
-  }
-  req.flash("error","You need to be logged in to do that");
-  res.redirect("/login");
-}
-
-middleware.isApproved = function(req,res,next){
-  if(req.isAuthenticated()){
-    User.findById(req.user._id, function(err,foundUser){
-      if(foundUser.approved == false){
-        req.flash("error","Your account has not been approved yet");
-        res.redirect("/expenseReports");
-      } else {
-          return next();
-      }
-    });
+  } else {
+    req.flash("error","You need to be logged in to do that");
+    res.redirect("/login");
   }
 }
 

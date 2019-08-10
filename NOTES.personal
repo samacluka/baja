@@ -1,0 +1,7 @@
+- Made .env filetypes
+- Organized middleware
+- Old file clean up
+- Update .gitingore to leave personal files local
+- Created an API directory
+- Re categorized clearance.js as an interface file and not a model
+- Configured cloudinary, multer, and datauri to manage image uploads

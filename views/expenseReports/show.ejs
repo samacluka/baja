@@ -7,7 +7,7 @@
 </div>
 
 <div class="container">
-  <% if(currentUser.clearanceIsGET(userClearance.captain)){ %>
+  <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
     <% if(expenseReport.approved == false){ %>
       <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
         <input type="submit" class="btn btn-lg btn-info" value="Approve">
@@ -58,6 +58,7 @@
     <h5>Tax: <%= expenseReport.tax %></h5>
     <h5>Shipping: <%= expenseReport.shipping %></h5>
     <h5>Total: <%= expenseReport.total %></h5>
+    <img src="<%= expenseReport.image %>" alt="">
 </div>
 
 <% include ../partials/footer %>

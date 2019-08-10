@@ -6,27 +6,38 @@ const express       = require("express"),
       passport      = require("passport"),
       localStrategy = require("passport-local"),
       methodOverride= require("method-override"),
-      flash         = require("connect-flash");
+      flash         = require("connect-flash"),
+      fs            = require("file-system"),
+      multer        = require("multer"),
+      path          = require("path"),
+      dotenv        = require("dotenv").config(); // Configure .env variables
+
 
 /* Create DB variables */
 const ExpenseReport   = require("./models/expenseReport.js"),
       ExpenseItem     = require("./models/expenseItem.js"),
-      User            = require("./models/user"),
-      seedDB          = require("./models/seeds.js"),
-      userClearance       = require("./models/clearance.js");
+      User            = require("./models/user");
 
-const dburl = process.env.DATABASEURL || "mongodb://localhost/baja";
-mongoose.connect(dburl, { useNewUrlParser: true, useCreateIndex: true });
+/* Require Custom Middlewares and data */
+const userClearance                       = require("./interface/clearance.js"),
+      { cloudinaryConfig, uploader }      = require("./API/cloudinary.js");
 
+/* Configure Database */
+mongoose.connect(process.env.DATABASEURL, { useNewUrlParser:  true,
+                                            useCreateIndex:   true,
+                                            useFindAndModify: false });
+
+/* Configure Other packages */
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use('*', cloudinaryConfig);
 
 //Passport Config
 app.use(require("express-session")({
-  secret: "Once again plum wins cutest dog",
+  secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -36,9 +47,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// seedDB(); //Seed Database
-
-// Send CurrentUser to every single route
+// Send to all views
 app.use(function(req,res,next){
   res.locals.currentUser = req.user;
   res.locals.error = req.flash("error");
@@ -59,8 +68,7 @@ app.use("/users",userRoutes);
 
 /*=================================INIT - END=================================*/
 /*=================================LISTEN - BEGIN=============================*/
-var serverPort = process.env.PORT || 3000;
-app.listen(serverPort, function(){
+app.listen(process.env.PORT, function(){
   console.log("BAJA ENGINE START!");
 });
 /*=================================LISTEN - END===============================*/

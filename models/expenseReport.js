@@ -17,6 +17,7 @@ var expenseReportSchema = new mongoose.Schema({
    total: Number,
    notes: String,
    image: String,
+   image_id: String
 });
 
 module.exports = mongoose.model("ExpenseReport", expenseReportSchema);
