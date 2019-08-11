@@ -44,7 +44,9 @@ router.post("/register",function(req,res){
 router.post("/login", passport.authenticate("local",
 {
   successRedirect: "/expenseReports",
-  failureRedirect: "/login"
+  successFlash:    "Welcome!",
+  failureRedirect: "/login",
+  failureFlash:    "Invalid username or password"
 }));
 
 module.exports = router;

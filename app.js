@@ -63,8 +63,8 @@ const expenseReportRoutes = require("./routes/expenseReports"),
 
 //require routes
 app.use("/expenseReports",expenseReportRoutes);
-app.use("/",indexRoutes);
 app.use("/users",userRoutes);
+app.use("/",indexRoutes);
 
 /*=================================INIT - END=================================*/
 /*=================================LISTEN - BEGIN=============================*/
