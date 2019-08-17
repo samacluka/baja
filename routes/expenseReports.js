@@ -30,7 +30,7 @@ router.get("/new", auth.isLoggedIn, function(req,res){
       res.render("expenseReports/new");
   } else {
     req.flash("error","You don't have the clearance to do that");
-    res.redirect("/expenseReports");
+    res.redirect("expenseReports");
   }
 });
 
@@ -132,12 +132,12 @@ router.delete("/:id", auth.isExpenseReportAuthor, function(req,res){
                 console.log(err3);
               } else {
                 req.flash("success","Report successfully deleted");
-                res.redirect("/expenseReports");
+                res.redirect("expenseReports");
               }
             });
           } else { // if the report doesnt have an image everything is done
             req.flash("success","Report successfully deleted");
-            res.redirect("/expenseReports");
+            res.redirect("expenseReports");
           }
         }
       });
