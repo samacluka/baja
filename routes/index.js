@@ -8,8 +8,14 @@ const ExpenseReport  = require("../models/expenseReport.js"),
 
 // Get Routes
 router.get("/",function(req,res){
-  res.redirect("/expenseReports");
+  res.redirect("/home");
 });
+
+router.get("/home", function(req,res){
+  res.render("home");
+});
+
+
 
 router.get("/register",function(req,res){
   res.render("register");
@@ -22,7 +28,7 @@ router.get("/login",function(req,res){
 router.get("/logout", function(req,res){
   req.logout();
   req.flash("success","Successfully logged out!");
-  res.redirect("/expenseReports");
+  res.redirect("/");
 });
 
 
@@ -36,14 +42,14 @@ router.post("/register",function(req,res){
     }
     passport.authenticate("local")(req,res, function(){
       req.flash("success","Welcome to McMaster Baja Racing " + user.firstName);
-      res.redirect("/expenseReports");
+      res.redirect("/");
     });
   });
 });
 
 router.post("/login", passport.authenticate("local",
 {
-  successRedirect: "/expenseReports",
+  successRedirect: "/",
   successFlash:    "Welcome!",
   failureRedirect: "/login",
   failureFlash:    "Invalid username or password"
