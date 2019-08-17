@@ -2,7 +2,7 @@ var ExpenseReport = require("../models/expenseReport");
 var ExpenseItem = require("../models/expenseItem");
 var User        = require("../models/user");
 
-var   userClearance = require("../interface/clearance.js");
+var userClearance = require("../interface/clearance.js");
 
 var middleware = {};
 

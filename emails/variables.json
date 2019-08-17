@@ -1,0 +1,26 @@
+{
+  "Data": {
+  	"firstname": "Lacey"
+  },
+  "Variables": {
+    "user": {
+      "firstName": "Luka"
+    },
+    "expenseReport": {
+    	"total": "123",
+    	"tax": "0",
+    	"shipping": "0",
+    	"subtotal": "123",
+    	"created": "14/03/2019",
+    	"currency": "CAD",
+      "_id": "123456789",
+    	"expenseItems": [{
+    			"itemName": "TEST",
+         	"category": "Materials",
+          "subteam": "DAC",
+          "quantity": "1",
+          "itemPrice": "123"
+    	}]
+    }
+  }
+}

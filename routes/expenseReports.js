@@ -12,6 +12,8 @@ const support         = require("../middleware/support.js"),
 const cloudinary      = require('../API/cloudinary.js'),    //{ cloudinaryConfig, uploader }
       multer          = require('../middleware/multer.js'); //{ upload, dataUri }
 
+const mailjet = require("../API/mailjet.js");
+
 // Get Routes
 router.get("/",function(req,res){
   ExpenseReport.find().populate('author').exec(function(err,allExpenseReports){
@@ -76,14 +78,17 @@ router.post("/", auth.isLoggedIn, multer.upload, function(req,res){
                                     console.log(result);
                                     newExpenseReport.image = result.url;
                                     newExpenseReport.image_id = result.public_id;
-                                    newExpenseReport.save();
-                                    req.flash("success","Report successfully created");
-                                    res.redirect("expenseReports");
+                                    newExpenseReport.save().then(function(savedExpenseReport){
+                                      req.flash("success","Report successfully created");
+                                      res.redirect("expenseReports");
+                                    }).catch(function(err){
+                                      console.log(err);
+                                    });
                                   }
                                 });
                               } else {
                                 newExpenseReport.save();
-                                req.flash("success","Report successfully created");
+                                req.flash("success","Report successfully created - include a picture next time "); // tmp msg
                                 res.redirect("expenseReports");
                               }
                             }

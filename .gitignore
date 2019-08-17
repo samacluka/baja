@@ -90,5 +90,6 @@ typings/
 # Personal local files
 .personal
 
-#All junk files
+#All files in following folders
 junk/
+locked/

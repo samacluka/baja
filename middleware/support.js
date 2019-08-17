@@ -1,7 +1,7 @@
-const middleware = {};
+const support = {};
 
 // Checks filetypes of uploaded images
-middleware.checkFileType = function(req, file, cb){
+support.checkFileType = function(req, file, cb){
   // Allowed Extensions
   const filetypes = /jpeg|jpg|png|gif/;
   // Check Extensions
@@ -19,7 +19,7 @@ middleware.checkFileType = function(req, file, cb){
 // Check for subteam or cateogry form items and if not available go to prev index
 function checkArray(arr,i){
   try{
-    if(arr[i] == ""){
+    if(arr[i] == ''){
       return checkArray(arr, i-1);
     } else {
       return arr[i];
@@ -31,21 +31,23 @@ function checkArray(arr,i){
 }
 
 // Creates array of [item] objects with organized item data
-middleware.organizeItemData = function(data){
+support.organizeItemData = function(data, newExpenseReport){
   var expenseItems = [];
-  for(var i = 0; i < 3; i++){
-    if(data.itemName[i] !== ""){
+  for(var i = 0; i < data.itemName.length; i++){
+    if(data.itemName[i] != ''){
       try{
-        expenseItems[i] = {itemName:     data.itemName[i],
+        expenseItems.push({itemName:     data.itemName[i],
                           quantity:     data.quantity[i],
                           category:     checkArray(data.category, i), //data.category[i],
                           subteam:      checkArray(data.subteam, i), //data.subteam[i],
                           itemPrice:    data.itemPrice[i],
-                          expenseReport: newExpenseReport};
-      } catch(err2){} // Empty catch acts like "try pass"
+                          expenseReport: newExpenseReport});
+      } catch(err2){
+        console.log(err2);
+      } // Empty catch acts like "try pass"
     }
   }
   return expenseItems;
 }
 
-module.exports = middleware;
+module.exports = support;
