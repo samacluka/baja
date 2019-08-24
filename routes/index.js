@@ -6,23 +6,19 @@ const ExpenseReport  = require("../models/expenseReport.js"),
       ExpenseItem     = require("../models/expenseItem.js"),
       User        = require("../models/user");
 
+const views = require("../interface/views.js");
+
 // Get Routes
 router.get("/",function(req,res){
-  res.redirect("/home");
+  res.render(views.home);
 });
-
-router.get("/home", function(req,res){
-  res.render("home");
-});
-
-
 
 router.get("/register",function(req,res){
-  res.render("register");
+  res.render(views.members.register);
 });
 
 router.get("/login",function(req,res){
-  res.render("login");
+  res.render(views.members.login);
 });
 
 router.get("/logout", function(req,res){

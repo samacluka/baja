@@ -6,13 +6,15 @@ const ExpenseReport   = require("../models/expenseReport.js"),
       User            = require("../models/user.js");
 
 const support         = require("../middleware/support.js"),
-      auth            = require("../middleware/auth.js"),
-      userClearance   = require("../interface/clearance.js");
+      auth            = require("../middleware/auth.js");
 
 const cloudinary      = require('../API/cloudinary.js'),    //{ cloudinaryConfig, uploader }
       multer          = require('../middleware/multer.js'); //{ upload, dataUri }
 
 const mailjet = require("../API/mailjet.js");
+
+const views           = require("../interface/views.js"),
+      userClearance   = require("../interface/clearance.js");
 
 // Get Routes
 router.get("/",function(req,res){
@@ -20,14 +22,14 @@ router.get("/",function(req,res){
     if(err){
       console.log(err);
     } else {
-      res.render("expenseReports/index",{expenseReports: allExpenseReports})
+      res.render(views.members.expenseReports.index, {expenseReports: allExpenseReports})
     }
   });
 });
 
 router.get("/new", auth.isLoggedIn, function(req,res){
   if(req.user.clearanceIsGET(userClearance.lead)){
-      res.render("expenseReports/new");
+      res.render(views.members.expenseReports.new);
   } else {
     req.flash("error","You don't have the clearance to do that");
     res.redirect("expenseReports");
@@ -39,7 +41,7 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
     if(err){
       console.log(err);
     } else {
-      res.render("expenseReports/show", {expenseReport: foundExpenseReport});
+      res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
     }
   });
 });
@@ -101,7 +103,7 @@ router.post("/", auth.isLoggedIn, multer.upload, function(req,res){
 ////// rETURN BELOW : auth.isExpenseReportOwner,
 router.get("/:id/edit", function(req,res){
   ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err, foundExpenseReport){
-      res.render("expenseReports/edit",{expenseReport: foundExpenseReport});
+      res.render(views.members.expenseReports.edit, {expenseReport: foundExpenseReport});
   });
 });
 
@@ -109,9 +111,9 @@ router.put("/:id",  function(req,res){
   ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
     if(err){
       console.log(err);
-      res.redirect("/expenseReports");
+      res.redirect("expenseReports");
     } else {
-      res.redirect("/expenseReports/"+req.params.id);
+      res.redirect("expenseReports/"+req.params.id);
     }
   });
 });

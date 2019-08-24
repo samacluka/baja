@@ -49,10 +49,10 @@ passport.deserializeUser(User.deserializeUser());
 
 // Send to all views
 app.use(function(req,res,next){
-  res.locals.currentUser = req.user;
-  res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success");
-  res.locals.userClearance = userClearance;
+  res.locals.currentUser    = req.user;
+  res.locals.error          = req.flash("error");
+  res.locals.success        = req.flash("success");
+  res.locals.userClearance  = userClearance;
   next();
 });
 
