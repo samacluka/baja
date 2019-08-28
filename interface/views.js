@@ -4,9 +4,11 @@ const viewsDir = path.join(__dirname, "../views/");
 
 const views = {
     home: viewsDir + "home",
-    sponsors: viewsDir + "sponsors",
-    recruitment: viewsDir + "recruitment",
-    gallery: viewsDir + "gallery",
+    external: {
+      sponsors: viewsDir + "external/sponsors",
+      recruitment: viewsDir + "external/recruitment",
+      gallery: viewsDir + "external/gallery"
+    },
     members: {
       login: viewsDir + "members/login",
       register: viewsDir + "members/register",
