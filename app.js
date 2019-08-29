@@ -58,13 +58,11 @@ app.use(function(req,res,next){
 
 /* Create route variables*/
 const expenseReportRoutes = require("./routes/expenseReports"),
-      instagramRoutes     = require("./routes/instagram"),
       indexRoutes         = require("./routes/index"),
       userRoutes          = require("./routes/users");
 
 //require routes
 app.use("/expenseReports",expenseReportRoutes);
-app.use("/instagram",instagramRoutes);
 app.use("/users",userRoutes);
 app.use("/",indexRoutes);
 

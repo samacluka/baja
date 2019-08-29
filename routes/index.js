@@ -43,12 +43,6 @@ router.get("/gallery", function(req,res){
       console.log(foundImages);
       res.render(views.external.gallery, {images: foundImages});
   });
-
-  instagram.get('users/self/media/recent').then(data => {
-    console.log(data);
-    res.render(views.external.gallery, {images: data});
-  });
-
 });
 
 //POST ROUTES
