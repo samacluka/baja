@@ -40,7 +40,6 @@ router.get("/recruitment", function(req,res){
 
 router.get("/gallery", function(req,res){
   cloudinary.search.expression('folder: gallery').sort_by('uploaded_at','desc').execute().then((foundImages) => {
-      console.log(foundImages);
       res.render(views.external.gallery, {images: foundImages});
   });
 });
