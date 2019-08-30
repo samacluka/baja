@@ -6,6 +6,9 @@ const ExpenseReport  = require("../models/expenseReport.js"),
       ExpenseItem     = require("../models/expenseItem.js"),
       User        = require("../models/user");
 
+const cloudinary      = require('../API/cloudinary.js'),    //{ cloudinaryConfig, uploader }
+      multer          = require('../middleware/multer.js'); //{ upload, dataUri }
+
 const views = require("../interface/views.js");
 
 // Get Routes
@@ -27,6 +30,22 @@ router.get("/logout", function(req,res){
   res.redirect("/");
 });
 
+router.get("/sponsors", function(req,res){
+  cloudinary.search.expression('folder: sponsors').with_field('tags').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+    console.log(foundImages);
+      res.render(views.external.sponsors, {images: foundImages});
+  });
+});
+
+router.get("/recruitment", function(req,res){
+  res.render(views.external.recruitment);
+});
+
+router.get("/gallery", function(req,res){
+  cloudinary.search.expression('folder: gallery').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+      res.render(views.external.gallery, {images: foundImages});
+  });
+});
 
 //POST ROUTES
 router.post("/register",function(req,res){

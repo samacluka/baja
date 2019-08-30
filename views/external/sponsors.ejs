@@ -1,0 +1,69 @@
+<% const views = '../' %>
+<%- include(views+'partials/header4'); %>
+
+<div class="container">
+  <h2>Thank you to our current sponsors for their support</h2>
+</div>
+
+<div class="container">
+
+  <!-- PLATINUMS -->
+  <div class="row">
+    <div class="col">
+      <h3><span class="badge badge-pill badge-light">PLATINUM</span></h3>
+    </div>
+      <% images.resources.forEach(function(image){ %>
+        <% if(image.tags.includes("platinum")) { %>
+         <div class="col-lg-2 col-md-4 col-sm-6">
+           <img src=<%= image.url %> alt="image">
+         </div>
+        <% } %>
+      <% }); %>
+  </div>
+
+  <!-- GOLD -->
+  <div class="row">
+    <div class="col">
+      <h3><span class="badge badge-pill badge-light">GOLD</span></h3>
+    </div>
+      <% images.resources.forEach(function(image){ %>
+        <% if(image.tags.includes("gold")) { %>
+         <div class="col-lg-2 col-md-4 col-sm-6">
+           <img src=<%= image.url %> alt="image">
+         </div>
+        <% } %>
+      <% }); %>
+  </div>
+
+  <!-- SILVER -->
+  <div class="row">
+    <div class="col">
+      <h3><span class="badge badge-pill badge-light">SILVER</span></h3>
+    </div>
+      <% images.resources.forEach(function(image){ %>
+        <% if(image.tags.includes("silver")) { %>
+          <div class="col-lg-2 col-md-4 col-sm-6">
+           <img src=<%= image.url %> alt="image">
+         </div>
+        <% } %>
+      <% }); %>
+  </div>
+
+  <!-- BRONZE -->
+  <div class="row">
+    <div class="col">
+      <h3><span class="badge badge-pill badge-light">BRONZE</span></h3>
+    </div>
+      <% images.resources.forEach(function(image){ %>
+        <% if(image.tags.includes("bronze")) { %>
+          <div class="col-lg-2 col-md-4 col-sm-6">
+           <img src=<%= image.url %> alt="image">
+         </div>
+        <% } %>
+      <% }); %>
+  </div>
+
+</div> <!-- Container -->
+
+
+<%- include(views+'partials/footer4'); %>

@@ -42,3 +42,11 @@ hr.style-two {
   width: 100%;
   object-fit: contain;
 }
+
+.text-white{
+  text-color: #ffffff;  /* WHITE */
+}
+
+.background-grey{
+  background-color: #5b6770; /*McMaster Dark Grey */
+}
