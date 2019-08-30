@@ -31,7 +31,10 @@ router.get("/logout", function(req,res){
 });
 
 router.get("/sponsors", function(req,res){
-  res.render(views.external.sponsors);
+  cloudinary.search.expression('folder: sponsors').with_field('tags').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+    console.log(foundImages);
+      res.render(views.external.sponsors, {images: foundImages});
+  });
 });
 
 router.get("/recruitment", function(req,res){
