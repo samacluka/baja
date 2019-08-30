@@ -7,10 +7,16 @@ function setNavigation() {
     path = path.replace(/\/$/, "");
     path = decodeURIComponent(path);
 
-    $(".nav a").each(function () {
+    $(".nav-link").each(function () {
         var href = $(this).attr('href');
-        if (path.substring(0, href.length) === href) {
+
+        console.log(path);
+        if (path === href){
             $(this).closest('li').addClass('active');
+        }
+
+        if(path === ""){
+          $('.home-icon').addClass('active'); // Added in case on home
         }
     });
 }
