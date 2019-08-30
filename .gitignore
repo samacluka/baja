@@ -93,3 +93,4 @@ typings/
 #All files in following folders
 junk/
 locked/
+node_modules
