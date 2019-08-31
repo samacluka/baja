@@ -10,7 +10,6 @@ function setNavigation() {
     $(".nav-link").each(function () {
         var href = $(this).attr('href');
 
-        console.log(path);
         if (path === href){
             $(this).closest('li').addClass('active');
         }
