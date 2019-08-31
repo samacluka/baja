@@ -2,12 +2,10 @@
 <%- include(views+'partials/header4'); %>
 
 <div class="container">
+  <!-- Header  -->
   <div class="pb-2 mt-4 mb-2 border-bottom">
     <h2>Thank you to our current sponsors for their continued support</h2>
   </div>
-</div>
-
-<div class="container">
 
   <!-- PLATINUMS -->
   <div class="row">
@@ -21,7 +19,7 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("platinum")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="image">
+             <img src=<%= image.url %> alt="logo">
            </div>
           <% } %>
         <% }); %>
@@ -41,7 +39,7 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("gold")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="image">
+             <img src=<%= image.url %> alt="logo">
            </div>
           <% } %>
         <% }); %>
@@ -61,7 +59,7 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("silver")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="image">
+             <img src=<%= image.url %> alt="logo">
            </div>
           <% } %>
         <% }); %>
@@ -81,7 +79,7 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("bronze")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="image">
+             <img src=<%= image.url %> alt="logo">
            </div>
           <% } %>
         <% }); %>
