@@ -10,14 +10,6 @@
   display: inline;
 }
 
-.ExpenseItems {
-  margin: 2px;
-}
-
-.flash-message {
-  padding-top: 4px;
-}
-
 hr.style-two {
     border: 0;
     height: 1px;
@@ -66,6 +58,11 @@ div.footer-background-img {
   height: 100%; /* Full height (cover the whole page) */
   object-fit: contain;
 }
+
+/* #siteMenu ul.ml-auto {
+  background: purple;
+  float: right;
+} */
 
 /* Footer */
 section {

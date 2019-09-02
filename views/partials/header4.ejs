@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Brighter World CSS -->
     <link rel="stylesheet" href="https://documents.mcmaster.ca/www/cdn/css/1.0/mcm-bw.css">
-    <!-- Site Styles -->
-    <link href="/stylesheets/main.css" rel="stylesheet" media="screen">
     <!-- font awesome CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- jQuery CDN  -->
@@ -20,6 +18,10 @@
     <style>
       @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i|Roboto:300,300i,700,700i');
     </style>
+
+    <!-- Site Styles -->
+    <link href="/stylesheets/main.css" rel="stylesheet" media="screen">
+
     <title>McMaster Baja Racing</title>
   </head>
   <body>
@@ -45,6 +47,24 @@
             </li>
           </ul>
 
+          <ul class="nav navbar-nav ml-auto">
+            <% if(!currentUser){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Sign Up</a>
+              </li>
+            <% } else { %>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Signed in as <%= currentUser.firstName + " " + currentUser.lastName %></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+            <% } %>
+          </ul>
+
         </div>
       </div>
     </nav>
@@ -52,16 +72,16 @@
 
     <% if(error && (error.length > 0)){ %>
       <div class="container">
-        <div class="alert alert-danger" role="alert">
-          <h5 class="flash-message"><%= error %></h5>
+        <div class="alert alert-danger m-2" role="alert">
+          <h5 class="p-1"><%= error %></h5>
         </div>
       </div>
     <% } %>
 
     <% if(success && (success.length > 0)){ %>
       <div class="container">
-        <div class="alert alert-success" role="alert">
-          <h5 class="flash-message"><%= success %></h5>
+        <div class="alert alert-success m-2" role="alert">
+          <h5 class="p-1"><%= success %></h5>
         </div>
       </div>
     <% } %>
