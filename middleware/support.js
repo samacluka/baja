@@ -1,5 +1,7 @@
 const support = {};
 
+var headers = require("./headers.js").header;
+
 // Checks filetypes of uploaded images
 support.checkFileType = function(req, file, cb){
   // Allowed Extensions
@@ -48,6 +50,54 @@ support.organizeItemData = function(data, newExpenseReport){
     }
   }
   return expenseItems;
+}
+
+support.createHREF = function(allExpenseReports){
+  var rows = allExpenseReports.map(function (expenseReport) { // Split all expense Reports into their own arrays and apply the following to each
+      var row = [expenseReport._id,
+                expenseReport.approved,
+                expenseReport.viewed,
+                expenseReport.author._id,
+                expenseReport.author.firstName,
+                expenseReport.author.lastName,
+                expenseReport.author.username,
+                expenseReport.author.clearance,
+                expenseReport.store,
+                expenseReport.currency,
+                expenseReport.subtotal,
+                expenseReport.tax,
+                expenseReport.shipping,
+                expenseReport.total,
+                expenseReport.notes,
+                expenseReport.created,
+                expenseReport.image];
+
+      expenseReport.expenseItems.forEach((expenseItem) => {
+          tmpItem = [expenseItem._id,
+                    expenseItem.itemName,
+                    expenseItem.quantity,
+                    expenseItem.category,
+                    expenseItem.subteam,
+                    expenseItem.itemPrice];
+          row.push.apply(row, tmpItem);
+      });
+
+      return row.join(',');
+  });
+
+  rows.unshift(headers.join(',')); // Prepend headers to rows var
+
+  var type = 'data:text/csv;charset=utf-8';
+  var data = rows.join('\n');
+
+  if (typeof btoa === 'function') {
+      type += ';base64';
+      data = btoa(data);
+  } else {
+      data = encodeURIComponent(data);
+  }
+
+  return type + ',' + data;
 }
 
 module.exports = support;

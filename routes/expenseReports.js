@@ -18,11 +18,12 @@ const views           = require("../interface/views.js"),
 
 // Get Routes
 router.get("/",function(req,res){
-  ExpenseReport.find().populate('author').exec(function(err,allExpenseReports){
+  ExpenseReport.find().populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
     if(err){
       console.log(err);
     } else {
-      res.render(views.members.expenseReports.index, {expenseReports: allExpenseReports})
+      var csv_href = support.createHREF(allExpenseReports);
+      res.render(views.members.expenseReports.index, {expenseReports: allExpenseReports, csv_href: csv_href})
     }
   });
 });
