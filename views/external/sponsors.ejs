@@ -19,7 +19,9 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("platinum")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="logo">
+              <a href="http://www.<%= image.filename %>" target="_blank">
+                <img src="<%= image.url %>" alt="logo">
+              </a>
            </div>
           <% } %>
         <% }); %>
@@ -39,7 +41,9 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("gold")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="logo">
+              <a href="http://www.<%= image.filename %>" target="_blank">
+                <img src="<%= image.url %>" alt="logo">
+              </a>
            </div>
           <% } %>
         <% }); %>
@@ -59,7 +63,9 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("silver")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="logo">
+              <a href="http://www.<%= image.filename %>" target="_blank">
+                <img src="<%= image.url %>" alt="logo">
+              </a>
            </div>
           <% } %>
         <% }); %>
@@ -79,7 +85,9 @@
         <% images.resources.forEach(function(image){ %>
           <% if(image.tags.includes("bronze")) { %>
             <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-             <img src=<%= image.url %> alt="logo">
+              <a href="http://www.<%= image.filename %>" target="_blank">
+                <img src="<%= image.url %>" alt="logo">
+             </a>
            </div>
           <% } %>
         <% }); %>
