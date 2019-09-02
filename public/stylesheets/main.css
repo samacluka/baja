@@ -59,10 +59,11 @@ div.footer-background-img {
   object-fit: contain;
 }
 
-/* #siteMenu ul.ml-auto {
-  background: purple;
-  float: right;
-} */
+.carousel-styles {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+}
 
 /* Footer */
 section {

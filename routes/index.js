@@ -13,7 +13,9 @@ const views = require("../interface/views.js");
 
 // Get Routes
 router.get("/",function(req,res){
-  res.render(views.home);
+  cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+    res.render(views.home, {images: foundImages});
+  });
 });
 
 router.get("/register",function(req,res){
