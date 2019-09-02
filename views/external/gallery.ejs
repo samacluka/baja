@@ -1,23 +1,36 @@
 <% const views = '../' %>
 <%- include(views+'partials/header4'); %>
 
-<div class="container">
-  <div class="p-3">
-    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
-      <div class="row row-eq-height">
-        <% images.resources.forEach(function(image){ %>
-           <div class="col-lg-4 col-md-3 col-sm-2 col">
-                <div class="card card-link-floater card-shadow">
-                    <img class="card-img-top" src=<%= image.url %> alt="image">
-                    <div class="card-body">
-                         <h3 class="card-title"><%= image.filename %></h3>
-                    </div>
-                </div>
-            </div>
-          <% }); %>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <img id="modal_img" class="gallery-modal-img" src="" alt="image">
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div class="container">
+    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+      <div class="row row-eq-height">
+        <% images.resources.forEach(function(image){ %>
+          <div class="col-lg-4 col-md-6 col-sm-12 p-2">
+            <div data-toggle="modal" data-target="#exampleModalCenter">
+              <div class="card card-link-floater card-shadow">
+                <div class="card-img-mask card-img-mask-top">
+                  <img class="card-img-top" src="<%= image.url %>" alt="image">
+                </div>
+                <div class="card-body mb-0 py-20">
+                  <h3 class="card-title"><%= image.filename %></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
 
 <%- include(views+'partials/footer4'); %>

@@ -58,11 +58,16 @@ hr.style8:after {
 div.footer-background-img {
   max-width: 100%;
   height: auto;
-  background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 90%), url('https://res.cloudinary.com/dkvqve4ln/image/upload/v1567342014/general/milkyway_t37hkj.jpg') center center;
+  background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 90%), url('https://res.cloudinary.com/dkvqve4ln/image/upload/v1566777153/gallery/Lion%20King.jpg') center center;
+}
+
+.gallery-modal-img {
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  object-fit: contain;
 }
 
 /* Footer */
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 section {
     padding: 0;
     margin: 20px 0 0 0;
