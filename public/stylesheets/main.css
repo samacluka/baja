@@ -130,3 +130,35 @@ section .section-title {
     margin-bottom: 10px;
   }
 }
+
+/* Expense Report Form */
+select{
+  -webkit-appearance: none;
+}
+
+input {
+  text-align: center;
+}
+
+.item-name-input {
+  width: 10em;
+}
+
+div.category-select {
+  width: 20em;
+}
+div.subteam-select {
+  width: 20em;
+}
+.item-price-input {
+  width: 10em;
+}
+.item-quantity-input {
+  width: 5em;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
