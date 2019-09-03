@@ -8,6 +8,6 @@ $(".nav-link").each(function () {
     }
 
     if(path === ""){
-      $('.home-icon').addClass('active'); // Added in case on home
+      $('#home-li').addClass('active'); // Added in case on home
     }
 });

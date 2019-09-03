@@ -1,6 +1,6 @@
 var headers = {
 
-report: ['Expense Report ID',
+item: ['Expense Report ID',
         'Approved by Captain',
         'Viewed by Captain',
         'Author ID',
@@ -24,7 +24,7 @@ report: ['Expense Report ID',
         'Item Subteam',
         'Item Price'],
 
-item: ['Expense Report ID',
+report: ['Expense Report ID',
         'Approved by Captain',
         'Viewed by Captain',
         'Author ID',

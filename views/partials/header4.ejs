@@ -1,6 +1,7 @@
 <!--
 ===================================================
 ##                   LUKA SAMAC                  ##
+##                samacl@mcmaster.ca             ##
 ===================================================
  -->
 <!doctype html>
@@ -38,8 +39,8 @@
         <div class="collapse navbar-collapse" id="siteMenu">
 
           <ul class="nav navbar-nav mr-auto">
-            <li class="nav-item home-icon">
-              <a class="nav-link" href="/">Home</a>
+            <li class="nav-item" id="home-li">
+              <a class="nav-link" id="home-a" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/recruitment">Recruitment</a>
@@ -50,24 +51,26 @@
             <li class="nav-item">
               <a class="nav-link" href="/gallery">Gallery</a>
             </li>
-          </ul>
 
-          <ul class="nav navbar-nav ml-auto">
-            <% if(!currentUser){ %>
-              <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/register">Sign Up</a>
-              </li>
-            <% } else { %>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Signed in as <%= currentUser.firstName + " " + currentUser.lastName %></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-              </li>
-            <% } %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <% if(!currentUser){ %>
+                  Members
+                <% } else { %>
+                  Signed in as <%= currentUser.firstName + " " + currentUser.lastName %>
+                <% } %>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <% if(!currentUser){ %>
+                  <a class="dropdown-item" href="/login">Login</a>
+                  <a class="dropdown-item" href="/register">Sign Up</a>
+                <% } else { %>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <a class="dropdown-item" href="/expenseReports">Expense Reports</a>
+                  <a class="dropdown-item" href="/users">Users</a>
+                <% } %>
+              </div>
+            </li>
           </ul>
 
         </div>
