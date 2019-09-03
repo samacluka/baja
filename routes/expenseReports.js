@@ -22,8 +22,11 @@ router.get("/",function(req,res){
     if(err){
       console.log(err);
     } else {
-      var csv_href = support.createHREF(allExpenseReports);
-      res.render(views.members.expenseReports.index, {expenseReports: allExpenseReports, csv_href: csv_href})
+      var csv_href_rep = support.create_href_reports(allExpenseReports);
+      var csv_href_item = support.create_href_items(allExpenseReports);
+      res.render(views.members.expenseReports.index, {expenseReports: allExpenseReports,
+                                                      csv_href_rep:   csv_href_rep,
+                                                      csv_href_item:  csv_href_item})
     }
   });
 });
