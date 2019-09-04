@@ -4,11 +4,16 @@
 <div class="container">
   <h1 class="text-center pt-3">Create a New Expense Report</h1>
   <hr class="style-two">
+
+  <div class="text-right">
+    <i id="plusIcon" class="fa fa-plus"></i>
+  </div>
+
   <div class="row">
     <div style="width: 95%; margin: 35px auto" class="">
       <form id="ExpenseReport" action="expenseReports/<%= expenseReport._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
-        <table>
+        <table id="expenseReportFormTable">
           <!-- HEADLINES -->
           <tr class="text-center">
             <th>Item</th>
@@ -19,7 +24,7 @@
           </tr>
 
           <!-- Make mulitple other rows for items -->
-          <% expenseReport.expenseItems.forEach((expenseItem) => { %>
+          <% expenseReport.expenseItems.forEach((expenseItem, index) => { %>
             <tr>
               <td>
                 <div class="form-group item-name-input m-1"><input class="form-control" type="text" name="expneseItem[itemName]" placeholder="Item Name" value="<%= expenseItem.itemName %>"></div>
@@ -76,7 +81,14 @@
               <td>
                 <div class="form-group item-quantity-input m-1"><input class="form-control" type="number" step="1" name="expenseItem[quantity]" placeholder="Quantity" value="<%= expenseItem.quantity %>"></div>
               </td>
-            </tr>
+              <% if(index > 0){ %> <!-- Make sure the form does not allow for the removal of the first row -->
+                <td>
+                  <div class="trashIcon">
+                    <i class="fa fa-trash"></i>
+                  </div>
+                </td>
+              </tr>
+            <% } %>
           <% }) %>
 
         </table>

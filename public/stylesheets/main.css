@@ -49,6 +49,12 @@ div.footer-background-img {
   text-decoration: none;
 }
 
+.card-img-top { /* Limits the height of images within cards */
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
 .full-size {
   height:100%;
   width:100%;
