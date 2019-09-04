@@ -4,10 +4,15 @@
 <div class="container">
   <h1 class="text-center pt-3">Create a New Expense Report</h1>
   <hr class="style-two">
+
+  <div class="text-right">
+    <i id="plusIcon" class="fa fa-plus"></i>
+  </div>
+
   <div class="row">
     <div style="width: 95%; margin: 35px auto" class="">
       <form class="" id="ExpenseReport" action="/expenseReports" method="post" enctype="multipart/form-data">
-        <table>
+        <table id="expenseReportFormTable">
           <!-- HEADLINES -->
           <tr class="text-center">
             <th>Item</th>
@@ -75,34 +80,6 @@
               <div class="form-group item-quantity-input m-1"><input class="form-control" type="number" step="1" name="quantity[]" placeholder="Quantity" value="1"></div>
             </td>
           </tr>
-
-          <!-- Make mulitple other rows for items -->
-          <% for(var i = 0; i < 2; i++){ %>
-            <tr>
-              <td>
-                <div class="form-group item-name-input m-1"><input class="form-control" type="text" name="itemName[]" placeholder="Item Name"></div>
-              </td>
-
-              <td>
-                <div class="form-group category-select m-1">
-                  <%- include(views+'partials/category'); %>
-                </div>
-              </td>
-
-              <td>
-                <div class="form-group subteam-select m-1">
-                  <%- include(views+'partials/subteam'); %>
-                </div>
-              </td>
-              <td>
-                <div class="form-group item-price-input m-1"><input class="form-control" type="number" name="itemPrice[]" placeholder="Item Price"></div>
-              </td>
-              <td>
-                <div class="form-group item-quantity-input m-1"><input class="form-control" type="number" step="1" name="quantity[]" placeholder="Quantity" value="1"></div>
-              </td>
-            </tr>
-          <% } %>
-
         </table>
 
         <hr class="style-two">

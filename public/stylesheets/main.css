@@ -187,3 +187,20 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+#plusIcon {
+  font-size: 3em;
+}
+
+#plusIcon:hover{
+  cursor: pointer;
+}
+
+.trashIcon {
+  font-size: 1.1em;
+  margin: 0.75em;
+}
+
+.trashIcon:hover{
+  cursor: pointer;
+}
