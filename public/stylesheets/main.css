@@ -55,6 +55,31 @@ div.footer-background-img {
   overflow:hidden; /* or overflow:auto; if you want scrollbars */
 }
 
+/* For ExpenseReport / show page */
+#report-summary td{
+  margin: 0.5em;
+}
+
+#report-summary .row-title{
+  text-align: right;
+}
+
+#report-summary .row-value{
+  text-align: left;
+}
+
+#currency-declaration{
+  margin: 0.5em;
+}
+
+#currency-declaration h6 span{
+  font-size: 1.5em; /* Make an h3 within an h6 but stays in one line */
+}
+
+#receipt {
+  width: 100%;
+}
+
 /* Footer */
 section {
     padding: 0;
