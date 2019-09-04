@@ -1,16 +1,16 @@
 /*=================================INIT - BEGIN===============================*/
-const express       = require("express"),
-      app           = express(),
-      bodyParser    = require("body-parser"),
-      mongoose      = require("mongoose"),
-      passport      = require("passport"),
-      localStrategy = require("passport-local"),
-      methodOverride= require("method-override"),
-      flash         = require("connect-flash"),
-      fs            = require("file-system"),
-      multer        = require("multer"),
-      path          = require("path"),
-      dotenv        = require("dotenv").config(); // Configure .env variables
+const express         = require("express"),
+      app             = express(),
+      bodyParser      = require("body-parser"),
+      mongoose        = require("mongoose"),
+      passport        = require("passport"),
+      localStrategy   = require("passport-local"),
+      methodOverride  = require("method-override"),
+      flash           = require("connect-flash"),
+      fs              = require("file-system"),
+      multer          = require("multer"),
+      path            = require("path"),
+      dotenv          = require("dotenv").config(); // Configure .env variables
 
 
 /* Create DB variables */

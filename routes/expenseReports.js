@@ -45,7 +45,12 @@ router.get("/:id", function(req,res){      //"/expenseReports/new" must be decla
     if(err){
       console.log(err);
     } else {
-      res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
+      if(req.user.clearanceIsGET(userClearance.captain)){
+        foundExpenseReport.viewed = true;
+        res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
+      } else {
+        res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
+      }
     }
   });
 });
@@ -128,23 +133,32 @@ router.delete("/:id", auth.isExpenseReportAuthor, function(req,res){
     if(err1){
       console.log(err1);
     } else {
-      ExpenseReport.findByIdAndRemove(req.params.id, function(err2, foundExpenseReport){ // delete DB document and return contents of deleted document
-        if(err2){
-          console.log(err2);
-        } else {
-          if(foundExpenseReport.image){ // If the report has an image remove it from cloudinary
-            cloudinary.uploader.destroy(foundExpenseReport.image_id, function(err3){
-              if(err3){
-                console.log(err3);
-              } else {
-                req.flash("success","Report successfully deleted");
-                res.redirect("expenseReports");
-              }
-            });
-          } else { // if the report doesnt have an image everything is done
-            req.flash("success","Report successfully deleted");
-            res.redirect("expenseReports");
-          }
+      // Must find report, delete image, then delete report --> because mongoose deprecated the return of object on delete functionality
+      ExpenseReport.findById(req.params.id, function(err2, foundExpenseReport){ // find the report
+        if(foundExpenseReport.image){ // If the report has an image remove it from cloudinary
+          cloudinary.uploader.destroy(foundExpenseReport.image_id, function(err3){
+            if(err3){
+              console.log(err3);
+            } else {
+              ExpenseReport.deleteOne({_id: req.params.id}, function(err3){ //Now delete the report
+                if(err3){
+                  console.log(err3);
+                } else {
+                  req.flash("success","Report successfully deleted");
+                  res.redirect("/expenseReports");
+                }
+              });
+            }
+          });
+        } else { // if the report doesnt have an image just delete the report
+          ExpenseReport.deleteOne({_id: req.params.id}, function(err3){
+            if(err3){
+              console.log(err3);
+            } else {
+              req.flash("success","Report successfully deleted");
+              res.redirect("/expenseReports");
+            }
+          });
         }
       });
     }
