@@ -1,43 +1,41 @@
 <% const views = '../../' %>
 <%- include(views+'partials/header4'); %>
 
-<div class="container">
-
-  <div class="p-2">
-    <header class="jumbotron">
-      <div class="container">
-        <h2>Welcome to McMaster Baja Racing!</h2>
-        <p>
-          <a class="btn btn-primary btn-lg m-1" id="new_expense_report_btn" href="/expenseReports/new">Add a new Expense Report</a>
-          <a class="btn btn-success btn-lg m-1" id="csv_download_report_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_rep %>">Download CSV<br/><small>Rows are Reports</small></a>
-          <a class="btn btn-success btn-lg m-1" id="csv_download_item_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_item %>">Download CSV<br/><small>Rows are Items</small></a>
-        </p>
-      </div>
-    </header>
-  </div>
-
-  <div class="row text-center" style="display: flex; flex-wrap: wrap;">
-    <div class="row row-eq-height">
-      <% expenseReports.forEach(function(expenseReport){ %>
-          <div class="col-lg-4 col-md-6 col-sm-12 p-2">
-            <div class="anchor_no_underline">
-              <a href="/expenseReports/<%= expenseReport._id %>">
-                <div class="card card-link-floater card-shadow">
-                  <img class="card-img-top" src="<%= expenseReport.image %>" alt="image">
-                  <div class="card-body mb-0">
-                    <h3 class="card-text">Created on <%= expenseReport.created.toDateString() %></h3>
-                    <h3 class="card-text">Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-      <% }); %>
+<div id="expenseReport_index">
+  <div class="container">
+    <div class="p-2">
+      <header class="jumbotron">
+        <div class="container">
+          <h2>Welcome to McMaster Baja Racing!</h2>
+          <p>
+            <a class="btn btn-primary btn-lg m-1" id="new_expense_report_btn" href="/expenseReports/new">Add a new Expense Report</a>
+            <a class="btn btn-success btn-lg m-1" id="csv_download_report_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_rep %>">Download CSV<br/><small>Rows are Reports</small></a>
+            <a class="btn btn-success btn-lg m-1" id="csv_download_item_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_item %>">Download CSV<br/><small>Rows are Items</small></a>
+          </p>
+        </div>
+      </header>
     </div>
-  </div>
 
-
-
-</div>
+    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+      <div class="row row-eq-height">
+        <% expenseReports.forEach(function(expenseReport){ %>
+            <div class="col-lg-4 col-md-6 col-sm-12 p-2">
+              <div class="anchor_no_underline">
+                <a href="/expenseReports/<%= expenseReport._id %>">
+                  <div class="card card-link-floater card-shadow">
+                    <img class="card-img-top" src="<%= expenseReport.image %>" alt="image">
+                    <div class="card-body mb-0">
+                      <h3 class="card-text">Created on <%= expenseReport.created.toDateString() %></h3>
+                      <h3 class="card-text">Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>  <!-- /container -->
+</div> <!-- #expenseReport_index -->
 
 <%- include(views+'partials/footer4'); %>

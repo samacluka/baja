@@ -1,0 +1,140 @@
+/* =========== INDEX =========== */
+#expenseReport_index .card-img-top { /* Limits the height of images within cards */
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+#expenseReport_index .anchor_no_underline a:hover{
+  text-decoration: none;
+}
+
+/* =========== EDIT =========== */
+#expenseReport_index .delete-form{
+  display: inline;
+}
+
+#expenseReport_edit select{
+  -webkit-appearance: none;
+}
+
+#expenseReport_edit input {
+  text-align: center;
+}
+
+#expenseReport_edit .item-name-input {
+  width: 10em;
+}
+#expenseReport_edit div.category-select {
+  width: 20em;
+}
+#expenseReport_edit div.subteam-select {
+  width: 20em;
+}
+#expenseReport_edit .item-price-input {
+  width: 10em;
+}
+#expenseReport_edit .item-quantity-input {
+  width: 5em;
+}
+
+#expenseReport_edit input[type=number]::-webkit-inner-spin-button,
+#expenseReport_edit input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#expenseReport_edit #plusIcon {
+  font-size: 3em;
+}
+
+#expenseReport_edit #plusIcon:hover{
+  cursor: pointer;
+}
+
+#expenseReport_edit .trashIcon {
+  font-size: 1.1em;
+  margin: 0.75em;
+}
+
+#expenseReport_edit .trashIcon:hover{
+  cursor: pointer;
+}
+
+/* =========== NEW =========== */
+
+#expenseReport_new select{
+  -webkit-appearance: none;
+}
+
+#expenseReport_new input {
+  text-align: center;
+}
+
+#expenseReport_new .item-name-input {
+  width: 10em;
+}
+#expenseReport_new div.category-select {
+  width: 20em;
+}
+#expenseReport_new div.subteam-select {
+  width: 20em;
+}
+#expenseReport_new .item-price-input {
+  width: 10em;
+}
+#expenseReport_new .item-quantity-input {
+  width: 5em;
+}
+
+#expenseReport_new input[type=number]::-webkit-inner-spin-button,
+#expenseReport_new input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#expenseReport_new #plusIcon {
+  font-size: 3em;
+}
+
+#expenseReport_new #plusIcon:hover{
+  cursor: pointer;
+}
+
+#expenseReport_new .trashIcon {
+  font-size: 1.1em;
+  margin: 0.75em;
+}
+
+#expenseReport_new .trashIcon:hover{
+  cursor: pointer;
+}
+
+/* =========== SHOW =========== */
+#expenseReport_show #report-summary td{
+  margin: 0.5em;
+}
+
+#expenseReport_show #report-summary .row-title{
+  text-align: right;
+}
+
+#expenseReport_show #report-summary .row-value{
+  text-align: left;
+}
+
+#expenseReport_show #currency-declaration{
+  margin: 0.5em;
+}
+
+#expenseReport_show #currency-declaration h6 span{
+  font-size: 1.5em; /* Make an h3 within an h6 but stays in one line */
+}
+
+#expenseReport_show .form-label-bg {
+  font-size: 18px;
+  text-align: left;
+  vertical-align: middle;
+  margin-left: 20px;
+  margin-right: 20px;
+}

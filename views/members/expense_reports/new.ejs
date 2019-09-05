@@ -1,105 +1,107 @@
 <% const views = '../../' %>
 <%- include(views+'partials/header4'); %>
 
-<div class="container">
-  <h1 class="text-center pt-3">Create a New Expense Report</h1>
-  <hr class="style-two">
+<div class="expenseReport_new">
+  <div class="container">
+    <h1 class="text-center pt-3">Create a New Expense Report</h1>
+    <hr class="style-two">
 
-  <div class="text-right">
-    <i id="plusIcon" class="fa fa-plus"></i>
-  </div>
+    <div class="text-right">
+      <i id="plusIcon" class="fa fa-plus"></i>
+    </div>
 
-  <div class="row">
-    <!-- <div style="width: 95%; margin: auto auto" class=""> -->
-      <form class="" id="ExpenseReport" action="/expenseReports" method="post" enctype="multipart/form-data">
-        <table id="expenseReportFormTable" style="overflow: auto;">
-          <!-- HEADLINES -->
-          <tr class="text-center">
-            <th>Item</th>
-            <th>Category</th>
-            <th>Subteam</th>
-            <th>Item Price</th>
-            <th>Quantity</th>
-          </tr>
+    <div class="row">
+      <!-- <div style="width: 95%; margin: auto auto" class=""> -->
+        <form class="" id="ExpenseReport" action="/expenseReports" method="post" enctype="multipart/form-data">
+          <table id="expenseReportFormTable" style="overflow: auto;">
+            <!-- HEADLINES -->
+            <tr class="text-center">
+              <th>Item</th>
+              <th>Category</th>
+              <th>Subteam</th>
+              <th>Item Price</th>
+              <th>Quantity</th>
+            </tr>
 
-          <!-- FIRST ROW / ExpenseItem 1-->
-          <tr>
-            <td>
-              <div class="form-group item-name-input m-1"><input class="form-control" type="text" name="itemName[]" placeholder="Item Name"></div>
-            </td>
+            <!-- FIRST ROW / ExpenseItem 1-->
+            <tr>
+              <td>
+                <div class="form-group item-name-input m-1"><input class="form-control" type="text" name="itemName[]" placeholder="Item Name"></div>
+              </td>
 
-            <td>
-              <div class="form-group category-select m-1">
-                <select class="form-control" name="category[]" placeholder="Cateogry">
-                  <option value="Material" selected>Material</option>
-                  <option value="Hardware">Hardware</option>
-                  <option value="Component">Component</option>
-                  <option value="Machining">Machining</option>
-                  <option value="Tooling">Tooling</option>
-                  <option value="Carbon">Carbon</option>
-                  <option value="Sponsorship">Sponsorship</option>
-                  <option value="Transportation">Transportation</option>
-                  <option value="Competition Registration">Competition Registration</option>
-                  <option value="Shop Supplies">Shop Supplies</option>
-                  <option value="Service">Service</option>
-                  <option value="Team Bonding">Team Bonding</option>
-                  <option value="Fuel for Baja">Fuel for Baja</option>
-                  <option value="Fuel for Transportation">Fuel for Transportation</option>
-                  <option value="Driver Equipment">Driver Equipment</option>
-                  <option value="Safety Equipment">Safety Equipment</option>
-                  <option value="Other">Other</option>
-                  <option value="Outreach and Sponsorship">Outreach and Sponsorship</option>
-                  <option value="Software">Software</option>
-                  <option value="Research Project">Research Projects</option>
-                  <option value="Apparel">Apparel</option>
-                </select>
-              </div>
-            </td>
+              <td>
+                <div class="form-group category-select m-1">
+                  <select class="form-control" name="category[]" placeholder="Cateogry">
+                    <option value="Material" selected>Material</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Component">Component</option>
+                    <option value="Machining">Machining</option>
+                    <option value="Tooling">Tooling</option>
+                    <option value="Carbon">Carbon</option>
+                    <option value="Sponsorship">Sponsorship</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Competition Registration">Competition Registration</option>
+                    <option value="Shop Supplies">Shop Supplies</option>
+                    <option value="Service">Service</option>
+                    <option value="Team Bonding">Team Bonding</option>
+                    <option value="Fuel for Baja">Fuel for Baja</option>
+                    <option value="Fuel for Transportation">Fuel for Transportation</option>
+                    <option value="Driver Equipment">Driver Equipment</option>
+                    <option value="Safety Equipment">Safety Equipment</option>
+                    <option value="Other">Other</option>
+                    <option value="Outreach and Sponsorship">Outreach and Sponsorship</option>
+                    <option value="Software">Software</option>
+                    <option value="Research Project">Research Projects</option>
+                    <option value="Apparel">Apparel</option>
+                  </select>
+                </div>
+              </td>
 
-            <td>
-              <div class="form-group subteam-select m-1">
-                <select class="form-control" name="subteam[]" placeholder="Subteam">
-                  <option value="Business/Sales" selected>Business/Sales</option>
-                  <option value="Chassis">Chassis</option>
-                  <option value="Controls">Controls</option>
-                  <option value="DAQ">DAQ</option>
-                  <option value="Drivetrain">Drivetrain</option>
-                  <option value="Ergonomics">Ergonomics</option>
-                  <option value="General Team Items - NOT MATERIAL">General Team Items - NOT MATERIAL</option>
-                  <option value="Suspension">Suspension</option>
-                  <option value="2016">2016</option>
-                  <option value="2017">2017</option>
-                  <option value="2018">2018</option>
-                </select>
-              </div>
-            </td>
-            <td>
-              <div class="form-group item-price-input m-1"><input class="form-control" type="number" name="itemPrice[]" placeholder="Item Price"></div>
-            </td>
-            <td>
-              <div class="form-group item-quantity-input m-1"><input class="form-control" type="number" step="1" name="quantity[]" placeholder="Quantity" value="1"></div>
-            </td>
-          </tr>
-        </table>
+              <td>
+                <div class="form-group subteam-select m-1">
+                  <select class="form-control" name="subteam[]" placeholder="Subteam">
+                    <option value="Business/Sales" selected>Business/Sales</option>
+                    <option value="Chassis">Chassis</option>
+                    <option value="Controls">Controls</option>
+                    <option value="DAQ">DAQ</option>
+                    <option value="Drivetrain">Drivetrain</option>
+                    <option value="Ergonomics">Ergonomics</option>
+                    <option value="General Team Items - NOT MATERIAL">General Team Items - NOT MATERIAL</option>
+                    <option value="Suspension">Suspension</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <div class="form-group item-price-input m-1"><input class="form-control" type="number" name="itemPrice[]" placeholder="Item Price"></div>
+              </td>
+              <td>
+                <div class="form-group item-quantity-input m-1"><input class="form-control" type="number" step="1" name="quantity[]" placeholder="Quantity" value="1"></div>
+              </td>
+            </tr>
+          </table>
 
-        <hr class="style-two">
+          <hr class="style-two">
 
-        <div class="form-group"><input class="form-control" type="text" name="currency" placeholder="Currency" value="CAD"></div>
-        <div class="form-group"><input class="form-control" type="text" name="store" placeholder="Retailer"></div>
-        <div class="form-group"><input class="form-control" type="number" step="0.01" name="subtotal" placeholder="Subtotal"></div>
-        <div class="form-group"><input class="form-control" type="number" step="0.01" name="tax" placeholder="Tax"></div>
-        <div class="form-group"><input class="form-control" type="number" step="0.01" name="shipping" placeholder="Shipping"></div>
-        <div class="form-group"><input class="form-control" type="number" step="0.01" name="total" placeholder="Total"></div>
-        <div class="form-group"><textarea class="form-control" form="ExpenseReport" name="notes" placeholder="Add additional comments here ..." rows="5" wrap="soft"></textarea></div>
+          <div class="form-group"><input class="form-control" type="text" name="currency" placeholder="Currency" value="CAD"></div>
+          <div class="form-group"><input class="form-control" type="text" name="store" placeholder="Retailer"></div>
+          <div class="form-group"><input class="form-control" type="number" step="0.01" name="subtotal" placeholder="Subtotal"></div>
+          <div class="form-group"><input class="form-control" type="number" step="0.01" name="tax" placeholder="Tax"></div>
+          <div class="form-group"><input class="form-control" type="number" step="0.01" name="shipping" placeholder="Shipping"></div>
+          <div class="form-group"><input class="form-control" type="number" step="0.01" name="total" placeholder="Total"></div>
+          <div class="form-group"><textarea class="form-control" form="ExpenseReport" name="notes" placeholder="Add additional comments here ..." rows="5" wrap="soft"></textarea></div>
 
-        <div class="form-group">
-          <label class="form-label-bg" for="Reciept"><strong>Reciept: </strong></label>
-          <input class="form-group" type="file" name="image" accept=".jpeg, .jpg, .png, .gif">
-        </div>
-        <div class="from-group"><input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit"></div>
-      </form>
-    <!-- </div> -->
-  </div>
-</div>
+          <div class="form-group">
+            <label class="form-label-bg" for="Reciept"><strong>Reciept: </strong></label>
+            <input class="form-group" type="file" name="image" accept=".jpeg, .jpg, .png, .gif">
+          </div>
+          <div class="from-group"><input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit"></div>
+        </form>
+      <!-- </div> -->
+    </div>
+  </div> <!-- /container -->
+</div> <!-- /expenseReport_new -->
 
 <%- include(views+'partials/footer4'); %>

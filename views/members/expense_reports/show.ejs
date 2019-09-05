@@ -1,96 +1,98 @@
 <% const views = '../../' %>
 <%- include(views+'partials/header4'); %>
 
-<div class="container">
+<div id="expenseReport_show">
+  <div class="container">
 
-  <% if(currentUser && (expenseReport.author.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
-    <div class="container">
-      <div class="row py-3">
-        <div class="col-lg-4 col-md-4 col-sm-12">
-          <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
-            <% if(expenseReport.approved == false){ %>
-              <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
-                <input type="submit" class="btn btn-lg btn-info" value="Approve">
-              </form>
-            <% } else { %>
-              <form class="" action="/expenseReports/<%= expenseReport._id %>/unapprove?_method=PUT" method="post">
-                <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
-              </form>
+    <% if(currentUser && (expenseReport.author.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
+      <div class="container">
+        <div class="row py-3">
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
+              <% if(expenseReport.approved == false){ %>
+                <form class="" action="/expenseReports/<%= expenseReport._id %>/approve?_method=PUT" method="post">
+                  <input type="submit" class="btn btn-lg btn-info" value="Approve">
+                </form>
+              <% } else { %>
+                <form class="" action="/expenseReports/<%= expenseReport._id %>/unapprove?_method=PUT" method="post">
+                  <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
+                </form>
+              <% } %>
             <% } %>
-          <% } %>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
-          <a class="btn btn-lg btn-warning" href="/expenseReports/<%= expenseReport._id %>/edit">Edit</a>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
-          <form class="delete-form" action="/expenseReports/<%= expenseReport._id %>?_method=DELETE" method="post">
-            <input type="submit" class="btn btn-lg btn-danger" value="Delete">
-          </form>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <a class="btn btn-lg btn-warning" href="/expenseReports/<%= expenseReport._id %>/edit">Edit</a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <form class="delete-form" action="/expenseReports/<%= expenseReport._id %>?_method=DELETE" method="post">
+              <input type="submit" class="btn btn-lg btn-danger" value="Delete">
+            </form>
+          </div>
         </div>
       </div>
+    <% } %>
+
+    <div class="text-right" id="currency-declaration">
+      <h6>All values presented in: <span><strong><%= expenseReport.currency %></strong></span></h6>
     </div>
-  <% } %>
 
-  <div class="text-right" id="currency-declaration">
-    <h6>All values presented in: <span><strong><%= expenseReport.currency %></strong></span></h6>
-  </div>
+    <hr class="style-two">
 
-  <hr class="style-two">
-
-  <table class="text-center" style="width:100%">
-    <tr>
-      <th>Item</th>
-      <th>Category</th>
-      <th>Subteam</th>
-      <th>Item Price</th>
-      <th>Quantity</th>
-    </tr>
-    <% expenseReport.expenseItems.forEach(function(expenseItem){ %>
+    <table class="text-center" style="width:100%">
       <tr>
-        <td><%= expenseItem.itemName %></td>
-        <td><%= expenseItem.category %></td>
-        <td><%= expenseItem.subteam %></td>
-        <td><%= expenseItem.itemPrice %></td>
-        <td><%= expenseItem.quantity %></td>
+        <th>Item</th>
+        <th>Category</th>
+        <th>Subteam</th>
+        <th>Item Price</th>
+        <th>Quantity</th>
       </tr>
-    <% }); %>
-  </table>
+      <% expenseReport.expenseItems.forEach(function(expenseItem){ %>
+        <tr>
+          <td><%= expenseItem.itemName %></td>
+          <td><%= expenseItem.category %></td>
+          <td><%= expenseItem.subteam %></td>
+          <td><%= expenseItem.itemPrice %></td>
+          <td><%= expenseItem.quantity %></td>
+        </tr>
+      <% }); %>
+    </table>
 
-  <hr class="style-two">
+    <hr class="style-two">
 
-  <div class="row">
-    <div class="col-6">
-      <h5><strong>Notes: </strong></h5>
-      <p><%= expenseReport.notes %></p>
-    </div>
-    <div class="col-6">
-      <div id="report-summary">
-        <table align="right">
-          <tr>
-            <td class="row-title"><h5>Subtotal: </h5></td>
-            <td class="row-value"><h5><%= expenseReport.subtotal %></h5></td>
-          </tr>
-          <tr>
-            <td class="row-title"><h5>Tax: </h5></td>
-            <td class="row-value"><h5><%= expenseReport.tax %></h5></td>
-          </tr>
-          <tr>
-            <td class="row-title"><h5>Shipping: </h5></td>
-            <td class="row-value"><h5><%= expenseReport.shipping %></h5></td>
-          </tr>
-          <tr>
-            <td class="row-title"><h5>Total: </h5></td>
-            <td class="row-value"><h5><%= expenseReport.total %></h5></td>
-          </tr>
-        </table>
+    <div class="row">
+      <div class="col-6">
+        <h5><strong>Notes: </strong></h5>
+        <p><%= expenseReport.notes %></p>
+      </div>
+      <div class="col-6">
+        <div id="report-summary">
+          <table align="right">
+            <tr>
+              <td class="row-title"><h5>Subtotal: </h5></td>
+              <td class="row-value"><h5><%= expenseReport.subtotal %></h5></td>
+            </tr>
+            <tr>
+              <td class="row-title"><h5>Tax: </h5></td>
+              <td class="row-value"><h5><%= expenseReport.tax %></h5></td>
+            </tr>
+            <tr>
+              <td class="row-title"><h5>Shipping: </h5></td>
+              <td class="row-value"><h5><%= expenseReport.shipping %></h5></td>
+            </tr>
+            <tr>
+              <td class="row-title"><h5>Total: </h5></td>
+              <td class="row-value"><h5><%= expenseReport.total %></h5></td>
+            </tr>
+          </table>
 
+        </div>
       </div>
     </div>
-  </div>
 
-  
-  <img class="img-fluid rounded mx-auto d-block" src="<%= expenseReport.image %>" alt="receipt">
 
-</div>
+    <img class="img-fluid rounded mx-auto d-block" src="<%= expenseReport.image %>" alt="receipt">
+
+  </div> <!-- /container -->
+</div> <!-- /expenseReport_show -->
 
 <%- include(views+'partials/footer4'); %>

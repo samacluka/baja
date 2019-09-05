@@ -1,0 +1,28 @@
+/* =========== HOME =========== */
+#home .carousel-styles {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+}
+
+/* =========== RECRUITMENT =========== */
+
+/* =========== SPONSORS =========== */
+
+/* =========== GALLERY =========== */
+#gallery .gallery-modal-img {
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  object-fit: contain;
+}
+
+/* Turns of modal on mobile */
+@media screen and (max-width: 768px){
+  #exampleModalCenter {
+    visibility: hidden;
+    display: none;
+  }
+  .modal-backdrop{
+    display:none;
+  }
+}
