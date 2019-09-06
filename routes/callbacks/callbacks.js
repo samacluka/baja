@@ -55,17 +55,27 @@ var callbacks = {
     },
   },
   users: {
-    get: {},
-    post: {},
+    get: {
+      // index
+      // new
+      // show
+      // edit
+    },
+    post: {
+      // new
+    },
     put: {
+      // save
       // approve
       // unapprove
     },
-    delete: {}
+    delete: {
+      // remove
+    }
   }
 };
 
-// INDEX
+// ======================================== INDEX ========================================
 // GET
 callbacks.index.get.index = function(req,res){
   cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
@@ -131,7 +141,7 @@ callbacks.index.post.login = function(req,res){
 // PUT
 // DELETE
 
-// EXPENSE REPORTS
+// ======================================== EXPENSE REPORTS ========================================
 // GET
 callbacks.expenseReports.get.index = function(req,res){
   ExpenseReport.find().populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
@@ -316,10 +326,22 @@ callbacks.expenseReports.delete.remove = function(req,res){
   });
 };
 
-// USERS
+// ======================================== USERS ========================================
 // GET
+callbacks.users.get.index = function(req,res){};
+
+callbacks.users.get.new = function(req,res){};
+
+callbacks.users.get.show = function(req,res){};
+
+callbacks.users.get.edit = function(req,res){};
+
 // POST
+callbacks.users.post.new = function(req,res){};
+
 // PUT
+callbacks.users.put.save = function(req,res){};
+
 callbacks.users.put.approve = function(req,res){
   User.findById(req.params.id, function(err, foundUser){
     if(err || !foundUser){
@@ -343,5 +365,6 @@ callbacks.users.put.unapprove = function(req,res){
 };
 
 // DELETE
+callbacks.users.delete.remove = function(req,res){};
 
 module.exports = callbacks;

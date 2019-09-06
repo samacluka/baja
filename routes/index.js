@@ -3,7 +3,7 @@ const express = require("express"),
 
 const callbacks       = require("./callbacks/callbacks.js");
 
-// Get Routes
+// GET
 router.get("/", callbacks.index.get.index);
 
 router.get("/register", callbacks.index.get.register);
@@ -18,7 +18,7 @@ router.get("/recruitment", callbacks.index.get.recruitment);
 
 router.get("/gallery", callbacks.index.get.gallery);
 
-//POST ROUTES
+//POST
 router.post("/register", callbacks.index.post.register);
 
 router.post("/login", callbacks.index.post.login);
