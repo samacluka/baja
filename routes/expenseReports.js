@@ -8,7 +8,7 @@ const callbacks       = require("./callbacks/callbacks.js");
 
 // GET
 router.get("/", auth.isLoggedIn, callbacks.expenseReports.get.index);
-router.get("/new", auth.isLoggedIn, callbacks.expenseReports.get.new);
+router.get("/new", auth.isLead, callbacks.expenseReports.get.new);
 router.get("/:id", auth.isLoggedIn, callbacks.expenseReports.get.show); //  "/expenseReports/new" must be declared first because it follows the same pattern
 router.get("/:id/edit", auth.isExpenseReportAuthor, callbacks.expenseReports.get.edit);
 

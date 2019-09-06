@@ -158,12 +158,7 @@ callbacks.expenseReports.get.index = function(req,res){
 };
 
 callbacks.expenseReports.get.new = function(req,res){
-  if(req.user.clearanceIsGET(userClearance.lead)){
-      res.render(views.members.expenseReports.new);
-  } else {
-    req.flash("error","You don't have the clearance to do that");
-    res.redirect("expenseReports");
-  }
+  res.render(views.members.expenseReports.new);
 };
 
 callbacks.expenseReports.get.show = function(req,res){

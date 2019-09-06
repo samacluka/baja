@@ -6,15 +6,6 @@ var userClearance = require("../interface/clearance.js");
 
 var middleware = {};
 
-
-function isApproved(req, res, next){
-  if(req.isAuthenticated()){
-    User.findById(req.user._id, function(err,foundUser){
-      return foundUser.approved;
-    });
-  }
-}
-
 middleware.isLoggedIn = function(req,res,next){
   if(req.isAuthenticated()){
     return next();
@@ -31,9 +22,9 @@ middleware.isExpenseReportAuthor = function(req,res,next){
           console.log(err);
           req.flash('error', 'Sorry, that Expense Report does not exist!');
           res.redirect('/expenseReports');
-      } else if(foundExpenseReport.author.equals(req.user._id) || req.user.isAdmin || req.user.isClearanceGET(userClearance.captain)){
+      } else if(foundExpenseReport.author.equals(req.user._id) || req.user.isAdmin){
           req.expenseReport = foundExpenseReport;
-          next();
+          return next();
       } else {
           req.flash('error', 'You don\'t have permission to do that!');
           res.redirect('/expenseReports/' + req.params.id);
@@ -42,6 +33,55 @@ middleware.isExpenseReportAuthor = function(req,res,next){
   } else {
     req.flash("error","You need to be logged in to do that");
     res.redirect("back");
+  }
+}
+
+middleware.isCaptain = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.clearanceIsGET(userClearance.captain)){
+      return next();
+    } else {
+      req.flash("error","You do not have the clearance to do that");
+      res.redirect("back");
+    }
+  } else {
+    req.flash("error","You need to be logged in to do that");
+    res.redirect("/login");
+  }
+}
+
+middleware.isCaptainOrisExpenseReportAuthor = function(req, res, next){
+  if(req.isAuthenticated()){
+    ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
+      if(err || !foundExpenseReport){
+          console.log(err);
+          req.flash('error', 'Sorry, that Expense Report does not exist!');
+          res.redirect('/expenseReports');
+      } else if(foundExpenseReport.author.equals(req.user._id) || req.user.isAdmin || req.user.isClearanceGET(userClearance.captain)){
+          req.expenseReport = foundExpenseReport;
+          return next();
+      } else {
+          req.flash("error","You do not have the clearance to do that");
+          res.redirect('/expenseReports/' + req.params.id);
+      }
+    });
+  } else {
+    req.flash("error","You need to be logged in to do that");
+    res.redirect("/login");
+  }
+}
+
+middleware.isLead = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.clearanceIsGET(userClearance.lead)){
+        return next();
+    } else {
+      req.flash("error","You don't have the clearance to do that");
+      res.redirect("expenseReports");
+    }
+  } else {
+    req.flash("error","You need to be logged in to do that");
+    res.redirect("/login");
   }
 }
 
