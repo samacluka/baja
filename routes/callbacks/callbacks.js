@@ -128,15 +128,12 @@ callbacks.index.post.register = function(req,res){
   });
 };
 
-callbacks.index.post.login = function(req,res){
-  passport.authenticate("local",
-  {
-    successRedirect: "/expenseReports",
-    successFlash:    "Welcome!",
-    failureRedirect: "/login",
-    failureFlash:    "Invalid username or password"
-  });
-};
+callbacks.index.post.login = passport.authenticate("local", {
+  successRedirect: "/expenseReports",
+  successFlash:    "Welcome!",
+  failureRedirect: "/login",
+  failureFlash:    "Invalid username or password"
+});
 
 // PUT
 // DELETE
