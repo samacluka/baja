@@ -4,9 +4,9 @@ var User        = require("../models/user");
 
 var userClearance = require("../interface/clearance.js");
 
-var middleware = {};
+var is = {};
 
-middleware.isLoggedIn = function(req,res,next){
+is.LoggedIn = function(req,res,next){
   if(req.isAuthenticated()){
     return next();
   } else {
@@ -15,7 +15,7 @@ middleware.isLoggedIn = function(req,res,next){
   }
 }
 
-middleware.isExpenseReportAuthor = function(req,res,next){
+is.ExpenseReportAuthor = function(req,res,next){
   if(req.isAuthenticated()){
     ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
       if(err || !foundExpenseReport){
@@ -36,7 +36,7 @@ middleware.isExpenseReportAuthor = function(req,res,next){
   }
 }
 
-middleware.isCaptain = function(req, res, next){
+is.Captain = function(req,res,next){
   if(req.isAuthenticated()){
     if(req.user.clearanceIsGET(userClearance.captain)){
       return next();
@@ -50,7 +50,7 @@ middleware.isCaptain = function(req, res, next){
   }
 }
 
-middleware.isCaptainOrisExpenseReportAuthor = function(req, res, next){
+is.CaptainOrisExpenseReportAuthor = function(req, res, next){
   if(req.isAuthenticated()){
     ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
       if(err || !foundExpenseReport){
@@ -71,7 +71,7 @@ middleware.isCaptainOrisExpenseReportAuthor = function(req, res, next){
   }
 }
 
-middleware.isLead = function(req, res, next){
+is.Lead = function(req, res, next){
   if(req.isAuthenticated()){
     if(req.user.clearanceIsGET(userClearance.lead)){
         return next();
@@ -85,4 +85,4 @@ middleware.isLead = function(req, res, next){
   }
 }
 
-module.exports = middleware;
+module.exports = is;
