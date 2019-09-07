@@ -9,9 +9,12 @@ const views = {
       recruitment: viewsDir + "external/recruitment",
       gallery: viewsDir + "external/gallery"
     },
+    auth:{
+      index: viewsDir + "auth/index",
+      login: viewsDir + "auth/login",
+      register: viewsDir + "auth/register",
+    },
     members: {
-      login: viewsDir + "members/login",
-      register: viewsDir + "members/register",
       expenseReports: {
         index: viewsDir + "members/expense_reports/index",
         edit: viewsDir + "members/expense_reports/edit",
@@ -25,12 +28,8 @@ const views = {
         show: viewsDir + "members/users/show"
       },
       partials: {
-        category: viewsDir + "partials/category",
-        footer: viewsDir + "partials/footer",
         footer4: viewsDir + "partials/footer4",
-        header: viewsDir + "partials/header",
         header4: viewsDir + "partials/header4",
-        subteam: viewsDir + "partials/subteam"
       }
     }
 };

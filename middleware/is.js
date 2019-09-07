@@ -11,7 +11,7 @@ is.LoggedIn = function(req,res,next){
     return next();
   } else {
     req.flash("error","You need to be logged in to do that");
-    res.redirect("/login");
+    res.redirect("/auth");
   }
 }
 
@@ -46,7 +46,7 @@ is.Captain = function(req,res,next){
     }
   } else {
     req.flash("error","You need to be logged in to do that");
-    res.redirect("/login");
+    res.redirect("/auth");
   }
 }
 
@@ -62,12 +62,12 @@ is.CaptainOrisExpenseReportAuthor = function(req, res, next){
           return next();
       } else {
           req.flash("error","You do not have the clearance to do that");
-          res.redirect('/expenseReports/' + req.params.id);
+          res.redirect('back');
       }
     });
   } else {
     req.flash("error","You need to be logged in to do that");
-    res.redirect("/login");
+    res.redirect("/auth");
   }
 }
 
@@ -81,7 +81,7 @@ is.Lead = function(req, res, next){
     }
   } else {
     req.flash("error","You need to be logged in to do that");
-    res.redirect("/login");
+    res.redirect("/auth");
   }
 }
 

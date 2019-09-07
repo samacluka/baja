@@ -30,6 +30,7 @@
     <link href="/stylesheets/footer.css" rel="stylesheet" media="screen">
     <link href="/stylesheets/externalviews.css" rel="stylesheet" media="screen">
     <link href="/stylesheets/expenseReports.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/google.css" rel="stylesheet" media="screen">
 
     <title>McMaster Baja Racing</title>
   </head>
@@ -67,12 +68,11 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <% if(!currentUser){ %>
-                  <a class="dropdown-item" href="/login">Login</a>
-                  <a class="dropdown-item" href="/register">Sign Up</a>
+                  <a class="dropdown-item" href="/auth">Login</a>
                 <% } else { %>
-                  <a class="dropdown-item" href="/logout">Logout</a>
-                  <a class="dropdown-item" href="/expenseReports">Expense Reports</a>
+                  <a class="dropdown-item" href="/auth/logout">Logout</a>
                   <a class="dropdown-item" href="/users">Users</a>
+                  <a class="dropdown-item" href="/expenseReports">Expense Reports</a>
                 <% } %>
               </div>
             </li>

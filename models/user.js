@@ -4,12 +4,12 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  position: String,
-  clearance: Number,
+  clearance: {type: Number, default: 0},
   image: String,
   approved: {type: Boolean, default: false},
   username: String,
-  password: String
+  password: String,
+  googleId: String,
 });
 
 userSchema.methods.clearanceIsGET = function clearanceIsGET(threshold){

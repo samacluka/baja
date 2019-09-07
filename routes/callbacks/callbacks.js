@@ -17,22 +17,38 @@ const views           = require(rootDir+"interface/views.js"),
       userClearance   = require(rootDir+"interface/clearance.js");
 
 var callbacks = {
-  index: {
-    get: {
+  auth: {
+    // index
+    // logout
+    google: {
       // index
-      // register
-      // login
-      // logout
-      // sponsors
-      // recruitment
-      // gallery
+      // callback
+      // success
     },
-    post: {
-      // register
+    local: {
+      // signup
+      // create
       // login
-    },
-    put: {},
-    delete: {}
+      // callback
+      // success
+    }
+  },
+  index: {
+      get: {
+        // index
+        // register
+        // login
+        // logout
+        // sponsors
+        // recruitment
+        // gallery
+      },
+      post: {
+        // register
+        // login
+      },
+      put: {},
+      delete: {}
   },
   expenseReports: {
     get: {
@@ -74,26 +90,82 @@ var callbacks = {
   }
 };
 
+// ======================================== AUTH ========================================
+// INDEX
+callbacks.auth.index = function(req,res){
+  res.render(views.auth.index);
+};
+
+// LOGOUT
+callbacks.auth.logout = function(req,res){
+  req.logout();
+  req.flash("success","Successfully logged out!");
+  res.redirect("/");
+};
+
+//GOOGLE
+callbacks.auth.google.index = passport.authenticate('google', {
+  scope: ['profile']
+});
+
+callbacks.auth.google.callback = passport.authenticate('google', {
+  failureFlash:    "An unknown error occured",
+  failureRedirect: '/auth'
+});
+
+callbacks.auth.google.success = function(req,res){
+  if(req.user.approved){
+    req.flash("success","Welcome to McMaster Baja Racing " + req.user.firstName);
+    res.redirect("/expenseReports");
+  } else {
+    req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
+    res.redirect("/");
+  }
+};
+
+//LOCAL
+// callbacks.auth.local.signup = function(req,res){
+//   res.render(views.auth.register);
+// };
+//
+// callbacks.auth.local.create = function(req,res){
+//   User.register(new User({firstName: req.body.firstName, lastName: req.body.lastName, username: req.body.username}), req.body.password, function(err, user){
+//     if(err){
+//       req.flash("error",err.message);
+//       res.redirect("/auth");
+//       return;
+//     } else {
+//       req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
+//       res.redirect("/");
+//     }
+//   });
+// };
+//
+// callbacks.auth.local.login = function(req,res){
+//   res.render(views.auth.login);
+// };
+//
+// callbacks.auth.local.callback = passport.authenticate("local", {
+//   failureRedirect: "/auth",
+//   failureFlash:    "Invalid username or password"
+// });
+//
+// callbacks.auth.local.success = function(req,res){
+//   if(req.user.approved){
+//     req.flash("success","Welcome to McMaster Baja Racing " + req.user.firstName);
+//     res.redirect("/expenseReports");
+//   } else {
+//     req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
+//     res.redirect("/");
+//   }
+// };
+
 // ======================================== INDEX ========================================
 // GET
 callbacks.index.get.index = function(req,res){
   cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
     res.render(views.home, {images: foundImages});
   });
-};
-
-callbacks.index.get.register = function(req,res){
-  res.render(views.members.register);
-};
-
-callbacks.index.get.login = function(req,res){
-  res.render(views.members.login);
-};
-
-callbacks.index.get.logout = function(req,res){
-  req.logout();
-  req.flash("success","Successfully logged out!");
-  res.redirect("/");
 };
 
 callbacks.index.get.sponsors = function(req,res){
@@ -113,27 +185,6 @@ callbacks.index.get.gallery = function(req,res){
 };
 
 // POST
-callbacks.index.post.register = function(req,res){
-  User.register(new User({firstName: req.body.firstName, lastName: req.body.lastName, username: req.body.username}), req.body.password, function(err, user){
-    if(err){
-      req.flash("error",err.message);
-      res.redirect("/register");
-      return;
-    }
-    passport.authenticate("local")(req,res, function(){
-      req.flash("success","Welcome to McMaster Baja Racing " + user.firstName);
-      res.redirect("/");
-    });
-  });
-};
-
-callbacks.index.post.login = passport.authenticate("local", {
-  successRedirect: "/expenseReports",
-  successFlash:    "Welcome!",
-  failureRedirect: "/login",
-  failureFlash:    "Invalid username or password"
-});
-
 // PUT
 // DELETE
 

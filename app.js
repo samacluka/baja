@@ -3,8 +3,6 @@ const express         = require("express"),
       app             = express(),
       bodyParser      = require("body-parser"),
       mongoose        = require("mongoose"),
-      passport        = require("passport"),
-      localStrategy   = require("passport-local"),
       methodOverride  = require("method-override"),
       flash           = require("connect-flash"),
       fs              = require("file-system"),
@@ -36,6 +34,8 @@ app.use(flash());
 app.use('*', cloudinaryConfig);
 
 //Passport Config
+// var passport = require("./auth/local.js"); 
+var passport = require("./auth/google.js");
 app.use(require("express-session")({
   secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
@@ -43,9 +43,6 @@ app.use(require("express-session")({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // Send to all views
 app.use(function(req,res,next){
@@ -59,12 +56,14 @@ app.use(function(req,res,next){
 /* Create route variables*/
 const expenseReportRoutes = require("./routes/expenseReports"),
       indexRoutes         = require("./routes/index"),
-      userRoutes          = require("./routes/users");
+      userRoutes          = require("./routes/users"),
+      authRoutes          = require("./routes/auth");
 
 //require routes
 app.use("/expenseReports",expenseReportRoutes);
 app.use("/users",userRoutes);
 app.use("/",indexRoutes);
+app.use("/auth", authRoutes)
 
 /*=================================INIT - END=================================*/
 /*=================================LISTEN - BEGIN=============================*/

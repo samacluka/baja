@@ -54,32 +54,41 @@ support.organizeItemData = function(data, newExpenseReport){
 
 support.create_href_reports = function(allExpenseReports){ // Creates Row for each report
   var rows = [];
+  var tmpRep = [];
+  var tmpItem = [];
   allExpenseReports.forEach((expenseReport) => {
-    var tmpRep = [expenseReport._id,
-                expenseReport.approved,
-                expenseReport.viewed,
-                expenseReport.author._id,
-                expenseReport.author.firstName,
-                expenseReport.author.lastName,
-                expenseReport.author.username,
-                expenseReport.author.clearance,
-                expenseReport.store,
-                expenseReport.currency,
-                expenseReport.subtotal,
-                expenseReport.tax,
-                expenseReport.shipping,
-                expenseReport.total,
-                expenseReport.notes,
-                expenseReport.created,
-                expenseReport.image];
+    try {
+        tmpRep = [expenseReport._id,
+                  expenseReport.approved,
+                  expenseReport.viewed,
+                  expenseReport.author._id,
+                  expenseReport.author.firstName,
+                  expenseReport.author.lastName,
+                  expenseReport.author.clearance,
+                  expenseReport.store,
+                  expenseReport.currency,
+                  expenseReport.subtotal,
+                  expenseReport.tax,
+                  expenseReport.shipping,
+                  expenseReport.total,
+                  expenseReport.notes,
+                  expenseReport.created,
+                  expenseReport.image];
+    } catch (e) {
+      console.log(e);
+    }
 
     expenseReport.expenseItems.forEach((expenseItem) => {
+      try {
         tmpItem = [expenseItem._id,
                   expenseItem.itemName,
                   expenseItem.quantity,
                   expenseItem.category,
                   expenseItem.subteam,
                   expenseItem.itemPrice];
+      } catch (e) {
+        console.log(e);
+      }
         tmpRep.push.apply(tmpRep, tmpItem);
     });
     rows.push(tmpRep.join(','));
@@ -102,14 +111,17 @@ support.create_href_reports = function(allExpenseReports){ // Creates Row for ea
 
 support.create_href_items = function(allExpenseReports){ // Creates report for each item
   var rows = [];
+  var tmpRep = [];
+  var tmpItem = [];
+  var tmpFull = [];
   allExpenseReports.forEach((expenseReport) => {
-    var tmpRep = [expenseReport._id,
+    try {
+      tmpRep = [expenseReport._id,
                 expenseReport.approved,
                 expenseReport.viewed,
                 expenseReport.author._id,
                 expenseReport.author.firstName,
                 expenseReport.author.lastName,
-                expenseReport.author.username,
                 expenseReport.author.clearance,
                 expenseReport.store,
                 expenseReport.currency,
@@ -120,15 +132,22 @@ support.create_href_items = function(allExpenseReports){ // Creates report for e
                 expenseReport.notes,
                 expenseReport.created,
                 expenseReport.image];
+    } catch (e) {
+      console.log(e);
+    }
 
     expenseReport.expenseItems.forEach((expenseItem) => {
+      try {
         tmpItem = [expenseItem._id,
                   expenseItem.itemName,
                   expenseItem.quantity,
                   expenseItem.category,
                   expenseItem.subteam,
                   expenseItem.itemPrice];
-        var tmpFull = tmpRep.concat(tmpItem);
+      } catch (e) {
+        console.log(e);
+      }
+        tmpFull = tmpRep.concat(tmpItem);
         rows.push(tmpFull.join(','));
     });
   });
