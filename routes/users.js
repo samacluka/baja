@@ -17,8 +17,8 @@ router.get("/", is.LoggedIn, callbacks.users.post.new);
 
 // PUT
 router.get("/:id", is.LoggedIn, callbacks.users.put.save);
-router.put("/:id/approve", is.LoggedIn, callbacks.users.put.approve);
-router.put("/:id/unapprove", is.LoggedIn, callbacks.users.put.unapprove);
+router.put("/:id/approve", is.Captain, callbacks.users.put.approve);
+router.put("/:id/unapprove", is.Captain, callbacks.users.put.unapprove);
 
 // DELETE
 router.delete("/:id/edit", is.LoggedIn, callbacks.users.delete.remove);

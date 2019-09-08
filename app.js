@@ -34,12 +34,11 @@ app.use(flash());
 app.use('*', cloudinaryConfig);
 
 //Passport Config
-// var passport = require("./auth/local.js"); 
+// var passport = require("./auth/local.js");
 var passport = require("./auth/google.js");
-app.use(require("express-session")({
-  secret: process.env.EXPRESS_SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
+app.use(require("cookie-session")({
+  maxAge: 12 * 60 * 60 * 1000, // 12 for cookie expiration
+  keys: [process.env.SESSION_SECRET]
 }));
 app.use(passport.initialize());
 app.use(passport.session());

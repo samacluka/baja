@@ -7,20 +7,20 @@ const multer          = require("../middleware/multer.js"),
 const callbacks       = require("./callbacks/callbacks.js");
 
 // GET
-router.get("/", is.LoggedIn, callbacks.expenseReports.get.index);
-router.get("/new", is.Lead, callbacks.expenseReports.get.new);
-router.get("/:id", is.LoggedIn, callbacks.expenseReports.get.show); //  "/expenseReports/new" must be declared first because it follows the same pattern
-router.get("/:id/edit", is.ExpenseReportAuthor, callbacks.expenseReports.get.edit);
+router.get("/", is.approved, is.LoggedIn, callbacks.expenseReports.get.index);
+router.get("/new", is.approved, is.Lead, callbacks.expenseReports.get.new);
+router.get("/:id", is.approved, is.LoggedIn, callbacks.expenseReports.get.show); //  "/expenseReports/new" must be declared first because it follows the same pattern
+router.get("/:id/edit", is.approved, is.ExpenseReportAuthor, callbacks.expenseReports.get.edit);
 
 // POST
-router.post("/", is.LoggedIn, multer.upload, callbacks.expenseReports.post.new);
+router.post("/", is.approved, is.LoggedIn, multer.upload, callbacks.expenseReports.post.new);
 
 // PUT
-router.put("/:id", is.LoggedIn, callbacks.expenseReports.put.save);
-router.put("/:id/approve", is.LoggedIn, callbacks.expenseReports.put.approve);
-router.put("/:id/unapprove", is.LoggedIn, callbacks.expenseReports.put.unapprove);
+router.put("/:id", is.approved, is.CaptainOrExpenseReportAuthor, callbacks.expenseReports.put.save);
+router.put("/:id/approve", is.Captain, callbacks.expenseReports.put.approve);
+router.put("/:id/unapprove", is.Captain, callbacks.expenseReports.put.unapprove);
 
 // DELETE
-router.delete("/:id", is.ExpenseReportAuthor,  callbacks.expenseReports.delete.remove);
+router.delete("/:id", is.approved, is.CaptainOrExpenseReportAuthor,  callbacks.expenseReports.delete.remove);
 
 module.exports = router;
