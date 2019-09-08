@@ -231,6 +231,10 @@ callbacks.expenseReports.get.edit = function(req,res){
 
 // POST
 callbacks.expenseReports.post.new = function(req,res){
+  if(req.file == undefined){
+    req.flash("error","No image file was uploaded");
+    return res.redirect("back");
+  }
   ExpenseReport.create({author: req.user,
                       store: req.body.store,
                       currency: req.body.currency,
@@ -273,7 +277,7 @@ callbacks.expenseReports.post.new = function(req,res){
                                 });
                               } else {
                                 newExpenseReport.save();
-                                req.flash("success","Report successfully created - include a picture next time "); // tmp msg
+                                req.flash("error","There was an error with the image upload"); // tmp msg
                                 res.redirect("expenseReports");
                               }
                             }
