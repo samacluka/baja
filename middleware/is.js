@@ -7,6 +7,8 @@ var userClearance = require("../interface/clearance.js");
 var is = {};
 
 is.LoggedIn = function(req,res,next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+
   if(req.isAuthenticated()){
     return next();
   } else {
@@ -16,6 +18,8 @@ is.LoggedIn = function(req,res,next){
 }
 
 is.ExpenseReportAuthor = function(req,res,next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+
   if(req.isAuthenticated()){
     ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
       if(err || !foundExpenseReport){
@@ -37,6 +41,8 @@ is.ExpenseReportAuthor = function(req,res,next){
 }
 
 is.Captain = function(req,res,next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+
   if(req.isAuthenticated()){
     if(req.user.clearanceIsGET(userClearance.captain)){
       return next();
@@ -51,6 +57,8 @@ is.Captain = function(req,res,next){
 }
 
 is.CaptainOrisExpenseReportAuthor = function(req, res, next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+
   if(req.isAuthenticated()){
     ExpenseReport.findById(req.params.id, function(err, foundExpenseReport){
       if(err || !foundExpenseReport){
@@ -72,6 +80,8 @@ is.CaptainOrisExpenseReportAuthor = function(req, res, next){
 }
 
 is.Lead = function(req, res, next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+  
   if(req.isAuthenticated()){
     if(req.user.clearanceIsGET(userClearance.lead)){
         return next();
