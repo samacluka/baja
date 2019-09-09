@@ -16,6 +16,10 @@
   object-fit: contain;
 }
 
+#gallery .modal-link:hover{
+  cursor: pointer;
+}
+
 /* Turns of modal on mobile */
 @media screen and (max-width: 768px){
   #exampleModalCenter {
