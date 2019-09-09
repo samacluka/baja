@@ -17,8 +17,8 @@ router.post("/", is.approved, is.LoggedIn, multer.upload, callbacks.expenseRepor
 
 // PUT
 router.put("/:id", is.approved, is.CaptainOrExpenseReportAuthor, callbacks.expenseReports.put.save);
-router.put("/:id/approve", is.Captain, callbacks.expenseReports.put.approve);
-router.put("/:id/unapprove", is.Captain, callbacks.expenseReports.put.unapprove);
+router.put("/:id/approve", is.approved, is.Captain, callbacks.expenseReports.put.approve);
+router.put("/:id/unapprove", is.approved, is.Captain, callbacks.expenseReports.put.unapprove);
 
 // DELETE
 router.delete("/:id", is.approved, is.CaptainOrExpenseReportAuthor,  callbacks.expenseReports.delete.remove);

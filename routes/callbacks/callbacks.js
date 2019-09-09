@@ -213,12 +213,14 @@ callbacks.expenseReports.get.show = function(req,res){
     if(err){
       console.log(err);
     } else {
-      if(req.user.clearanceIsGET(userClearance.captain)){
-        foundExpenseReport.viewed = true;
-        res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
-      } else {
-        res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
-      }
+      foundExpenseReport.viewed = true;
+      foundExpenseReport.save((err, foundExpenseReport) => {
+        if(err || !foundExpenseReport){
+          console.log(err);
+        } else {
+          res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
+        }
+      });
     }
   });
 };
@@ -308,6 +310,7 @@ callbacks.expenseReports.put.approve = function(req,res){
         if(err){
           console.log(err);
         } else {
+          console.log("THE FOLLOWING REPORT WAS APPROVED");
           console.log(data);
         }
       });
@@ -326,6 +329,7 @@ callbacks.expenseReports.put.unapprove = function(req,res){
         if(err){
           console.log(err);
         } else {
+          console.log("THE FOLLOWING REPORT WAS UNAPPROVED");
           console.log(data);
         }
       });
