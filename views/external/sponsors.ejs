@@ -11,21 +11,25 @@
     <!-- TITLE -->
     <div class="row">
       <div class="col-lg-2 col-md-4">
-        <div class="shadow-sm p-3 mb-5 bg-white rounded">
-          <h2><span class="badge badge-pill badge-light">TITLE</span></h2>
-        </div>
+        <h2><span class="badge badge-pill badge-light">TITLE</span></h2>
       </div>
       <div class="col-lg-10 col-md-8">
         <div class="row">
+
+          <div class="col-lg-4 col-md-2 col-sm-2"></div>
+
           <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("title")) { %>
-              <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-                <a href="http://www.<%= image.filename %>" target="_blank">
+              <div class="col-lg-4 col-md-8 col-sm-8">
+                <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
                   <img src="<%= image.url %>" alt="logo">
                 </a>
              </div>
             <% } %>
           <% }); %>
+
+          <div class="col-lg-4 col-md-2 col-sm-2"></div>
+
         </div>
       </div>
     </div>
@@ -35,16 +39,14 @@
     <!-- PLATINUMS -->
     <div class="row">
       <div class="col-lg-2 col-md-4">
-        <div class="shadow-sm p-3 mb-5 bg-white rounded">
-          <h2><span class="badge badge-pill badge-light">PLATINUM</span></h2>
-        </div>
+        <h2><span class="badge badge-pill badge-light">PLATINUM</span></h2>
       </div>
       <div class="col-lg-10 col-md-8">
         <div class="row">
           <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("platinum")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-                <a href="http://www.<%= image.filename %>" target="_blank">
+                <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
                   <img src="<%= image.url %>" alt="logo">
                 </a>
              </div>
@@ -66,7 +68,7 @@
           <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("gold")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-                <a href="http://www.<%= image.filename %>" target="_blank">
+                <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
                   <img src="<%= image.url %>" alt="logo">
                 </a>
              </div>
@@ -88,7 +90,7 @@
           <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("silver")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-                <a href="http://www.<%= image.filename %>" target="_blank">
+                <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
                   <img src="<%= image.url %>" alt="logo">
                 </a>
              </div>
@@ -110,7 +112,7 @@
           <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("bronze")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
-                <a href="http://www.<%= image.filename %>" target="_blank">
+                <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
                   <img src="<%= image.url %>" alt="logo">
                </a>
              </div>

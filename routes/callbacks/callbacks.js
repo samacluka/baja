@@ -169,7 +169,7 @@ callbacks.index.get.index = function(req,res){
 };
 
 callbacks.index.get.sponsors = function(req,res){
-  cloudinary.search.expression('folder: sponsors').with_field('tags').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+  cloudinary.search.expression('folder: sponsors').with_field('tags').sort_by('filename','asc').execute().then((foundImages) => {
       res.render(views.external.sponsors, {images: foundImages});
   });
 };
