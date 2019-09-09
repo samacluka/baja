@@ -1,0 +1,29 @@
+#mcmaster-header {
+  height: 100px;
+}
+
+#mcmaster-header img {
+  width: 180px;
+  height: 80px;
+  margin: 0 20px 0 20px;
+}
+
+#mcmaster-header .mcmaster-logo a{
+  float:right;
+  z-index:1000;
+  position:relative;
+  padding-top: 8px;
+}
+
+
+#mcmaster-header .baja-logo a{
+  float:left;
+  z-index:1000;
+  position:relative;
+  padding-top: 8px;
+}
+
+#mcmaster-header .view-name h1,h2,h3{
+  z-index:1000;
+  padding-top: 0.75em;
+}

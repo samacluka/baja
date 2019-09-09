@@ -27,6 +27,7 @@
 
     <!-- Site Styles -->
     <link href="/stylesheets/main.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/header.css" rel="stylesheet" media="screen">
     <link href="/stylesheets/footer.css" rel="stylesheet" media="screen">
     <link href="/stylesheets/externalviews.css" rel="stylesheet" media="screen">
     <link href="/stylesheets/expenseReports.css" rel="stylesheet" media="screen">
@@ -34,6 +35,38 @@
     <title>McMaster Baja Racing</title>
   </head>
   <body>
+
+    <header id="mcmaster-header">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-4">
+            <div class="baja-logo d-none d-md-block">
+              <a href="/" id="baja-brand">
+        				<img src="/images/McMaster_Baja_Logo.svg">
+        				<span class="sr-only">Baja logo</span>
+        			</a>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="view-name">
+              <h2 class="text-center d-block"><%= header_title %></h2>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="mcmaster-logo d-none d-md-block">
+        			<a href="https://www.mcmaster.ca" id="mcmaster-brand">
+        				<img src="https://brand.mcmaster.ca/app/themes/macsites-theme/img/logo.svg">
+        				<span class="sr-only">McMaster logo</span>
+        			</a>
+      	    </div>
+          </div>
+
+        </div>
+      </div>
+    </header>
 
 
     <nav class="navbar navbar-expand-lg navbar-dark navbar-site sticky-top0 nav-fill0 navbar-lg0">
