@@ -1,11 +1,11 @@
 #mcmaster-header {
-  height: 100px;
+  height: 80px;
 }
 
 #mcmaster-header img {
-  width: 180px;
-  height: 80px;
-  margin: 0 20px 0 20px;
+  width: 140px;
+  height: 60px;
+  margin: 0;
 }
 
 #mcmaster-header .mcmaster-logo a{
@@ -23,7 +23,13 @@
   padding-top: 8px;
 }
 
-#mcmaster-header .view-name h1,h2,h3{
+#mcmaster-header h1,h2,h3{
   z-index:1000;
   padding-top: 0.75em;
+  font-weight: bold;
+  color: #1e252b;
+}
+
+#mcmaster-header .col-4 {
+  height: 80px;
 }
