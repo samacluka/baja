@@ -6,7 +6,7 @@ const ExpenseReport   = require(rootDir+"models/expenseReport.js"),
       ExpenseItem     = require(rootDir+"models/expenseItem.js"),
       User            = require(rootDir+"models/user.js");
 
-const support         = require(rootDir+"middleware/support.js");
+const support         = require(rootDir+"helpers/support.js");
 
 const cloudinary      = require(rootDir+"API/cloudinary.js"),    //{ cloudinaryConfig, uploader }
       multer          = require(rootDir+"middleware/multer.js"); //{ upload, dataUri }

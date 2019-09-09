@@ -1,6 +1,6 @@
 const support = {};
 
-var headers = require("./headers.js");
+var headers = require("./csv_headers.js");
 
 // Checks filetypes of uploaded images
 support.checkFileType = function(req, file, cb){

@@ -49,7 +49,7 @@ app.use(function(req,res,next){
   res.locals.error          = req.flash("error");
   res.locals.success        = req.flash("success");
   res.locals.userClearance  = userClearance;
-  res.locals.header_title   = require("./interface/views_header.js")(req.url); // Get header title
+  res.locals.header_title   = require("./helpers/views_header.js")(req.url); // Get header title
   next();
 });
 
