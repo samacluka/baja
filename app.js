@@ -37,7 +37,7 @@ app.use('*', cloudinaryConfig);
 // var passport = require("./auth/local.js");
 var passport = require("./auth/google.js");
 app.use(require("cookie-session")({
-  maxAge: 12 * 60 * 60 * 1000, // 12 for cookie expiration
+  maxAge: 12 * 60 * 60 * 1000, // 12 hrs for cookie expiration
   keys: [process.env.SESSION_SECRET]
 }));
 app.use(passport.initialize());
