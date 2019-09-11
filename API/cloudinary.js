@@ -1,4 +1,4 @@
-const { config, uploader , search }  = require('cloudinary').v2,
+const { config, uploader , search, api }  = require('cloudinary').v2,
       dotenv                = require('dotenv').config();
 
 const cloudinaryConfig = (req, res, next) => {
@@ -13,4 +13,4 @@ next();
 
 }
 
-module.exports = { cloudinaryConfig, uploader , search};
+module.exports = { cloudinaryConfig, uploader , search, api};

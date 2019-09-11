@@ -167,4 +167,20 @@ support.create_href_items = function(allExpenseReports){ // Creates report for e
   return type + ',' + data;
 }
 
+support.folderImages = function(folders, images){
+  var retArr = [];
+  folders.folders.forEach((folder) => {
+    images.resources.forEach((image) => {
+      if(image.filename == folder.name){
+        retArr.push({
+          image_url: image.url,
+          name: folder.name,
+          path: folder.path
+        });
+      }
+    });
+  });
+  return retArr;
+}
+
 module.exports = support;

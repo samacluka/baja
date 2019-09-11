@@ -33,3 +33,12 @@
     display:none;
   }
 }
+
+/* =========== ALBUMS =========== */
+#albums .card-lg .card-title::after{
+  display: none; /* Remove card title Underline */
+}
+
+#albums a:hover{
+  text-decoration: none;
+}

@@ -8,7 +8,7 @@ const ExpenseReport   = require(rootDir+"models/expenseReport.js"),
 
 const support         = require(rootDir+"helpers/support.js");
 
-const cloudinary      = require(rootDir+"API/cloudinary.js"),    //{ cloudinaryConfig, uploader }
+const cloudinary      = require(rootDir+"API/cloudinary.js"),    //{ cloudinaryConfig, uploader, search, api }
       multer          = require(rootDir+"middleware/multer.js"); //{ upload, dataUri }
 
 const mailjet         = require(rootDir+"API/mailjet.js");
@@ -178,9 +178,25 @@ callbacks.index.get.recruitment = function(req,res){
   res.render(views.external.recruitment);
 };
 
-callbacks.index.get.gallery = function(req,res){
-  cloudinary.search.expression('folder: gallery').sort_by('uploaded_at','desc').execute().then((foundImages) => {
-      res.render(views.external.gallery, {images: foundImages});
+callbacks.index.get.albums = function(req,res){
+  cloudinary.api.sub_folders("albums", function(err, foundFolders){
+    if(err){
+      console.log(err);
+    } else {
+      cloudinary.search.expression('folder: albums').execute().then((foundImages) => {
+        res.render(views.external.albums, {folders: support.folderImages(foundFolders, foundImages)});
+      }).catch((err2) => {
+        console.log(err2);
+      });  
+    }
+  });
+};
+
+callbacks.index.get.album_content = function(req,res){
+  cloudinary.search.expression('folder: albums/'+req.params.folder).sort_by('uploaded_at','desc').execute().then((foundImages) => {
+    res.render(views.external.gallery, {images: foundImages});
+  }).catch((err) => {
+    console.log(err);
   });
 };
 
