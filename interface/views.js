@@ -8,7 +8,7 @@ const views = {
       sponsors: viewsDir + "public/sponsors",
       recruitment: viewsDir + "public/recruitment",
       gallery: viewsDir + "public/gallery",
-      albums: viewsDir + "public/albums.ejs",
+      photos: viewsDir + "public/photos",
     },
     auth:{
       index: viewsDir + "auth/index",

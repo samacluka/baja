@@ -2,33 +2,25 @@
 <%- include(views+'partials/header4'); %>
 
 <div id="gallery">
-  <!-- Modal -->
-  <div class="modal fade hidden-sm-down" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <img id="modal_img" class="gallery-modal-img" src="" alt="image">
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="container">
-    <div class="row row-eq-height">
-      <% images.resources.forEach(function(image){ %>
-        <div class="col-lg-4 col-md-6 col-sm-12 p-2">
-          <div class="modal-link" data-toggle="modal" data-target="#exampleModalCenter">
-            <div class="card card-link-floater card-shadow">
-              <div class="card-img-mask card-img-mask-top">
-                <img class="card-img-top" src="<%= image.url %>" alt="image">
+  <div class="pt-3">
+    <div class="container">
+      <div class="row row-eq-height">
+        <% folders.forEach(function(folder){ %>
+          <div class="col-lg-3 col-md-6 col-sm-12">
+
+            <a href="/<%= encodeURI(folder.path) %>">
+              <div class="card card-shadow card-link-floater card-background card-lg">
+                 <img class="card-img-bg" src="<%= folder.image_url %>" alt="<%= folder.name.replace(/_/g," ") %>">
+                 <div class="card-body">
+                   <h3 class="card-title"><%= folder.name.replace(/_/g," ") %></h3>
+                 </div>
               </div>
-              <div class="card-body mb-0">
-                <h3 class="card-title text-center"><%= image.filename %></h3>
-              </div>
-            </div>
+            </a>
+
           </div>
-        </div>
-      <% }); %>
+        <% }); %>
+      </div>
     </div>
   </div>
 

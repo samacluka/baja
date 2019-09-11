@@ -178,13 +178,13 @@ callbacks.index.get.recruitment = function(req,res){
   res.render(views.public.recruitment);
 };
 
-callbacks.index.get.albums = function(req,res){
-  cloudinary.api.sub_folders("albums", function(err, foundFolders){
+callbacks.index.get.gallery = function(req,res){
+  cloudinary.api.sub_folders("gallery", function(err, foundFolders){
     if(err){
       console.log(err);
     } else {
-      cloudinary.search.expression('folder: albums').execute().then((foundImages) => {
-        res.render(views.public.albums, {folders: support.folderImages(foundFolders, foundImages)});
+      cloudinary.search.expression('folder: gallery').execute().then((foundImages) => {
+        res.render(views.public.gallery, {folders: support.folderImages(foundFolders, foundImages)});
       }).catch((err2) => {
         console.log(err2);
       });
@@ -192,9 +192,9 @@ callbacks.index.get.albums = function(req,res){
   });
 };
 
-callbacks.index.get.album_content = function(req,res){
-  cloudinary.search.expression('folder: albums/'+req.params.folder).sort_by('uploaded_at','desc').execute().then((foundImages) => {
-    res.render(views.public.gallery, {images: foundImages});
+callbacks.index.get.photos = function(req,res){
+  cloudinary.search.expression('folder: gallery/'+req.params.folder).sort_by('uploaded_at','desc').execute().then((foundImages) => {
+    res.render(views.public.photos, {images: foundImages});
   }).catch((err) => {
     console.log(err);
   });
@@ -271,14 +271,12 @@ callbacks.expenseReports.post.new = function(req,res){
                               console.log(err3);
                             } else {
                               newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems); // push expense item ids to expense report item array
-                              if(req.file != undefined){ // If a photo is submitted - upload to cloudinary
                                 cloudinary.uploader.upload(multer.dataUri(req).content,
                                 {
                                   folder: "receipts",             // Folder the image is being saved to on cloud
                                   eager : [{quality: "auto:low"}], // Reduce image quality for speed
                                   eager_async: true,              // Do operations async
-                                },
-                                function(err4, result){ // Upload image to cloudinary
+                                }, function(err4, result){ // Upload image to cloudinary
                                   if(err4){
                                     console.log(err4);
                                   } else {
@@ -287,17 +285,12 @@ callbacks.expenseReports.post.new = function(req,res){
                                     newExpenseReport.image_id = result.public_id;
                                     newExpenseReport.save().then(function(savedExpenseReport){
                                       req.flash("success","Report successfully created");
-                                      res.redirect("expenseReports");
+                                      res.redirect("/expenseReports");
                                     }).catch(function(err){
                                       console.log(err);
                                     });
                                   }
                                 });
-                              } else {
-                                newExpenseReport.save();
-                                req.flash("error","There was an error with the image upload"); // tmp msg
-                                res.redirect("expenseReports");
-                              }
                             }
                           });
                         }
@@ -306,14 +299,51 @@ callbacks.expenseReports.post.new = function(req,res){
 
 // PUT
 callbacks.expenseReports.put.save = function(req,res){
-  ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
-    if(err){
-      console.log(err);
-      res.redirect("expenseReports");
-    } else {
-      res.redirect("expenseReports/"+req.params.id);
-    }
-  });
+  if(req.file == undefined){ // If no image was uploaded -- just saved form data
+    ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
+      if(err){
+        console.log(err);
+        res.redirect("/expenseReports");
+      } else {
+        req.flash("success","Report successfully saved");
+        res.redirect("/expenseReports/"+req.params.id);
+      }
+    });
+  } else { // If a new image was uploaded save to cloudinary and save form data
+    ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
+      if(err){
+        console.log(err);
+        res.redirect("/expenseReports");
+      } else {
+        cloudinary.uploader.destroy(foundExpenseReport.image_id, function(err){
+          if(err){
+            console.log(err);
+          } else {
+            cloudinary.uploader.upload(multer.dataUri(req).content,
+            {
+              folder: "receipts",             // Folder the image is being saved to on cloud
+              eager : [{quality: "auto:low"}], // Reduce image quality for speed
+              eager_async: true,              // Do operations async
+            }, function(err, result){ // Upload image to cloudinary
+              if(err){
+                console.log(err);
+              } else {
+                console.log(result);
+                foundExpenseReport.image = result.url;
+                foundExpenseReport.image_id = result.public_id;
+                foundExpenseReport.save().then(function(savedExpenseReport){
+                  req.flash("success","Report successfully saved");
+                  res.redirect("/expenseReports/"+req.params.id);
+                }).catch(function(err){
+                  console.log(err);
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  }
 };
 
 callbacks.expenseReports.put.approve = function(req,res){

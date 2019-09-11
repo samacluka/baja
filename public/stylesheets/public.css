@@ -12,14 +12,14 @@
 
 /* =========== SPONSORS =========== */
 
-/* =========== GALLERY =========== */
-#gallery .gallery-modal-img {
+/* =========== PHOTOS =========== */
+#photos .gallery-modal-img {
   width: 100%; /* Full width (cover the whole page) */
   height: 100%; /* Full height (cover the whole page) */
   object-fit: contain;
 }
 
-#gallery .modal-link:hover{
+#photos .modal-link:hover{
   cursor: pointer;
 }
 
@@ -34,11 +34,23 @@
   }
 }
 
-/* =========== ALBUMS =========== */
-#albums .card-lg .card-title::after{
+/* =========== GALLERY =========== */
+#gallery .card-lg .card-title::after{
   display: none; /* Remove card title Underline */
 }
 
-#albums a:hover{
-  text-decoration: none;
+#gallery a:hover{
+  text-decoration: none; /* Remvoes underline on hover */
+}
+
+#gallery div.card-lg.card-background{
+  /* Makes folder cards smaller */
+  min-height: auto;
+}
+
+@media (max-width:767px){
+  #gallery div.card-lg.card-background{
+    /* Makes folder cards look better on mobile */
+    min-height: 372px;
+  }
 }

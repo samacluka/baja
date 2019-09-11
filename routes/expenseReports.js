@@ -16,7 +16,7 @@ router.get("/:id/edit", is.approved, is.ExpenseReportAuthor, callbacks.expenseRe
 router.post("/", is.approved, is.LoggedIn, multer.upload, callbacks.expenseReports.post.new);
 
 // PUT
-router.put("/:id", is.approved, is.CaptainOrExpenseReportAuthor, callbacks.expenseReports.put.save);
+router.put("/:id", is.approved, is.CaptainOrExpenseReportAuthor, multer.upload, callbacks.expenseReports.put.save);
 router.put("/:id/approve", is.approved, is.Captain, callbacks.expenseReports.put.approve);
 router.put("/:id/unapprove", is.approved, is.Captain, callbacks.expenseReports.put.unapprove);
 

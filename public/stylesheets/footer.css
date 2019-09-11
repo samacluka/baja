@@ -24,12 +24,14 @@ section#footer .section-title {
     background: #5b6770 !important;
 }
 #footer h5{
-	padding-left: 10px;
+	 padding-left: 10px;
     border-left: 3px solid #eeeeee;
     padding-bottom: 6px;
     margin-bottom: 15px;
     margin-top: 15px;
     color:#ffffff;
+
+    font-size: 1.1em;
 }
 #footer a {
     color: #ffffff;
@@ -37,6 +39,13 @@ section#footer .section-title {
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
 }
+
+#footer ul li{
+    font-size: 0.75em;
+    width: auto;
+    height: 1.25em;
+}
+
 #footer ul.social li{
 	padding: 3px 0;
 }
@@ -82,5 +91,15 @@ section#footer .section-title {
     border-left: transparent;
     padding-bottom: 0px;
     margin-bottom: 10px;
+  }
+
+
+  /* BELOW CSS MAKES FOOTER LOOK OKAY ON MOBILE */
+  #footer i:not(.social){
+    display: none;
+  }
+
+  #footer #contact-us{
+    padding-top: 4em;
   }
 }
