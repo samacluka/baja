@@ -12,5 +12,7 @@ module.exports = function(url){
     if(/^\/expenseReports\/([a-zA-Z0-9]{24})$/.test(url))               return "Expense Report";
     if(/^\/expenseReports\/([a-zA-Z0-9]{24})\/edit$/.test(url))         return "Edit Expense Report";
 
+    if(url == "/members")                                               return "Members";
+
     if(url == "/auth")                                                  return "Authentication";
 }

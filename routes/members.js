@@ -7,7 +7,7 @@ const callbacks       = require("./callbacks/callbacks.js");
 
 // GET
 router.get("/", callbacks.members.get.index);
-router.get("/:id", is.LoggedIn, callbacks.members.get.show);
+router.get("/:id", callbacks.members.get.show);
 router.get("/:id/edit", is.LoggedIn, callbacks.members.get.edit);
 
 

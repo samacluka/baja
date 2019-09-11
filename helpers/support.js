@@ -18,6 +18,21 @@ support.checkFileType = function(req, file, cb){
   }
 };
 
+// Sort images by filename
+function sortResources(arr){
+  return arr.sort((a, b) => {
+    if(a.filename > b.filename){
+      return 1;
+    }
+
+    if(a.filename < b.filename){
+      return -1;
+    }
+
+    return 0;
+  });
+}
+
 // Check for subteam or cateogry form items and if not available go to prev index
 function checkArray(arr,i){
   try{
@@ -181,6 +196,17 @@ support.folderImages = function(folders, images){
     });
   });
   return retArr;
+}
+
+support.concatImages = function(){
+  var args = Array.from(arguments);
+  var resources = [];
+  args.forEach((arg) => {
+    arg.resources.forEach((resource) => {
+      resources.push(resource);
+    });
+  });
+  return sortResources(resources);
 }
 
 module.exports = support;

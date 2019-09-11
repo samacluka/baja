@@ -169,8 +169,10 @@ callbacks.index.get.index = function(req,res){
 };
 
 callbacks.index.get.sponsors = function(req,res){
-  cloudinary.search.expression('folder: sponsors').with_field('tags').sort_by('filename','asc').execute().then((foundImages) => {
-      res.render(views.public.sponsors, {images: foundImages});
+  cloudinary.search.expression('folder: sponsors0to50').with_field('tags').sort_by('filename','asc').execute().then((foundImages0to50) => {
+    cloudinary.search.expression('folder: sponsors50to100').with_field('tags').sort_by('filename','asc').execute().then((foundImages50to100) => {
+      res.render(views.public.sponsors, {images: support.concatImages(foundImages0to50, foundImages50to100)});
+    });
   });
 };
 
@@ -425,12 +427,22 @@ callbacks.expenseReports.delete.remove = function(req,res){
 // ======================================== MEMBERS ========================================
 // GET
 callbacks.members.get.index = function(req,res){
-  res.render(views.members.index);
+  User.find().exec(function(err, allUsers){
+    if(err){
+      console.log(err);
+    } else {
+      res.render(views.members.index, {members: allUsers});
+    }
+  });
 };
 
 callbacks.members.get.new = function(req,res){};
 
-callbacks.members.get.show = function(req,res){};
+callbacks.members.get.show = function(req,res){
+  User.findById(req.params.id, (err, foundUser) => {
+    res.render(views.members.show, {member: foundUser});
+  });
+};
 
 callbacks.members.get.edit = function(req,res){};
 

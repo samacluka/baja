@@ -54,3 +54,17 @@
     min-height: 372px;
   }
 }
+
+/* =========== MEMBERS =========== */
+#members_index img.card-img{
+  /* display: none; */
+  z-index: 1;
+  filter: drop-shadow(16px 16px 10px black) opacity(40%);
+}
+
+#members_index div.icon-circle{
+  /* display: none; */
+  z-index: 2;
+  margin-top: 12px;
+  width: 160px;
+}
