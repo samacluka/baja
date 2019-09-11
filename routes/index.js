@@ -10,6 +10,8 @@ router.get("/sponsors", callbacks.index.get.sponsors);
 
 router.get("/recruitment", callbacks.index.get.recruitment);
 
-router.get("/gallery", callbacks.index.get.gallery);
+router.get("/albums", callbacks.index.get.albums);
+
+router.get("/albums/:folder", callbacks.index.get.album_content)
 
 module.exports = router;
