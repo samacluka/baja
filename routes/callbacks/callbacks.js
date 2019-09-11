@@ -69,7 +69,7 @@ var callbacks = {
       // remove
     },
   },
-  users: {
+  members: {
     get: {
       // index
       // new
@@ -164,18 +164,18 @@ callbacks.auth.google.success = function(req,res){
 // GET
 callbacks.index.get.index = function(req,res){
   cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
-    res.render(views.home, {images: foundImages});
+    res.render(views.public.home, {images: foundImages});
   });
 };
 
 callbacks.index.get.sponsors = function(req,res){
   cloudinary.search.expression('folder: sponsors').with_field('tags').sort_by('filename','asc').execute().then((foundImages) => {
-      res.render(views.external.sponsors, {images: foundImages});
+      res.render(views.public.sponsors, {images: foundImages});
   });
 };
 
 callbacks.index.get.recruitment = function(req,res){
-  res.render(views.external.recruitment);
+  res.render(views.public.recruitment);
 };
 
 callbacks.index.get.albums = function(req,res){
@@ -184,17 +184,17 @@ callbacks.index.get.albums = function(req,res){
       console.log(err);
     } else {
       cloudinary.search.expression('folder: albums').execute().then((foundImages) => {
-        res.render(views.external.albums, {folders: support.folderImages(foundFolders, foundImages)});
+        res.render(views.public.albums, {folders: support.folderImages(foundFolders, foundImages)});
       }).catch((err2) => {
         console.log(err2);
-      });  
+      });
     }
   });
 };
 
 callbacks.index.get.album_content = function(req,res){
   cloudinary.search.expression('folder: albums/'+req.params.folder).sort_by('uploaded_at','desc').execute().then((foundImages) => {
-    res.render(views.external.gallery, {images: foundImages});
+    res.render(views.public.gallery, {images: foundImages});
   }).catch((err) => {
     console.log(err);
   });
@@ -213,7 +213,7 @@ callbacks.expenseReports.get.index = function(req,res){
     } else {
       var csv_href_rep = support.create_href_reports(allExpenseReports);
       var csv_href_item = support.create_href_items(allExpenseReports);
-      res.render(views.members.expenseReports.index, {expenseReports: allExpenseReports,
+      res.render(views.expenseReports.index, {expenseReports: allExpenseReports,
                                                       csv_href_rep:   csv_href_rep,
                                                       csv_href_item:  csv_href_item})
     }
@@ -221,7 +221,7 @@ callbacks.expenseReports.get.index = function(req,res){
 };
 
 callbacks.expenseReports.get.new = function(req,res){
-  res.render(views.members.expenseReports.new);
+  res.render(views.expenseReports.new);
 };
 
 callbacks.expenseReports.get.show = function(req,res){
@@ -234,7 +234,7 @@ callbacks.expenseReports.get.show = function(req,res){
         if(err || !foundExpenseReport){
           console.log(err);
         } else {
-          res.render(views.members.expenseReports.show, {expenseReport: foundExpenseReport});
+          res.render(views.expenseReports.show, {expenseReport: foundExpenseReport});
         }
       });
     }
@@ -243,7 +243,7 @@ callbacks.expenseReports.get.show = function(req,res){
 
 callbacks.expenseReports.get.edit = function(req,res){
   ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err, foundExpenseReport){
-      res.render(views.members.expenseReports.edit, {expenseReport: foundExpenseReport});
+      res.render(views.expenseReports.edit, {expenseReport: foundExpenseReport});
   });
 };
 
@@ -392,23 +392,25 @@ callbacks.expenseReports.delete.remove = function(req,res){
   });
 };
 
-// ======================================== USERS ========================================
+// ======================================== MEMBERS ========================================
 // GET
-callbacks.users.get.index = function(req,res){};
+callbacks.members.get.index = function(req,res){
+  res.render(views.members.index);
+};
 
-callbacks.users.get.new = function(req,res){};
+callbacks.members.get.new = function(req,res){};
 
-callbacks.users.get.show = function(req,res){};
+callbacks.members.get.show = function(req,res){};
 
-callbacks.users.get.edit = function(req,res){};
+callbacks.members.get.edit = function(req,res){};
 
 // POST
-callbacks.users.post.new = function(req,res){};
+callbacks.members.post.new = function(req,res){};
 
 // PUT
-callbacks.users.put.save = function(req,res){};
+callbacks.members.put.save = function(req,res){};
 
-callbacks.users.put.approve = function(req,res){
+callbacks.members.put.approve = function(req,res){
   User.findById(req.params.id, function(err, foundUser){
     if(err || !foundUser){
       console.log(err);
@@ -419,7 +421,7 @@ callbacks.users.put.approve = function(req,res){
   });
 };
 
-callbacks.users.put.unapprove = function(req,res){
+callbacks.members.put.unapprove = function(req,res){
   User.findById(req.params.id, function(err, foundUser){
     if(err || !foundUser){
       console.log(err);
@@ -431,6 +433,6 @@ callbacks.users.put.unapprove = function(req,res){
 };
 
 // DELETE
-callbacks.users.delete.remove = function(req,res){};
+callbacks.members.delete.remove = function(req,res){};
 
 module.exports = callbacks;

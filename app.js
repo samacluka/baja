@@ -56,12 +56,12 @@ app.use(function(req,res,next){
 /* Create route variables*/
 const expenseReportRoutes = require("./routes/expenseReports"),
       indexRoutes         = require("./routes/index"),
-      userRoutes          = require("./routes/users"),
+      memberRoutes        = require("./routes/members"),
       authRoutes          = require("./routes/auth");
 
 //require routes
 app.use("/expenseReports",expenseReportRoutes);
-app.use("/users",userRoutes);
+app.use("/members",memberRoutes);
 app.use("/",indexRoutes);
 app.use("/auth", authRoutes)
 
