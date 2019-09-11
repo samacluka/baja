@@ -92,8 +92,9 @@ section#footer .section-title {
     padding-bottom: 0px;
     margin-bottom: 10px;
   }
+}
 
-
+@media (max-width:576px){
   /* BELOW CSS MAKES FOOTER LOOK OKAY ON MOBILE */
   #footer i:not(.social){
     display: none;
