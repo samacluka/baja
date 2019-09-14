@@ -1,8 +1,6 @@
-const userClearance = {};
-
-userClearance.webdev = 6;
-userClearance.captain = 5;
-userClearance.lead = 3;
-userClearance.member = 1;
-
-module.exports = userClearance;
+module.exports = {
+  webdev:   6,
+  captain:  5,
+  lead:     3,
+  member:   1,
+};

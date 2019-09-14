@@ -7,8 +7,6 @@ var userSchema = new mongoose.Schema({
   clearance: {type: Number, default: 0},
   image: String,
   approved: {type: Boolean, default: false},
-  // username: String, // Used for local auth
-  // password: String,
   googleId: String,
 });
 

@@ -123,43 +123,6 @@ callbacks.auth.google.success = function(req,res){
   }
 };
 
-//LOCAL
-// callbacks.auth.local.signup = function(req,res){
-//   res.render(views.auth.register);
-// };
-//
-// callbacks.auth.local.create = function(req,res){
-//   User.register(new User({firstName: req.body.firstName, lastName: req.body.lastName, username: req.body.username}), req.body.password, function(err, user){
-//     if(err){
-//       req.flash("error",err.message);
-//       res.redirect("/auth");
-//       return;
-//     } else {
-//       req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
-//       res.redirect("/");
-//     }
-//   });
-// };
-//
-// callbacks.auth.local.login = function(req,res){
-//   res.render(views.auth.login);
-// };
-//
-// callbacks.auth.local.callback = passport.authenticate("local", {
-//   failureRedirect: "/auth",
-//   failureFlash:    "Invalid username or password"
-// });
-//
-// callbacks.auth.local.success = function(req,res){
-//   if(req.user.approved){
-//     req.flash("success","Welcome to McMaster Baja Racing " + req.user.firstName);
-//     res.redirect("/expenseReports");
-//   } else {
-//     req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
-//     res.redirect("/");
-//   }
-// };
-
 // ======================================== INDEX ========================================
 // GET
 callbacks.index.get.index = function(req,res){
@@ -209,17 +172,29 @@ callbacks.index.get.photos = function(req,res){
 // ======================================== EXPENSE REPORTS ========================================
 // GET
 callbacks.expenseReports.get.index = function(req,res){
-  ExpenseReport.find().populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
-    if(err){
-      console.log(err);
-    } else {
-      var csv_href_rep = support.create_href_reports(allExpenseReports);
-      var csv_href_item = support.create_href_items(allExpenseReports);
-      res.render(views.expenseReports.index, {expenseReports: allExpenseReports,
-                                                      csv_href_rep:   csv_href_rep,
-                                                      csv_href_item:  csv_href_item})
-    }
-  });
+  if(req.user.clearanceIsGET(userClearance.captain)){
+    ExpenseReport.find().sort('-created').populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
+      if(err){
+        console.log(err);
+      } else {
+        var csv_href_rep = support.create_href_reports(allExpenseReports);
+        var csv_href_item = support.create_href_items(allExpenseReports);
+        res.render(views.expenseReports.index, {expenseReports: allExpenseReports,
+                                                        csv_href_rep:   csv_href_rep,
+                                                        csv_href_item:  csv_href_item})
+      }
+    });
+  } else {
+    ExpenseReport.find({author: req.user._id}).sort('-created').populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
+      if(err){
+        console.log(err);
+      } else {
+        res.render(views.expenseReports.index, {expenseReports: allExpenseReports,
+                                                        csv_href_rep:   "#",
+                                                        csv_href_item:  "#"})
+      }
+    });
+  }
 };
 
 callbacks.expenseReports.get.new = function(req,res){
@@ -256,54 +231,54 @@ callbacks.expenseReports.post.new = function(req,res){
     return res.redirect("back");
   }
 
-  support.checkFileType(req, req.file, (err, msg) => {
-    if(err){
-      console.log(err+msg);
-    } else {
-      ExpenseReport.create({author: req.user,
-                          store: req.body.store,
-                          currency: req.body.currency,
-                          subtotal: req.body.subtotal,
-                          tax: req.body.tax,
-                          shipping: req.body.shipping,
-                          total: req.body.total,
-                          notes: req.body.notes},
-                          function(err1, newExpenseReport){
-                            if(err1){
-                              console.log(err1);
+  // support.checkFileType(req, req.file, (err, msg) => {
+  //   if(err){
+  //     console.log(err+msg);
+  //   }
+  // });
+
+  ExpenseReport.create({author: req.user,
+                      store: req.body.store,
+                      currency: req.body.currency,
+                      subtotal: req.body.subtotal,
+                      tax: req.body.tax,
+                      shipping: req.body.shipping,
+                      total: req.body.total,
+                      notes: req.body.notes},
+                      function(err1, newExpenseReport){
+                        if(err1){
+                          console.log(err1);
+                        } else {
+                          var expenseItems = support.organizeItemData(req.body, newExpenseReport);
+                          ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
+                            if(err3 || !newExpenseItems){
+                              console.log(err3);
                             } else {
-                              var expenseItems = support.organizeItemData(req.body, newExpenseReport);
-                              ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
-                                if(err3 || !newExpenseItems){
-                                  console.log(err3);
-                                } else {
-                                  newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems); // push expense item ids to expense report item array
-                                    cloudinary.uploader.upload(multer.dataUri(req).content,
-                                    {
-                                      folder: "receipts",             // Folder the image is being saved to on cloud
-                                      eager : [{quality: "auto:low"}], // Reduce image quality for speed
-                                      eager_async: true,              // Do operations async
-                                    }, function(err4, result){ // Upload image to cloudinary
-                                      if(err4){
-                                        console.log(err4);
-                                      } else {
-                                        console.log(result);
-                                        newExpenseReport.image = result.url;
-                                        newExpenseReport.image_id = result.public_id;
-                                        newExpenseReport.save().then(function(savedExpenseReport){
-                                          req.flash("success","Report successfully created");
-                                          res.redirect("/expenseReports");
-                                        }).catch(function(err){
-                                          console.log(err);
-                                        });
-                                      }
+                              newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems); // push expense item ids to expense report item array
+                                cloudinary.uploader.upload(multer.dataUri(req).content,
+                                {
+                                  folder: "receipts",             // Folder the image is being saved to on cloud
+                                  eager : [{quality: "auto:low"}], // Reduce image quality for speed
+                                  eager_async: true,              // Do operations async
+                                }, function(err4, result){ // Upload image to cloudinary
+                                  if(err4){
+                                    console.log(err4);
+                                  } else {
+                                    console.log(result);
+                                    newExpenseReport.image = result.url;
+                                    newExpenseReport.image_id = result.public_id;
+                                    newExpenseReport.save().then(function(savedExpenseReport){
+                                      req.flash("success","Report successfully created");
+                                      res.redirect("/expenseReports");
+                                    }).catch(function(err){
+                                      console.log(err);
                                     });
-                                }
-                              });
+                                  }
+                                });
                             }
                           });
-    }
-  });
+                        }
+                      });
 };
 
 // PUT

@@ -9,6 +9,19 @@
   text-decoration: none;
 }
 
+#expenseReport_index .card {
+  position:relative;
+}
+
+#expenseReport_index .card .card-badge {
+  position:absolute;
+  top:-10px;
+  left:-20px;
+  padding:5px;
+  transform:rotate(-20deg);
+  z-index: 1000;
+}
+
 /* =========== EDIT =========== */
 #expenseReport_index .delete-form{
   display: inline;
