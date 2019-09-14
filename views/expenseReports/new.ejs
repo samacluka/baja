@@ -5,11 +5,13 @@
   <div class="container">
 
     <div class="text-right pt-2">
-      <i id="plusIcon" class="fa fa-plus"></i>
+      <div class="plusIcon">
+        <i class="fa fa-plus"></i>
+      </div>
     </div>
 
     <div class="row">
-      <!-- <div style="width: 95%; margin: auto auto" class=""> -->
+      <div style="width: 95%; margin: auto auto" class=""> <!-- Keep Form centered -->
         <form class="" id="ExpenseReport" action="/expenseReports" method="post" enctype="multipart/form-data">
           <table id="expenseReportFormTable" style="overflow: auto;">
             <!-- HEADLINES -->
@@ -99,7 +101,7 @@
             <input class="btn btn-lg btn-primary btn-block" type="submit" name="Submit" value="Submit">
           </div>
         </form>
-      <!-- </div> -->
+      </div>
     </div>
   </div> <!-- /container -->
 </div> <!-- /expenseReport_new -->

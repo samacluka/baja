@@ -44,11 +44,11 @@
   margin: 0;
 }
 
-#expenseReport_edit #plusIcon {
+#expenseReport_edit .plusIcon {
   font-size: 3em;
 }
 
-#expenseReport_edit #plusIcon:hover{
+#expenseReport_edit .plusIcon:hover{
   cursor: pointer;
 }
 
@@ -93,11 +93,11 @@
   margin: 0;
 }
 
-#expenseReport_new #plusIcon {
+#expenseReport_new .plusIcon {
   font-size: 3em;
 }
 
-#expenseReport_new #plusIcon:hover{
+#expenseReport_new .plusIcon:hover{
   cursor: pointer;
 }
 

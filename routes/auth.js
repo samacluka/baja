@@ -1,7 +1,7 @@
 const express = require("express"),
       router  = express.Router({mergeParams: true});
 
-const callbacks       = require("./callbacks/callbacks.js");
+const callbacks       = require("./callbacks.js");
 
 // INDEX
 router.get("/", callbacks.auth.index);

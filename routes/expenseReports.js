@@ -4,7 +4,7 @@ const express         = require("express"),
 const multer          = require("../middleware/multer.js"),
       is              = require("../middleware/is.js");
 
-const callbacks       = require("./callbacks/callbacks.js");
+const callbacks       = require("./callbacks.js");
 
 // GET
 router.get("/", is.approved, is.LoggedIn, callbacks.expenseReports.get.index);

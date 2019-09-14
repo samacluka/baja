@@ -3,7 +3,7 @@ const express = require("express"),
 
 const is              = require("../middleware/is.js");
 
-const callbacks       = require("./callbacks/callbacks.js");
+const callbacks       = require("./callbacks.js");
 
 // GET
 router.get("/", callbacks.members.get.index);

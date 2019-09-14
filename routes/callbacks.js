@@ -1,4 +1,4 @@
-const rootDir = "../../";
+const rootDir = "../";
 
 const passport        = require("passport");
 
@@ -255,48 +255,55 @@ callbacks.expenseReports.post.new = function(req,res){
     req.flash("error","No image file was uploaded");
     return res.redirect("back");
   }
-  ExpenseReport.create({author: req.user,
-                      store: req.body.store,
-                      currency: req.body.currency,
-                      subtotal: req.body.subtotal,
-                      tax: req.body.tax,
-                      shipping: req.body.shipping,
-                      total: req.body.total,
-                      notes: req.body.notes},
-                      function(err1, newExpenseReport){
-                        if(err1){
-                          console.log(err1);
-                        } else {
-                          var expenseItems = support.organizeItemData(req.body, newExpenseReport);
-                          ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
-                            if(err3 || !newExpenseItems){
-                              console.log(err3);
+
+  support.checkFileType(req, req.file, (err, msg) => {
+    if(err){
+      console.log(err+msg);
+    } else {
+      ExpenseReport.create({author: req.user,
+                          store: req.body.store,
+                          currency: req.body.currency,
+                          subtotal: req.body.subtotal,
+                          tax: req.body.tax,
+                          shipping: req.body.shipping,
+                          total: req.body.total,
+                          notes: req.body.notes},
+                          function(err1, newExpenseReport){
+                            if(err1){
+                              console.log(err1);
                             } else {
-                              newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems); // push expense item ids to expense report item array
-                                cloudinary.uploader.upload(multer.dataUri(req).content,
-                                {
-                                  folder: "receipts",             // Folder the image is being saved to on cloud
-                                  eager : [{quality: "auto:low"}], // Reduce image quality for speed
-                                  eager_async: true,              // Do operations async
-                                }, function(err4, result){ // Upload image to cloudinary
-                                  if(err4){
-                                    console.log(err4);
-                                  } else {
-                                    console.log(result);
-                                    newExpenseReport.image = result.url;
-                                    newExpenseReport.image_id = result.public_id;
-                                    newExpenseReport.save().then(function(savedExpenseReport){
-                                      req.flash("success","Report successfully created");
-                                      res.redirect("/expenseReports");
-                                    }).catch(function(err){
-                                      console.log(err);
+                              var expenseItems = support.organizeItemData(req.body, newExpenseReport);
+                              ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
+                                if(err3 || !newExpenseItems){
+                                  console.log(err3);
+                                } else {
+                                  newExpenseReport.expenseItems.push.apply(newExpenseReport.expenseItems, newExpenseItems); // push expense item ids to expense report item array
+                                    cloudinary.uploader.upload(multer.dataUri(req).content,
+                                    {
+                                      folder: "receipts",             // Folder the image is being saved to on cloud
+                                      eager : [{quality: "auto:low"}], // Reduce image quality for speed
+                                      eager_async: true,              // Do operations async
+                                    }, function(err4, result){ // Upload image to cloudinary
+                                      if(err4){
+                                        console.log(err4);
+                                      } else {
+                                        console.log(result);
+                                        newExpenseReport.image = result.url;
+                                        newExpenseReport.image_id = result.public_id;
+                                        newExpenseReport.save().then(function(savedExpenseReport){
+                                          req.flash("success","Report successfully created");
+                                          res.redirect("/expenseReports");
+                                        }).catch(function(err){
+                                          console.log(err);
+                                        });
+                                      }
                                     });
-                                  }
-                                });
+                                }
+                              });
                             }
                           });
-                        }
-                      });
+    }
+  });
 };
 
 // PUT
