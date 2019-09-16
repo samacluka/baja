@@ -23,7 +23,7 @@
             </tr>
 
             <!-- Make mulitple other rows for items -->
-            <% expenseReport.expenseItems.forEach((expenseItem, index) => { %>
+            <% expenseReport.expenseItems.forEach((expenseItem, itemIndex) => { %>
               <tr>
                 <td>
                   <div class="form-group item-name-input m-1"><input class="form-control" type="text" name="expneseItem[itemName]" placeholder="Item Name" value="<%= expenseItem.itemName %>"></div>
@@ -31,64 +31,54 @@
 
                 <td>
                   <div class="form-group category-select m-1">
-                    <select class="form-control" name="expenseItem[category]" placeholder="Cateogry" value="<%= expenseItem.category %>">
-                      <option value="Material" selected>Material</option>
-                      <option value="Hardware">Hardware</option>
-                      <option value="Component">Component</option>
-                      <option value="Machining">Machining</option>
-                      <option value="Tooling">Tooling</option>
-                      <option value="Carbon">Carbon</option>
-                      <option value="Sponsorship">Sponsorship</option>
-                      <option value="Transportation">Transportation</option>
-                      <option value="Competition Registration">Competition Registration</option>
-                      <option value="Shop Supplies">Shop Supplies</option>
-                      <option value="Service">Service</option>
-                      <option value="Team Bonding">Team Bonding</option>
-                      <option value="Fuel for Baja">Fuel for Baja</option>
-                      <option value="Fuel for Transportation">Fuel for Transportation</option>
-                      <option value="Driver Equipment">Driver Equipment</option>
-                      <option value="Safety Equipment">Safety Equipment</option>
-                      <option value="Other">Other</option>
-                      <option value="Outreach and Sponsorship">Outreach and Sponsorship</option>
-                      <option value="Software">Software</option>
-                      <option value="Research Project">Research Projects</option>
-                      <option value="Apparel">Apparel</option>
+                    <select class="form-control" name="expenseItem[category]" placeholder="Cateogry">
+                      <% options.forEach((option, optionIndex) => { %>
+                        <% if(option.select === "category"){ %>
+                          <% if(expenseItem.category == option.value){ %>
+                            <option value="<%= option.value %>" selected><%= option.text %></option>
+                          <% } else { %>
+                            <option value="<%= option.value %>"><%= option.text %></option>
+                          <% } %>
+                        <% } %>
+                      <% }); %>
                     </select>
                   </div>
                 </td>
 
                 <td>
                   <div class="form-group subteam-select m-1">
-                    <select class="form-control" name="expenseItem[subteam]" placeholder="Subteam" value="<%= expenseItem.subteam %>">
-                      <option value="Business/Sales" selected>Business/Sales</option>
-                      <option value="Chassis">Chassis</option>
-                      <option value="Controls">Controls</option>
-                      <option value="DAQ">DAQ</option>
-                      <option value="Drivetrain">Drivetrain</option>
-                      <option value="Ergonomics">Ergonomics</option>
-                      <option value="General Team Items - NOT MATERIAL">General Team Items - NOT MATERIAL</option>
-                      <option value="Suspension">Suspension</option>
-                      <option value="2016">2016</option>
-                      <option value="2017">2017</option>
-                      <option value="2018">2018</option>
+                    <select class="form-control" name="expenseItem[subteam]" placeholder="Subteam">
+                      <% options.forEach((option, optionIndex) => { %>
+                        <% if(option.select == "subteam"){ %>
+                          <% if(expenseItem.subteam === option.value){ %>
+                            <option value="<%= option.value %>" selected><%= option.text %></option>
+                          <% } else { %>
+                            <option value="<%= option.value %>"><%= option.text %></option>
+                          <% } %>
+                        <% } %>
+                      <% }); %>
                     </select>
                   </div>
                 </td>
+
                 <td>
                   <div class="form-group item-price-input m-1"><input class="form-control" type="number" name="expenseItem[itemPrice]" placeholder="Item Price" value="<%= expenseItem.itemPrice %>"></div>
                 </td>
+
                 <td>
                   <div class="form-group item-quantity-input m-1"><input class="form-control" type="number" step="1" name="expenseItem[quantity]" placeholder="Quantity" value="<%= expenseItem.quantity %>"></div>
                 </td>
-                <% if(index > 0){ %> <!-- Make sure the form does not allow for the removal of the first row -->
+
+                <% if(itemIndex > 0){ %> <!-- Make sure the form does not allow for the removal of the first row -->
                   <td>
                     <div class="trashIcon">
                       <i class="fa fa-trash"></i>
                     </div>
                   </td>
-                </tr>
-              <% } %>
-            <% }) %>
+                <% } %>
+
+              </tr>
+            <% }); %>
 
           </table>
 

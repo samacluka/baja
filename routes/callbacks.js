@@ -4,7 +4,8 @@ const passport        = require("passport");
 
 const ExpenseReport   = require(rootDir+"models/expenseReport.js"),
       ExpenseItem     = require(rootDir+"models/expenseItem.js"),
-      User            = require(rootDir+"models/user.js");
+      User            = require(rootDir+"models/user.js"),
+      Option          = require(rootDir+"models/option.js");
 
 const support         = require(rootDir+"helpers/support.js");
 
@@ -200,7 +201,9 @@ callbacks.expenseReports.get.index = function(req,res){
 };
 
 callbacks.expenseReports.get.new = function(req,res){
-  res.render(views.expenseReports.new);
+  Option.find().exec((err, foundOptions) => {
+    res.render(views.expenseReports.new, {options: foundOptions});
+  });
 };
 
 callbacks.expenseReports.get.show = function(req,res){
@@ -222,7 +225,9 @@ callbacks.expenseReports.get.show = function(req,res){
 
 callbacks.expenseReports.get.edit = function(req,res){
   ExpenseReport.findById(req.params.id).populate("expenseItems").exec(function(err, foundExpenseReport){
-      res.render(views.expenseReports.edit, {expenseReport: foundExpenseReport});
+    Option.find().exec((err, foundOptions) => {
+      res.render(views.expenseReports.edit, {expenseReport: foundExpenseReport, options: foundOptions});
+    });
   });
 };
 
