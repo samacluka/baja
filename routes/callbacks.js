@@ -132,10 +132,12 @@ callbacks.index.get.index = function(req,res){
 };
 
 callbacks.index.get.sponsors = function(req,res){
-  cloudinary.search.expression('folder: sponsors0to50').with_field('tags').sort_by('filename','asc').execute().then((foundImages0to50) => {
-    cloudinary.search.expression('folder: sponsors50to100').with_field('tags').sort_by('filename','asc').execute().then((foundImages50to100) => {
-      res.render(views.public.sponsors, {images: support.concatImages(foundImages0to50, foundImages50to100)});
-    });
+  cloudinary.search.expression('folder: sponsors')
+                    .with_field('tags')
+                    .sort_by('filename','asc')
+                    .max_results(150)
+                    .execute().then((foundImages) => {
+                        res.render(views.public.sponsors, {images: foundImages});
   });
 };
 
@@ -230,13 +232,6 @@ callbacks.expenseReports.post.new = function(req,res){
     req.flash("error","No image file was uploaded");
     return res.redirect("back");
   }
-
-  // support.checkFileType(req, req.file, (err, msg) => {
-  //   if(err){
-  //     console.log(err+msg);
-  //   }
-  // });
-
   ExpenseReport.create({author: req.user,
                       store: req.body.store,
                       currency: req.body.currency,

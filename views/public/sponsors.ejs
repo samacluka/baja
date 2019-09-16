@@ -18,11 +18,11 @@
 
           <div class="col-lg-4 col-md-2 col-sm-2"></div>
 
-          <% images.forEach(function(image){ %>
+          <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("title")) { %>
               <div class="col-lg-4 col-md-8 col-sm-8">
                 <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
-                  <img src="<%= image.url %>" alt="logo">
+                  <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="logo">
                 </a>
              </div>
             <% } %>
@@ -43,11 +43,11 @@
       </div>
       <div class="col-lg-10 col-md-8">
         <div class="row">
-          <% images.forEach(function(image){ %>
+          <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("platinum")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
                 <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
-                  <img src="<%= image.url %>" alt="logo">
+                  <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="logo">
                 </a>
              </div>
             <% } %>
@@ -65,11 +65,11 @@
       </div>
       <div class="col-lg-10 col-md-8">
         <div class="row">
-          <% images.forEach(function(image){ %>
+          <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("gold")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
                 <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
-                  <img src="<%= image.url %>" alt="logo">
+                  <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="logo">
                 </a>
              </div>
             <% } %>
@@ -87,11 +87,11 @@
       </div>
       <div class="col-lg-10 col-md-8">
         <div class="row">
-          <% images.forEach(function(image){ %>
+          <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("silver")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
                 <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
-                  <img src="<%= image.url %>" alt="logo">
+                  <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="logo">
                 </a>
              </div>
             <% } %>
@@ -109,11 +109,11 @@
       </div>
       <div class="col-lg-10 col-md-8">
         <div class="row">
-          <% images.forEach(function(image){ %>
+          <% images.resources.forEach(function(image){ %>
             <% if(image.tags.includes("bronze")) { %>
               <div class="col-lg-3 col-md-4 col-sm-4 col-6">
                 <a href="http://www.<%= image.filename.substring(3) %>" target="_blank">
-                  <img src="<%= image.url %>" alt="logo">
+                  <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="logo">
                </a>
              </div>
             <% } %>

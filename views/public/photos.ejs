@@ -22,7 +22,7 @@
             <div class="modal-link" data-toggle="modal" data-target="#exampleModalCenter">
               <div class="card card-link-floater card-shadow">
                 <div class="card-img-mask card-img-mask-top">
-                  <img class="card-img-top" src="<%= image.url %>" alt="image">
+                  <img class="card-img-top" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="image">
                 </div>
               </div>
             </div>

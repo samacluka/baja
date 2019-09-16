@@ -327,6 +327,7 @@ support.folderImages = function(folders, images){
       if(image.filename == folder.name){
         retArr.push({
           image_url: image.url,
+          image_public_id: image.public_id,
           name: folder.name,
           path: folder.path
         });

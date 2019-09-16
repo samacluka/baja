@@ -90,7 +90,7 @@
     </div>
 
 
-    <img class="img-fluid rounded mx-auto d-block" src="<%= expenseReport.image %>" alt="receipt">
+    <img class="img-fluid rounded mx-auto d-block" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= expenseReport.image_id %>" alt="receipt">
 
   </div> <!-- /container -->
 </div> <!-- /expenseReport_show -->

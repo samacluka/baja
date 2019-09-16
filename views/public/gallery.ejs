@@ -12,6 +12,7 @@
             <a href="/<%= encodeURI(folder.path) %>">
               <div class="card card-shadow card-link-floater card-background card-lg">
                  <img class="card-img-bg" src="<%= folder.image_url %>" alt="<%= folder.name.replace(/_/g," ") %>">
+                 <img class="card-img-bg" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= folder.image_public_id %>" alt="<%= folder.name.replace(/_/g," ") %>">
                  <div class="card-body">
                    <h3 class="card-title"><%= folder.name.replace(/_/g," ") %></h3>
                  </div>

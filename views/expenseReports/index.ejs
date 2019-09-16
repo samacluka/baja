@@ -38,7 +38,7 @@
                     </div>
                     <% } %>
 
-                    <img class="card-img-top" src="<%= expenseReport.image %>" alt="image">
+                    <img class="card-img-top" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= expenseReport.image_id %>" alt="image">
                     <div class="card-body text-center mb-0">
                       <h3 class="card-text">Created on <%= expenseReport.created.toDateString() %></h3>
                       <h3 class="card-text">Created by <%= expenseReport.author.firstName + " " + expenseReport.author.lastName %></h3>
