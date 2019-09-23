@@ -26,13 +26,6 @@ var callbacks = {
       // callback
       // success
     },
-    local: {
-      // signup
-      // create
-      // login
-      // callback
-      // success
-    }
   },
   index: {
       get: {
@@ -110,7 +103,7 @@ callbacks.auth.google.index = passport.authenticate('google', {
 });
 
 callbacks.auth.google.callback = passport.authenticate('google', {
-  failureFlash:    "An unknown error occured",
+  failureFlash:    true, // Not working on heroku deployed version (works on local copy) -- redirects to auth with no failure flash
   failureRedirect: '/auth'
 });
 

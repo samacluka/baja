@@ -13,11 +13,4 @@ router.get("/logout", callbacks.auth.logout);
 router.get("/google", callbacks.auth.google.index);
 router.get("/google/callback", callbacks.auth.google.callback, callbacks.auth.google.success);
 
-// LOCAL
-// router.get("/local/signup", callbacks.auth.local.signup);
-// router.post("/local/create", callbacks.auth.local.create);
-//
-// router.get("/local", callbacks.auth.local.login);
-// router.get("/local/callback", callbacks.auth.local.callback, callbacks.auth.local.success);
-
 module.exports = router;
