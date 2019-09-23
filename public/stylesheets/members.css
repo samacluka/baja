@@ -1,0 +1,12 @@
+/* EDIT */
+
+/* INDEX */
+
+/* SHOW */
+#members_show .avatar{
+  padding: 0.25em;
+  margin: 0 auto;
+  height: 144px;
+  width: auto;
+  border-radius: 50%;
+}

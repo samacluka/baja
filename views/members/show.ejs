@@ -2,7 +2,31 @@
 <%- include(views+'partials/header4'); %>
 
 <div id="members_show">
-  <h1>test</h1>
+
+  <img class="avatar" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image %>" alt="<%= member.firstName %> profile image">
+
+  <div class="displayname">
+    <%= member.firstName %> <%= member.lastName %>
+  </div>
+
+  <div class="position">
+    <% if(member.clearance == userClearance.captain){ %>
+      <p>Captain</p>
+    <% } else if(member.clearance == userClearance.lead){ %>
+      <p>Lead</p>
+    <% } else {%>
+      <p>General Member</p>
+    <% } %>
+  </div>
+
+  <div class="status">
+    <% if(member.approved == true){ %>
+      <p>Account Status: Approved</p>
+    <% } else {%>
+      <p>Account Status: Not Approved</p>
+    <% } %>
+  </div>
+
 </div>
 
 <%- include(views+'partials/footer4'); %>

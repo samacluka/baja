@@ -12,9 +12,8 @@
             <div class="card card-shadow">
               <a class="card-img-mask card-img-mask-top" href="/members/<%= member._id %>">
                 <div class="icon-circle">
-                  <img class="profile-img" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image %>" alt="<%= member.firstName %> profile image">
+                  <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image %>" alt="<%= member.firstName %> profile image">
                 </div>
-                <!-- <img class="card-img" src="/images/McMaster_Baja_Logo.svg" alt="McMaster Baja Logo"> -->
               </a>
               <div class="card-body text-center">
                 <h3 class="card-title"><%= member.firstName %> <%= member.lastName %></h3>
