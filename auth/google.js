@@ -10,7 +10,10 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOne({ googleId: profile.id }, function (err, user) {
-      if(user){
+      if(err || !user){
+        console.log(err);
+        return done(err, user);
+      } else if(user){
         return done(null, user);
       } else {
         User.create({
