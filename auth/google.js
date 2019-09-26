@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
     User.findOne({ googleId: profile.id }, function (err, user) {
       if(err || !user){
         console.log(err);
-        return done(err, false, {message: err});
+        return done(err, null, {message: err});
       } else if(user){
         return done(null, user);
       } else {
@@ -21,7 +21,7 @@ passport.use(new GoogleStrategy({
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
         }, function(err, newUser){
-          done(null, newUser);
+          return done(null, newUser);
         });
       }
     });
