@@ -103,7 +103,7 @@ callbacks.auth.google.index = passport.authenticate('google', {
 });
 
 callbacks.auth.google.callback = passport.authenticate('google', {
-  failureFlash:    true, // Not working on heroku deployed version (works on local copy) -- redirects to auth with no failure flash
+  failureFlash:    'Authentication failed', // Not working on heroku deployed version (works on local copy) -- redirects to auth with no failure flash
   failureRedirect: '/auth'
 });
 
@@ -121,6 +121,7 @@ callbacks.auth.google.success = function(req,res){
 // GET
 callbacks.index.get.index = function(req,res){
   cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+    req.flash("success","Flash working"); // Testing flash messages on heroku
     res.render(views.public.home, {images: foundImages});
   });
 };
