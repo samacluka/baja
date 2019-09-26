@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
     User.findOne({ googleId: profile.id }, function (err, user) {
       if(err || !user){
         console.log(err);
-        return done(err, user);
+        return done(err, false, {message: err});
       } else if(user){
         return done(null, user);
       } else {
