@@ -4,8 +4,6 @@ module.exports = function(url){
     if(url == "/recruitment")                                           return "Recruitment";
     if(url == "/gallery")                                               return "Gallery";
     if(/^\/gallery\/(.*)$/.test(url))                                   return decodeURI(url.substring(9).replace(/_/g," "));
-    // if(url == "/albums")                                                return "Albums";
-    // if(/^\/albums\/(.*)$/.test(url))                                    return decodeURI(url.substring(8).replace(/_/g," "));
 
     if(url == "/expenseReports")                                        return "Expense Reports";
     if(url == "/expenseReports/new")                                    return "New Expense Report";

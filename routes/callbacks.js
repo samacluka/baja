@@ -103,7 +103,7 @@ callbacks.auth.google.index = passport.authenticate('google', {
 });
 
 callbacks.auth.google.callback = passport.authenticate('google', {
-  failureFlash:    'Authentication failed', // Not working on heroku deployed version (works on local copy) -- redirects to auth with no failure flash
+  failureFlash:    'Authentication failed',
   failureRedirect: '/auth'
 });
 
@@ -121,7 +121,6 @@ callbacks.auth.google.success = function(req,res){
 // GET
 callbacks.index.get.index = function(req,res){
   cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
-    req.flash("success","Flash working"); // Testing flash messages on heroku
     res.render(views.public.home, {images: foundImages});
   });
 };
@@ -169,29 +168,23 @@ callbacks.index.get.photos = function(req,res){
 // ======================================== EXPENSE REPORTS ========================================
 // GET
 callbacks.expenseReports.get.index = function(req,res){
-  if(req.user.clearanceIsGET(userClearance.captain)){
-    ExpenseReport.find().sort('-created').populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
-      if(err){
-        console.log(err);
-      } else {
+  ExpenseReport.find().sort('-created').populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
+    if(err){
+      console.log(err);
+    } else {
+      if(req.user.clearanceIsGET(userClearance.captain)){
         var csv_href_rep = support.create_href_reports(allExpenseReports);
         var csv_href_item = support.create_href_items(allExpenseReports);
         res.render(views.expenseReports.index, {expenseReports: allExpenseReports,
                                                         csv_href_rep:   csv_href_rep,
-                                                        csv_href_item:  csv_href_item})
-      }
-    });
-  } else {
-    ExpenseReport.find({author: req.user._id}).sort('-created').populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
-      if(err){
-        console.log(err);
+                                                        csv_href_item:  csv_href_item});
       } else {
         res.render(views.expenseReports.index, {expenseReports: allExpenseReports,
                                                         csv_href_rep:   "#",
-                                                        csv_href_item:  "#"})
+                                                        csv_href_item:  "#"});
       }
-    });
-  }
+    }
+  });
 };
 
 callbacks.expenseReports.get.new = function(req,res){
@@ -258,7 +251,7 @@ callbacks.expenseReports.post.new = function(req,res){
                                   if(err4){
                                     console.log(err4);
                                   } else {
-                                    console.log(result);
+                                    // console.log(result);
                                     newExpenseReport.image = result.url;
                                     newExpenseReport.image_id = result.public_id;
                                     newExpenseReport.save().then(function(savedExpenseReport){
@@ -306,7 +299,7 @@ callbacks.expenseReports.put.save = function(req,res){
               if(err){
                 console.log(err);
               } else {
-                console.log(result);
+                // console.log(result);
                 foundExpenseReport.image = result.url;
                 foundExpenseReport.image_id = result.public_id;
                 foundExpenseReport.save().then(function(savedExpenseReport){
