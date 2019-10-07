@@ -15,14 +15,14 @@ passport.use(new GoogleStrategy({
         return done(err, null);
       } else if(user){
         console.log(user);
-        return done(null, user);
+        done(null, user);
       } else {
         User.create({
           googleId: profile.id,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
         }, function(err, newUser){
-          return done(null, newUser);
+          done(null, newUser);
         });
       }
     });
