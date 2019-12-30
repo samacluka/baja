@@ -10,9 +10,9 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOne({ googleId: profile.id }, function (err, user) {
-      if(err || !user){
+      if(err){
         console.log(err);
-        return done(err, null);
+        done(err, null);
       } else if(user){
         console.log(user);
         done(null, user);
