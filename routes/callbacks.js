@@ -283,51 +283,87 @@ callbacks.expenseReports.post.new = function(req,res){
 
 // PUT
 callbacks.expenseReports.put.save = function(req,res){
-  if(req.file == undefined){ // If no image was uploaded -- just saved form data
-    ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
-      if(err){
-        console.log(err);
-        res.redirect("/expenseReports");
-      } else {
-        req.flash("success","Report successfully saved");
-        res.redirect("/expenseReports/"+req.params.id);
-      }
-    });
-  } else { // If a new image was uploaded save to cloudinary and save form data
-    ExpenseReport.findByIdAndUpdate(req.params.id, req.body.expenseReport, function(err,foundExpenseReport){
-      if(err){
-        console.log(err);
-        res.redirect("/expenseReports");
-      } else {
-        cloudinary.uploader.destroy(foundExpenseReport.image_id, function(err){
-          if(err){
-            console.log(err);
-          } else {
-            cloudinary.uploader.upload(multer.dataUri(req).content,
-            {
-              folder: "receipts",             // Folder the image is being saved to on cloud
-              eager : [{quality: "auto:low"}], // Reduce image quality for speed
-              eager_async: true,              // Do operations async
-            }, function(err, result){ // Upload image to cloudinary
-              if(err){
-                console.log(err);
+  ExpenseItem.deleteMany({expenseReport: req.params.id}, function(err){
+    if(err){
+      console.log(err);
+    } else {
+      ExpenseReport.findById(req.params.id, function(err,foundExpenseReport){
+        if(err){
+          console.log(err);
+          req.flash("error","Error:"+err);
+          res.redirect("/expenseReports");
+        } else {
+          var og_num_expenseItems = foundExpenseReport.expenseItems.length;
+
+          foundExpenseReport.author = req.user._id;
+          foundExpenseReport.store = req.body.expenseReport.store;
+          foundExpenseReport.currency = req.body.expenseReport.currency;
+          foundExpenseReport.subtotal = req.body.expenseReport.subtotal;
+          foundExpenseReport.tax = req.body.expenseReport.tax;
+          foundExpenseReport.shipping = req.body.expenseReport.shipping;
+          foundExpenseReport.total = req.body.expenseReport.total;
+          foundExpenseReport.notes = req.body.expenseReport.notes;
+
+          foundExpenseReport.save().then(function(savedExpenseReport){
+
+            var expenseItems = support.organizeItemData(req.body.expenseReport, savedExpenseReport);
+            ExpenseItem.insertMany(expenseItems,function(err3,newExpenseItems){
+
+              if(err3 || !newExpenseItems){
+                console.log(err3);
               } else {
-                // console.log(result);
-                foundExpenseReport.image = result.url;
-                foundExpenseReport.image_id = result.public_id;
-                foundExpenseReport.save().then(function(savedExpenseReport){
-                  req.flash("success","Report successfully saved");
-                  res.redirect("/expenseReports/"+req.params.id);
-                }).catch(function(err){
+                savedExpenseReport.expenseItems.push.apply(savedExpenseReport.expenseItems, newExpenseItems); // push expense item ids to expense report item array
+
+                savedExpenseReport.expenseItems.splice(0,og_num_expenseItems); // Remove OG ids
+
+                savedExpenseReport.save().then((finalExpenseReport) => {
+                  if(req.file == undefined){ // If no image was uploaded -- just save form data
+                    req.flash("success","Report successfully saved");
+                    res.redirect("/expenseReports/"+req.params.id);
+
+                  } else { // If a new image was uploaded save to cloudinary and save form data
+
+                    cloudinary.uploader.destroy(finalExpenseReport.image_id, function(err){
+                      if(err){
+                        console.log(err);
+                      } else {
+
+                        cloudinary.uploader.upload(multer.dataUri(req).content,
+                        {
+                          folder: "receipts",             // Folder the image is being saved to on cloud
+                          eager : [{quality: "auto:low"}], // Reduce image quality for speed
+                          eager_async: true,              // Do operations async
+                        }, function(err, result){ // Upload image to cloudinary
+                          if(err){
+                            console.log(err);
+                          } else {
+                            // console.log(result);
+                            finalExpenseReport.image = result.url;
+                            finalExpenseReport.image_id = result.public_id;
+                            finalExpenseReport.save().then(() => {
+                              req.flash("success","Report successfully saved");
+                              res.redirect("/expenseReports/"+req.params.id);
+                            }).catch((err) => {
+                              console.log(err);
+                            });
+                          }
+                        });
+
+                      }
+                    });
+                  }
+                }).catch((err) => {
                   console.log(err);
                 });
               }
             });
-          }
-        });
-      }
-    });
-  }
+          }).catch(function(err){
+            console.log(err);
+          });
+        }
+      });
+    }
+  });
 };
 
 callbacks.expenseReports.put.approve = function(req,res){

@@ -186,7 +186,7 @@ support.checkFileType = function(req, file, cb){
 };
 
 // Creates array of [item] objects with organized item data
-support.organizeItemData = function(data, newExpenseReport){
+support.organizeItemData = function(data, ExpenseReport){
   var expenseItems = [];
   for(var i = 0; i < data.itemName.length; i++){
     if(data.itemName[i] != ''){
@@ -196,7 +196,7 @@ support.organizeItemData = function(data, newExpenseReport){
                           category:     checkArray(data.category, i), //data.category[i],
                           subteam:      checkArray(data.subteam, i), //data.subteam[i],
                           itemPrice:    data.itemPrice[i],
-                          expenseReport: newExpenseReport});
+                          expenseReport: ExpenseReport});
       } catch(err2){
         console.log(err2);
       } // Empty catch acts like "try pass"

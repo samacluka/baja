@@ -1,4 +1,6 @@
-var num_rows = 1;
+//Initial number of rows
+var num_rows_init = $('#expenseReportFormTable tr').length - 1; // Subtract 1 because of header row;
+var num_rows = num_rows_init;
 
 $(document).ready(function(){
   // Plus icon
@@ -13,14 +15,16 @@ $(document).ready(function(){
       $("select[name*=subteam]").last().find(':selected').removeAttr('selected');   // Deselect current selection
     }
 
-    if(num_rows == 1){
+    if(num_rows <= num_rows_init){
       $("input[name*=itemName]").last().val('');
       $("select[name*=category]").last().append('<option value="" selected>-- Same as above --</option>'); // Add same as above option
       $("select[name*=subteam]").last().append('<option value="" selected>-- Same as above --</option>'); // Add same as above option
       $("input[name*=itemPrice]").last().val('');
       $("input[name*=quantity]").last().val('');
 
-      $('tr:last-of-type').append('<td><div class="trashIcon"><i class="fa fa-trash"></i></div></td>'); // Append trash icon to new rows
+      if(!$('tr:last-of-type > td > div.trashIcon').length){ // If a trash icon doesn't exist on the copied row
+        $('tr:last-of-type').append('<td><div class="trashIcon"><i class="fa fa-trash"></i></div></td>'); // Append trash icon to new rows
+      }
     }
 
     // Apply functionality to newly created elements
@@ -93,4 +97,10 @@ $(document).ready(function(){
     $("#total").val(total);
   });
 
+  // Edit form may load with multiple rows, therefore can't wait for plus icon to be clicked
+  $(".fa-trash").click(function(event){
+      $(this).closest("tr").remove();
+      num_rows = $('#expenseReportFormTable tr').length - 1 ; // Subtract 1 because of header row
+      event.stopPropagation(); // Avoid bubbling
+  });
 });
