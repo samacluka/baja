@@ -1,0 +1,13 @@
+<% const views = '../' %>
+<%- include(views+'partials/header4'); %>
+
+<div id="post">
+  <div class="container">
+      <h1><%= post.title %></h1>
+      <p><strong>Updated: <%= post.updated.substring(0,10) %></strong></p>
+      <br>
+      <p><%= post.content %></p>
+  </div>
+</div>
+
+<%- include(views+'partials/footer4'); %>

@@ -5,6 +5,29 @@
   margin: auto;
 }
 
+#home {
+  margin-top: 20px;
+}
+
+#home .col-lg-6.blog-post-preview {
+  padding: 60px;
+  background-color: #EFEFEF;
+}
+
+#home a:hover{
+  text-decoration: none;
+}
+/* =========== POST =========== */
+#post .container{
+  margin-top: 40px;
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+#post h1{
+  margin-bottom: 10px;
+}
+
 /* =========== RECRUITMENT =========== */
 #recruitment .banner-img img{
   width: 100%;

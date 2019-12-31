@@ -1,5 +1,6 @@
 module.exports = function(url){
     if(url == "/")                                                      return "home";
+    if(/^\/post\/([a-zA-Z0-9]{19})$/.test(url))                         return "Blog Post";
     if(url == "/sponsors")                                              return "Sponsors";
     if(url == "/recruitment")                                           return "Recruitment";
     if(url == "/gallery")                                               return "Gallery";

@@ -1,6 +1,7 @@
 const rootDir = "../";
 
-const passport        = require("passport");
+const passport        = require("passport"),
+      request         = require('request');
 
 const ExpenseReport   = require(rootDir+"models/expenseReport.js"),
       ExpenseItem     = require(rootDir+"models/expenseItem.js"),
@@ -30,9 +31,7 @@ var callbacks = {
   index: {
       get: {
         // index
-        // register
-        // login
-        // logout
+        // post
         // sponsors
         // recruitment
         // gallery
@@ -120,8 +119,22 @@ callbacks.auth.google.success = function(req,res){
 // ======================================== INDEX ========================================
 // GET
 callbacks.index.get.index = function(req,res){
-  cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
-    res.render(views.public.home, {images: foundImages});
+  // cloudinary.search.expression('folder: home').sort_by('uploaded_at','desc').execute().then((foundImages) => {
+  //   res.render(views.public.home, {images: foundImages});
+  // });
+
+  request('https://www.googleapis.com/blogger/v3/blogs/1611983928963100169/posts?key='+process.env.GOOGLE_API_KEY, { json: true }, (err, resp, body) => {
+    if (err) { return console.log(err); }
+    console.log(body);
+
+    res.render(views.public.home2, {posts: body.items});
+  });
+};
+
+callbacks.index.get.post = function(req,res){
+  request('https://www.googleapis.com/blogger/v3/blogs/1611983928963100169/posts/' + req.params.id + '?key=' + process.env.GOOGLE_API_KEY, { json: true }, (err, resp, body) => {
+    if (err) { return console.log(err); }
+    res.render(views.public.post, {post: body});
   });
 };
 

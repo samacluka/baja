@@ -5,6 +5,8 @@ const viewsDir = path.join(__dirname, "../views/");
 const views = {
     public: {
       home: viewsDir + "public/home",
+      home2: viewsDir + "public/home2", ///// TO BE DELETED
+      post: viewsDir + "public/post",
       sponsors: viewsDir + "public/sponsors",
       recruitment: viewsDir + "public/recruitment",
       gallery: viewsDir + "public/gallery",
