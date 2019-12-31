@@ -62,7 +62,7 @@
     <div class="row">
       <div class="col-6">
         <h5><strong>Notes: </strong></h5>
-        <p><%= expenseReport.notes %></p>
+        <pre><%= expenseReport.notes %></pre>
       </div>
       <div class="col-6">
         <div id="report-summary">
@@ -89,8 +89,9 @@
       </div>
     </div>
 
-
-    <img class="img-fluid rounded mx-auto d-block" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= expenseReport.image_id %>" alt="receipt">
+    <div class="receipt">
+      <img class="img-fluid rounded mx-auto d-block" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= expenseReport.image_id %>" alt="receipt">
+    </div>
 
   </div> <!-- /container -->
 </div> <!-- /expenseReport_show -->

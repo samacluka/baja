@@ -5,24 +5,27 @@ $(document).ready(function(){
   $(".fa-plus").click(function(){
     $('tr:last-of-type').clone().appendTo("#expenseReportFormTable"); // Duplicate last row
 
-    if($("select[name='category[]']").last().find(':selected').val() != ""){            // If anything but -- Same as Above -- is selected
-      $("select[name='category[]']").last().find(':selected').removeAttr('selected');  // Deselect current selection
+    if($("select[name*=category]").last().find(':selected').val() != ""){            // If anything but -- Same as Above -- is selected
+      $("select[name*=category]").last().find(':selected').removeAttr('selected');  // Deselect current selection
     }
 
-    if($("select[name='subteam[]']").last().find(':selected').val() != ""){             // If anything but -- Same as Above -- is selected
-      $("select[name='subteam[]']").last().find(':selected').removeAttr('selected');   // Deselect current selection
+    if($("select[name*=subteam]").last().find(':selected').val() != ""){             // If anything but -- Same as Above -- is selected
+      $("select[name*=subteam]").last().find(':selected').removeAttr('selected');   // Deselect current selection
     }
 
     if(num_rows == 1){
-      $("select[name='category[]']").last().append('<option value="" selected>-- Same as above --</option>'); // Add same as above option
-      $("select[name='subteam[]']").last().append('<option value="" selected>-- Same as above --</option>'); // Add same as above option
+      $("input[name*=itemName]").last().val('');
+      $("select[name*=category]").last().append('<option value="" selected>-- Same as above --</option>'); // Add same as above option
+      $("select[name*=subteam]").last().append('<option value="" selected>-- Same as above --</option>'); // Add same as above option
+      $("input[name*=itemPrice]").last().val('');
+      $("input[name*=quantity]").last().val('');
 
       $('tr:last-of-type').append('<td><div class="trashIcon"><i class="fa fa-trash"></i></div></td>'); // Append trash icon to new rows
     }
 
     // Apply functionality to newly created elements
     // Had to use inline callback function --> would not work otherwise
-    $("input[name='itemPrice[]']").on("input", function(){
+    $("input[name*=itemPrice],input[name*=quantity]").on("input", function(){
       var tax = 0;
       var shipping = 0;
       var subtotal = 0;
@@ -34,9 +37,9 @@ $(document).ready(function(){
       tax = $("#tax").val() * 1.0; // Multiply by 1 to put into float format
       shipping = $("#shipping").val() * 1.0;
 
-      $("input[name='itemPrice[]']").each(function(itemIndex){
+      $("input[name*=itemPrice]").each(function(itemIndex){
         price = ($(this).val() * 1.0);
-        $("input[name='quantity[]']").each(function(quantIndex){
+        $("input[name*=quantity]").each(function(quantIndex){
           quant = ($(this).val() * 1.0);
           if(itemIndex == quantIndex){
             subtotal += price * quant;
@@ -53,11 +56,11 @@ $(document).ready(function(){
     // Give trash icon functionality
     $(".fa-trash").click(function(event){
         $(this).closest("tr").remove();
+        num_rows = $('#expenseReportFormTable tr').length - 1 ; // Subtract 1 because of header row
         event.stopPropagation(); // Avoid bubbling
-        num_rows -= 1; // Decrement number of rows
     });
 
-    num_rows += 1; // Increment number of rows
+    num_rows = $('#expenseReportFormTable tr').length - 1; // Subtract 1 because of header row
   });
 
   // Apply functionality to stock elements
@@ -74,9 +77,9 @@ $(document).ready(function(){
     tax = $("#tax").val() * 1.0; // Multiply by 1 to put into float format
     shipping = $("#shipping").val() * 1.0;
 
-    $("input[name='itemPrice[]']").each(function(itemIndex){
+    $("input[name*=itemPrice]").each(function(itemIndex){
       price = ($(this).val() * 1.0);
-      $("input[name='quantity[]']").each(function(quantIndex){
+      $("input[name*=quantity]").each(function(quantIndex){
         quant = ($(this).val() * 1.0);
         if(itemIndex == quantIndex){
           subtotal += price * quant;

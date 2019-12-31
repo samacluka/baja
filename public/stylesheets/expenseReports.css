@@ -123,6 +123,14 @@
 }
 
 /* =========== SHOW =========== */
+#expenseReport_show .container.container{
+    text-align: center;
+}
+
+#expenseReport_show .container.container .btn{
+  margin: 5px;
+}
+
 #expenseReport_show #report-summary td{
   margin: 0.5em;
 }
@@ -149,4 +157,13 @@
   vertical-align: middle;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+#expenseReport_show pre{
+  font-family: Roboto;
+}
+
+#expenseReport_show .receipt img{
+  max-width: 60%;
+  height: auto;
 }
