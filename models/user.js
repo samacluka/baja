@@ -5,7 +5,7 @@ var userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   clearance: {type: Number, default: 0},
-  image: String,
+  image_id: String,
   approved: {type: Boolean, default: false},
   googleId: String,
 });

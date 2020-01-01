@@ -10,8 +10,8 @@
           <p>
             <a class="btn btn-primary btn-lg m-1" id="new_expense_report_btn" href="/expenseReports/new">Add a new Expense Report</a>
             <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
-              <a class="btn btn-success btn-lg m-1" id="csv_download_report_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_rep %>">Download CSV<br/><small>Rows are Reports</small></a>
-              <a class="btn btn-success btn-lg m-1" id="csv_download_item_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_item %>">Download CSV<br/><small>Rows are Items</small></a>
+              <a class="btn btn-success btn-lg m-1" id="csv_download_report_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_rep %>">Download CSV <small> Rows are Reports</small></a>
+              <a class="btn btn-success btn-lg m-1" id="csv_download_item_btn" download="Expense_Report_CSV_<%= new Date() %>.csv" href="<%= csv_href_item %>">Download CSV <small>Rows are Items</small></a>
             <% } %>
           </p>
         </div>

@@ -65,12 +65,10 @@ var callbacks = {
   members: {
     get: {
       // index
-      // new
       // show
       // edit
     },
     post: {
-      // new
     },
     put: {
       // save
@@ -125,7 +123,6 @@ callbacks.index.get.index = function(req,res){
 
   request('https://www.googleapis.com/blogger/v3/blogs/1611983928963100169/posts?key='+process.env.GOOGLE_API_KEY, { json: true }, (err, resp, body) => {
     if (err) { return console.log(err); }
-    console.log(body);
 
     res.render(views.public.home2, {posts: body.items});
   });
@@ -264,7 +261,7 @@ callbacks.expenseReports.post.new = function(req,res){
                                   if(err4){
                                     console.log(err4);
                                   } else {
-                                    // console.log(result);
+                                    if(req.user.clearanceIsGET(userClearance.captain)){ newExpenseReport.approved = true; } // Captain submission automatically approved
                                     newExpenseReport.image = result.url;
                                     newExpenseReport.image_id = result.public_id;
                                     newExpenseReport.save().then(function(savedExpenseReport){
@@ -337,7 +334,7 @@ callbacks.expenseReports.put.save = function(req,res){
                           if(err){
                             console.log(err);
                           } else {
-                            // console.log(result);
+                            if(req.user.clearanceIsGET(userClearance.captain)){ newExpenseReport.approved = true; } // Captain submission automatically approved
                             finalExpenseReport.image = result.url;
                             finalExpenseReport.image_id = result.public_id;
                             finalExpenseReport.save().then(() => {
@@ -454,21 +451,73 @@ callbacks.members.get.index = function(req,res){
   });
 };
 
-callbacks.members.get.new = function(req,res){};
-
 callbacks.members.get.show = function(req,res){
   User.findById(req.params.id, (err, foundUser) => {
     res.render(views.members.show, {member: foundUser});
   });
 };
 
-callbacks.members.get.edit = function(req,res){};
-
-// POST
-callbacks.members.post.new = function(req,res){};
+callbacks.members.get.edit = function(req,res){
+  User.findById(req.params.id).exec(function(err, foundUser){
+    Option.find({select: "clearance"}).exec((err, foundOptions) => {
+      res.render(views.members.edit, {member: foundUser, options: foundOptions});
+    });
+  });
+};
 
 // PUT
-callbacks.members.put.save = function(req,res){};
+callbacks.members.put.save = function(req,res){
+  User.findById(req.params.id, function(err,foundUser){
+    if(err){
+      console.log(err);
+      req.flash("error","Find User Error: "+err);
+      res.redirect("/members");
+    } else {
+      foundUser.firstName = req.body.firstName;
+      foundUser.firstName = req.body.lastName;
+
+      try{
+        foundUser.clearance = req.body.clearance;
+      }catch(err){console.log(err);}
+
+      if(req.user.clearanceIsGET(userClearance.captain)){ foundUser.approved = true; } // Captain submission automatically approved
+
+      foundUser.save().then((savedExpenseReport) => {
+        if(req.file == undefined){ // If no image was uploaded -- just save form data
+          req.flash("success","Member successfully saved");
+          res.redirect("/members/"+req.params.id);
+
+        } else { // If a new image was uploaded save to cloudinary and save form data
+
+          cloudinary.uploader.destroy(foundUser.image_id, function(err){
+            if(err){
+              console.log(err);
+            } else {
+
+              cloudinary.uploader.upload(multer.dataUri(req).content,
+              {
+                folder: "receipts",             // Folder the image is being saved to on cloud
+                eager : [{quality: "auto:low"}], // Reduce image quality for speed
+                eager_async: true,              // Do operations async
+              }, function(err, result){ // Upload image to cloudinary
+                if(err){
+                  console.log("Cloudinary Upload Error: "+err);
+                } else {
+                  foundUser.image_id = result.public_id;
+                  foundUser.save().then(() => {
+                    req.flash("success","Member successfully saved");
+                    res.redirect("/members/"+req.params.id);
+                  }).catch((err) => { console.log(err); });
+                }
+              });
+
+            }
+          });
+        }
+      }).catch((err) => { console.log(err); });
+    };
+  });
+}
 
 callbacks.members.put.approve = function(req,res){
   User.findById(req.params.id, function(err, foundUser){
@@ -493,6 +542,53 @@ callbacks.members.put.unapprove = function(req,res){
 };
 
 // DELETE
-callbacks.members.delete.remove = function(req,res){};
+callbacks.members.delete.remove = function(req,res){
+  var expenseItemsArr = [];
+  ExpenseReport.find({author: req.params.id}).exec((err, foundExpenseReports) => {
+
+  foundExpenseReports.forEach((expenseReport) => {
+    expenseItemsArr.push.apply(expenseItemsArr, expenseReport.expenseItems); // push expense item ids to expense report item array
+  });
+
+  ExpenseItem.deleteMany({_id: {$in: expenseItemsArr}},function(err){ // delete all expense items
+      if(err){ console.log(err); }
+      else{
+        ExpenseReport.deleteMany({_id: {$in: foundExpenseReports}},function(err){ // delete all expense REPORTS
+          if(err){ console.log(err); }
+          else{
+            // Must find member, delete image, then delete member --> because mongoose deprecated the return of object on delete functionality
+            User.findById(req.params.id, function(err2, foundUser){ // find the user
+              if(foundUser.image){ // If the member has an image remove it from cloudinary
+                cloudinary.uploader.destroy(foundUser.image, function(err3){
+                  if(err3){
+                    console.log(err3);
+                  } else {
+                    User.deleteOne({_id: req.params.id}, function(err3){ //Now delete the report
+                      if(err3){
+                        console.log(err3);
+                      } else {
+                        req.flash("success","User successfully deleted");
+                        res.redirect("/members");
+                      }
+                    });
+                  }
+                });
+              } else { // if the report doesnt have an image just delete the report
+                User.deleteOne({_id: req.params.id}, function(err3){
+                  if(err3){
+                    console.log(err3);
+                  } else {
+                    req.flash("success","User successfully deleted");
+                    res.redirect("/members");
+                  }
+                });
+              }
+          });
+          }
+        });
+      }
+    });
+  });
+};
 
 module.exports = callbacks;

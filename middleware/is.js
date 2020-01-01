@@ -56,6 +56,50 @@ is.ExpenseReportAuthor = function(req,res,next){
   }
 }
 
+is.member = function(req,res,next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+
+  if(req.isAuthenticated()){
+    User.findById(req.params.id, function(err, foundUser){
+      if(err || !foundUser){
+          console.log(err);
+          req.flash('error', 'Sorry, that member does not exist!');
+          res.redirect('/members');
+      } else if(foundUser._id.equals(req.user._id) || req.user.isAdmin){
+          return next();
+      } else {
+          req.flash('error', 'You don\'t have permission to do that!');
+          res.redirect('/members/' + req.params.id);
+      }
+    });
+  } else {
+    req.flash("error","You need to be logged in to do that");
+    res.redirect("back");
+  }
+}
+
+is.CaptainOrMember = function(req,res,next){
+  if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
+
+  if(req.isAuthenticated()){
+    User.findById(req.params.id, function(err, foundUser){
+      if(err || !foundUser){
+          console.log(err);
+          req.flash('error', 'Sorry, that member does not exist!');
+          res.redirect('/members');
+      } else if(foundUser._id.equals(req.user._id) || req.user.isAdmin || req.user.isClearanceGET(userClearance.captain)){
+          return next();
+      } else {
+          req.flash('error', 'You don\'t have permission to do that!');
+          res.redirect('/members/' + req.params.id);
+      }
+    });
+  } else {
+    req.flash("error","You need to be logged in to do that");
+    res.redirect("back");
+  }
+}
+
 is.Captain = function(req,res,next){
   if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
 

@@ -2,31 +2,70 @@
 <%- include(views+'partials/header4'); %>
 
 <div id="members_show">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
 
-  <img class="avatar" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image %>" alt="<%= member.firstName %> profile image">
+      </div>
 
-  <div class="displayname">
-    <%= member.firstName %> <%= member.lastName %>
+      <div class="col-md-8">
+        <img class="avatar" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image_id %>" alt="<%= member.firstName %>'s profile image">
+
+        <div class="displayname">
+          <h2><%= member.firstName %> <%= member.lastName %></h2>
+        </div>
+
+        <div class="position">
+          <% if(member.clearance == userClearance.captain){ %>
+            <h4>Captain</h4>
+          <% } else if(member.clearance == userClearance.lead){ %>
+            <h4>Lead</h4>
+          <% } else {%>
+            <h4>General Member</h4>
+          <% } %>
+        </div>
+
+        <div class="status">
+          <% if(member.approved == true){ %>
+            <p><strong>Account Status:</strong> Approved</p>
+          <% } else {%>
+            <p><strong>Account Status:</strong> Not Approved</p>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <% if(currentUser && (member._id.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
+          <div class="container">
+            <div class="row py-3">
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
+                  <% if(member.approved == false){ %>
+                    <form class="" action="/members/<%= member._id %>/approve?_method=PUT" method="post">
+                      <input type="submit" class="btn btn-lg btn-info" value="Approve">
+                    </form>
+                  <% } else { %>
+                    <form class="" action="/members/<%= member._id %>/unapprove?_method=PUT" method="post">
+                      <input type="submit" class="btn btn-lg btn-warning" value="Unapprove">
+                    </form>
+                  <% } %>
+                <% } %>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <a class="btn btn-lg btn-warning" href="/members/<%= member._id %>/edit">Edit</a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <form class="delete-form" action="/members/<%= member._id %>?_method=DELETE" method="post">
+                  <input type="submit" class="btn btn-lg btn-danger" value="Delete">
+                </form>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+
+    </div>
   </div>
-
-  <div class="position">
-    <% if(member.clearance == userClearance.captain){ %>
-      <p>Captain</p>
-    <% } else if(member.clearance == userClearance.lead){ %>
-      <p>Lead</p>
-    <% } else {%>
-      <p>General Member</p>
-    <% } %>
-  </div>
-
-  <div class="status">
-    <% if(member.approved == true){ %>
-      <p>Account Status: Approved</p>
-    <% } else {%>
-      <p>Account Status: Not Approved</p>
-    <% } %>
-  </div>
-
 </div>
 
 <%- include(views+'partials/footer4'); %>

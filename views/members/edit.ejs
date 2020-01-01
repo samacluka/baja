@@ -2,7 +2,48 @@
 <%- include(views+'partials/header4'); %>
 
 <div id="members_edit">
+  <div class="container">
+    <form id="Profile" action="/members/<%= member._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
+      <label class="form-label-bg" for="firstName"><strong>First Name: </strong></label>
+      <div class="form-group"><input id="firstName" class="form-control" type="text" name="firstName" placeholder="First Name" value="<%= member.firstName %>"></div>
+
+      <label class="form-label-bg" for="lastName"><strong>Last Name: </strong></label>
+      <div class="form-group"><input id="lastName" class="form-control" type="text" name="lastName" placeholder="Last Name" value="<%= member.lastName %>"></div>
+
+      <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
+        <label class="form-label-bg" for="clearance"><strong>clearance: </strong></label>
+        <div class="form-group category-select m-1">
+          <select id="clearance" class="form-control" name="clearance">
+            <% options.forEach((option, optionIndex) => { %>
+              <% if(member.clearance == option.value){ %>
+                <option value="<%= option.value %>" selected><%= option.text %></option>
+              <% } else { %>
+                <option value="<%= option.value %>"><%= option.text %></option>
+              <% } %>
+            <% }); %>
+          </select>
+        </div>
+      <% } %>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label class="form-label-bg" for="image"><strong>Profile Image: </strong></label>
+            <input class="form-group" type="file" name="image" accept=".jpeg, .jpg, .png, .gif">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="image">
+            <img class="img-fluid rounded mx-auto d-block" src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image_id %>" alt="No Image Available">
+          </div>
+        </div>
+      </div>
+      <div class="from-group">
+        <input class="btn btn-lg btn-primary btn-block" form="Profile" type="submit" name="Submit" value="Save">
+      </div>
+    </form>
+  </div>
 </div>
 
 <%- include(views+'partials/footer4'); %>

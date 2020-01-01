@@ -1,12 +1,27 @@
 /* EDIT */
+#members_edit .container{
+  margin-top: 20px;
+  max-width: 60%;
+}
+
+#members_edit .image{
+  margin: 20px auto;
+}
 
 /* INDEX */
 
 /* SHOW */
+#members_show .container{
+  text-align: center;
+}
+
 #members_show .avatar{
   padding: 0.25em;
-  margin: 0 auto;
-  height: 144px;
-  width: auto;
+  margin: 20px auto;
+  max-height: 200px;
+  max-width: 200px;
   border-radius: 50%;
+}
+#members_show h2{
+  margin-bottom: 5px;
 }
