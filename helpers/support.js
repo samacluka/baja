@@ -187,16 +187,26 @@ support.checkFileType = function(req, file, cb){
 
 // Creates array of [item] objects with organized item data
 support.organizeItemData = function(data, ExpenseReport){
+  console.log(data);
   var expenseItems = [];
+
+  if(typeof data.itemName === "string"){ // update route will not pass array of size 1 - instead just passing a single string
+    data.itemName   = [data.itemName];
+    data.quantity   = [data.quantity];
+    data.category   = [data.category];
+    data.subteam    = [data.subteam];
+    data.itemPrice  = [data.itemPrice];
+  }
+
   for(var i = 0; i < data.itemName.length; i++){
     if(data.itemName[i] != ''){
       try{
-        expenseItems.push({itemName:     data.itemName[i],
-                          quantity:     data.quantity[i],
-                          category:     checkArray(data.category, i), //data.category[i],
-                          subteam:      checkArray(data.subteam, i), //data.subteam[i],
-                          itemPrice:    data.itemPrice[i],
-                          expenseReport: ExpenseReport});
+        expenseItems.push({itemName:      data.itemName[i],
+                          quantity:       data.quantity[i],
+                          category:       checkArray(data.category, i), //data.category[i],
+                          subteam:        checkArray(data.subteam, i), //data.subteam[i],
+                          itemPrice:      data.itemPrice[i],
+                          expenseReport:  ExpenseReport});
       } catch(err2){
         console.log(err2);
       } // Empty catch acts like "try pass"
