@@ -9,6 +9,6 @@
 }
 
 /* INDEX */
-#members_index .card a:hover{ /* Implies the cards are not a link */
+#members_index a[href="#"]:hover{ /* Implies the cards are not a link */
     cursor: default;
 }
