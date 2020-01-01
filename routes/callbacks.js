@@ -466,8 +466,9 @@ callbacks.members.put.save = function(req,res){
       req.flash("error","Find User Error: "+err);
       res.redirect("/members");
     } else {
+      console.log(req.body);
       foundUser.firstName = req.body.firstName;
-      foundUser.firstName = req.body.lastName;
+      foundUser.lastName = req.body.lastName;
 
       try{
         foundUser.clearance = req.body.clearance;

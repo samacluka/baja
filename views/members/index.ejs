@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="status">
-                  <% if(currentUser && (member._id.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
+                  <% if(currentUser && (member._id.equals(currentUser._id) && !currentUser.clearanceIsGET(userClearance.captain))){ %>
                     <% if(member.approved == true){ %>
                       <p><strong>Account Status:</strong> Approved</p>
                     <% } else {%>

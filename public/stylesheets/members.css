@@ -8,6 +8,10 @@
   margin: 20px auto;
 }
 
+#members_edit select{
+  -webkit-appearance: none;
+}
+
 /* INDEX */
 #members_index a[href="#"]:hover{ /* Implies the cards are not a link */
     cursor: default;
