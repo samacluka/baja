@@ -9,19 +9,6 @@
 }
 
 /* INDEX */
-
-/* SHOW */
-#members_show .container{
-  text-align: center;
-}
-
-#members_show .avatar{
-  padding: 0.25em;
-  margin: 20px auto;
-  max-height: 200px;
-  max-width: 200px;
-  border-radius: 50%;
-}
-#members_show h2{
-  margin-bottom: 5px;
+#members_index .card a:hover{ /* Implies the cards are not a link */
+    cursor: default;
 }

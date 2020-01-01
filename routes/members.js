@@ -8,7 +8,6 @@ const callbacks       = require("./callbacks.js");
 
 // GET
 router.get("/", callbacks.members.get.index);
-router.get("/:id", callbacks.members.get.show);
 router.get("/:id/edit", is.CaptainOrMember, callbacks.members.get.edit);
 
 

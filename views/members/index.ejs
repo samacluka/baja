@@ -10,13 +10,66 @@
           <div class="col-md-3 col-sm-4 col-xs-6">
 
             <div class="card card-shadow">
-              <a class="card-img-mask card-img-mask-top" href="/members/<%= member._id %>">
+              <a class="card-img-mask card-img-mask-top" href="#">
                 <div class="icon-circle">
                   <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= member.image_id %>" alt="<%= member.firstName %> profile image">
                 </div>
               </a>
               <div class="card-body text-center">
                 <h3 class="card-title"><%= member.firstName %> <%= member.lastName %></h3>
+
+                <div class="position">
+                  <% if(member.clearance == userClearance.captain){ %>
+                    <h4>Captain</h4>
+                  <% } else if(member.clearance == userClearance.lead){ %>
+                    <h4>Lead</h4>
+                  <% } else {%>
+                    <h4>General Member</h4>
+                  <% } %>
+                </div>
+
+                <div class="status">
+                  <% if(currentUser && (member._id.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
+                    <% if(member.approved == true){ %>
+                      <p><strong>Account Status:</strong> Approved</p>
+                    <% } else {%>
+                      <p><strong>Account Status:</strong> Not Approved</p>
+                    <% } %>
+                  <% } %>
+                </div>
+
+                <div class="buttons">
+                  <% if(currentUser && (member._id.equals(currentUser._id) || currentUser.clearanceIsGET(userClearance.captain))){ %>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-12 py-1">
+                          <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
+                            <% if(member.approved == false){ %>
+                              <form class="" action="/members/<%= member._id %>/approve?_method=PUT" method="post">
+                                <input type="submit" class="btn btn-sm btn-info" value="Approve">
+                              </form>
+                            <% } else { %>
+                              <form class="" action="/members/<%= member._id %>/unapprove?_method=PUT" method="post">
+                                <input type="submit" class="btn btn-sm btn-warning" value="Unapprove">
+                              </form>
+                            <% } %>
+                          <% } %>
+                        </div>
+                        <div class="col-sm-12 py-1">
+                          <a class="btn btn-sm btn-warning" href="/members/<%= member._id %>/edit">Edit</a>
+                        </div>
+                        <% if(currentUser && currentUser.clearanceIsGET(userClearance.captain)){ %>
+                          <div class="col-sm-12 py-1">
+                            <form class="delete-form" action="/members/<%= member._id %>?_method=DELETE" method="post">
+                              <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                            </form>
+                          </div>
+                        <% } %>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+
               </div>
             </div>
 

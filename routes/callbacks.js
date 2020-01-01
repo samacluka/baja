@@ -65,7 +65,6 @@ var callbacks = {
   members: {
     get: {
       // index
-      // show
       // edit
     },
     post: {
@@ -451,12 +450,6 @@ callbacks.members.get.index = function(req,res){
   });
 };
 
-callbacks.members.get.show = function(req,res){
-  User.findById(req.params.id, (err, foundUser) => {
-    res.render(views.members.show, {member: foundUser});
-  });
-};
-
 callbacks.members.get.edit = function(req,res){
   User.findById(req.params.id).exec(function(err, foundUser){
     Option.find({select: "clearance"}).exec((err, foundOptions) => {
@@ -485,7 +478,7 @@ callbacks.members.put.save = function(req,res){
       foundUser.save().then((savedExpenseReport) => {
         if(req.file == undefined){ // If no image was uploaded -- just save form data
           req.flash("success","Member successfully saved");
-          res.redirect("/members/"+req.params.id);
+          res.redirect("/members");
 
         } else { // If a new image was uploaded save to cloudinary and save form data
 
@@ -493,10 +486,9 @@ callbacks.members.put.save = function(req,res){
             if(err){
               console.log(err);
             } else {
-
               cloudinary.uploader.upload(multer.dataUri(req).content,
               {
-                folder: "receipts",             // Folder the image is being saved to on cloud
+                folder: "users",             // Folder the image is being saved to on cloud
                 eager : [{quality: "auto:low"}], // Reduce image quality for speed
                 eager_async: true,              // Do operations async
               }, function(err, result){ // Upload image to cloudinary
@@ -506,7 +498,7 @@ callbacks.members.put.save = function(req,res){
                   foundUser.image_id = result.public_id;
                   foundUser.save().then(() => {
                     req.flash("success","Member successfully saved");
-                    res.redirect("/members/"+req.params.id);
+                    res.redirect("/members");
                   }).catch((err) => { console.log(err); });
                 }
               });
@@ -525,6 +517,13 @@ callbacks.members.put.approve = function(req,res){
       console.log(err);
     } else {
       foundUser.approved = true;
+      foundUser.save((err,data) => {
+        if(err){ console.log(err); }
+        else{
+          console.log("THE FOLLOWING USER WAS APPROVED");
+          console.log(data);
+        }
+      });
     }
     res.redirect("back");
   });
@@ -536,6 +535,13 @@ callbacks.members.put.unapprove = function(req,res){
       console.log(err);
     } else {
       foundUser.approved = false;
+      foundUser.save((err,data) => {
+        if(err){ console.log(err); }
+        else{
+          console.log("THE FOLLOWING USER WAS UNAPPROVED");
+          console.log(data);
+        }
+      });
     }
     res.redirect("back");
   });
