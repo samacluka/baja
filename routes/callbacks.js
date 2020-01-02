@@ -555,7 +555,7 @@ callbacks.members.put.save = function(req,res){
 
         } else { // If a new image was uploaded save to cloudinary and save form data
 
-          cloudinary.uploader.destroy(foundUser.image_id, function(err){
+          cloudinary.uploader.destroy(savedUser.image_id, function(err){
             if(err){
               console.log(err);
             } else {
@@ -568,8 +568,8 @@ callbacks.members.put.save = function(req,res){
                 if(err){
                   console.log("Cloudinary Upload Error: "+err);
                 } else {
-                  foundUser.image_id = result.public_id;
-                  foundUser.save().then((savedUser) => {
+                  savedUser.image_id = result.public_id;
+                  savedUser.save().then((savedUser) => {
 
                     if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
                       nodemailer.sendMail({
