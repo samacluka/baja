@@ -3,6 +3,8 @@ var passport       = require("passport"),
 
 var User           = require("../models/user");
 
+var nodemailer     = require("../emails/nodemailer.js");
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -22,7 +24,21 @@ passport.use(new GoogleStrategy({
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
         }, function(err, newUser){
-          done(null, newUser);
+
+          nodemailer.sendMail({
+            from: process.env.GMAIL_USERNAME,
+            to: process.env.GMAIL_USERNAME,
+            subject: 'New User Requesting Approval',
+            text: 'New User: '+ req.user.firstName + ' ' + req.user.lastName
+          }, (error, info) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+              done(null, newUser);
+            }
+          });
+
         });
       }
     });

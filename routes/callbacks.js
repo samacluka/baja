@@ -109,28 +109,8 @@ callbacks.auth.google.success = function(req,res){
     req.flash("success","Welcome to McMaster Baja Racing " + req.user.firstName);
     res.redirect("/expenseReports");
   } else {
-
-    if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-      var mailOptions = {
-        from: process.env.GMAIL_USERNAME,
-        to: process.env.GMAIL_USERNAME,
-        subject: 'New User Requesting Approval',
-        text: 'New User: '+ req.user.firstName + ' ' + req.user.lastName
-      };
-
-      nodemailer.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-          req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
-          res.redirect("/home");
-        }
-      });
-    } else {
-      req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
-      res.redirect("/home");
-    }
+    req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
+    res.redirect("/");
   }
 };
 
@@ -287,14 +267,12 @@ callbacks.expenseReports.post.new = function(req,res){
                                     newExpenseReport.save().then(function(savedExpenseReport){
 
                                       if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-                                        var mailOptions = {
+                                        nodemailer.sendMail({
                                           from: process.env.GMAIL_USERNAME,
                                           to: process.env.GMAIL_USERNAME,
                                           subject: 'New Expense Report',
                                           text: 'Created by: '+ req.user.firstName + ' ' + req.user.lastName
-                                        };
-
-                                        nodemailer.sendMail(mailOptions, (error, info) => {
+                                        }, (error, info) => {
                                           if (error) {
                                             console.log(error);
                                           } else {
@@ -358,14 +336,12 @@ callbacks.expenseReports.put.save = function(req,res){
                   if(req.file == undefined){ // If no image was uploaded -- just save form data
 
                     if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-                      var mailOptions = {
+                      nodemailer.sendMail({
                         from: process.env.GMAIL_USERNAME,
                         to: process.env.GMAIL_USERNAME,
                         subject: 'Updated Expense Report',
                         text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
-                      };
-
-                      nodemailer.sendMail(mailOptions, (error, info) => {
+                      }, (error, info) => {
                         if (error) {
                           console.log(error);
                         } else {
@@ -400,14 +376,12 @@ callbacks.expenseReports.put.save = function(req,res){
                             finalExpenseReport.save().then(() => {
 
                               if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-                                var mailOptions = {
+                                nodemailer.sendMail({
                                   from: process.env.GMAIL_USERNAME,
                                   to: process.env.GMAIL_USERNAME,
                                   subject: 'Updated Expense Report',
                                   text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
-                                };
-
-                                nodemailer.sendMail(mailOptions, (error, info) => {
+                                }, (error, info) => {
                                   if (error) {
                                     console.log(error);
                                   } else {
@@ -547,7 +521,6 @@ callbacks.members.put.save = function(req,res){
       req.flash("error","Find User Error: "+err);
       res.redirect("/members");
     } else {
-      console.log(req.body);
       foundUser.firstName = req.body.firstName;
       foundUser.lastName = req.body.lastName;
 
@@ -557,18 +530,16 @@ callbacks.members.put.save = function(req,res){
 
       if(req.user.clearanceIsGET(userClearance.captain)){ foundUser.approved = true; } // Captain submission automatically approved
 
-      foundUser.save().then((savedExpenseReport) => {
+      foundUser.save().then((savedUser) => {
         if(req.file == undefined){ // If no image was uploaded -- just save form data
 
           if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-            var mailOptions = {
+            nodemailer.sendMail({
               from: process.env.GMAIL_USERNAME,
               to: process.env.GMAIL_USERNAME,
-              subject: 'Updated Expense Report',
+              subject: 'Updated Member Information',
               text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
-            };
-
-            nodemailer.sendMail(mailOptions, (error, info) => {
+            }, (error, info) => {
               if (error) {
                 console.log(error);
               } else {
@@ -598,17 +569,15 @@ callbacks.members.put.save = function(req,res){
                   console.log("Cloudinary Upload Error: "+err);
                 } else {
                   foundUser.image_id = result.public_id;
-                  foundUser.save().then(() => {
+                  foundUser.save().then((savedUser) => {
 
                     if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-                      var mailOptions = {
+                      nodemailer.sendMail({
                         from: process.env.GMAIL_USERNAME,
                         to: process.env.GMAIL_USERNAME,
-                        subject: 'Updated Expense Report',
+                        subject: 'Updated Member Information',
                         text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
-                      };
-
-                      nodemailer.sendMail(mailOptions, (error, info) => {
+                      }, (error, info) => {
                         if (error) {
                           console.log(error);
                         } else {
@@ -719,4 +688,5 @@ callbacks.members.delete.remove = function(req,res){
   });
 };
 
+// ======================================== EXPORT ========================================
 module.exports = callbacks;
