@@ -101,7 +101,8 @@ callbacks.auth.google.index = passport.authenticate('google', {
 
 callbacks.auth.google.callback = passport.authenticate('google', {
   failureFlash:    'Authentication failed',
-  failureRedirect: '/auth'
+  failureRedirect: '/auth',
+  successRedirect: '/auth/google/success'
 });
 
 callbacks.auth.google.success = function(req,res){
