@@ -106,6 +106,7 @@ callbacks.auth.google.callback = passport.authenticate('google', {
 
 callbacks.auth.google.success = function(req,res){
   if(req.user.approved){
+    console.log("From Google Success: "+req.user);
     req.flash("success","Welcome to McMaster Baja Racing " + req.user.firstName);
     res.redirect("/expenseReports");
   } else {
@@ -179,11 +180,11 @@ callbacks.index.get.photos = function(req,res){
 // ======================================== EXPENSE REPORTS ========================================
 // GET
 callbacks.expenseReports.get.index = function(req,res){
+  console.log("From expense report index route: "+req.user);
   ExpenseReport.find().sort('-created').populate('author').populate('expenseItems').exec(function(err,allExpenseReports){
     if(err){
       console.log(err);
     } else {
-      console.log(req.user);
       if(req.user.clearanceIsGET(userClearance.captain)){
         var csv_href_rep = support.create_href_reports(allExpenseReports);
         var csv_href_item = support.create_href_items(allExpenseReports);
