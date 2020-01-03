@@ -45,6 +45,7 @@ app.use(passport.session());
 
 // Send to all views
 app.use(function(req,res,next){
+  console.log(req.user);
   res.locals.currentUser    = req.user;
   res.locals.error          = req.flash("error");
   res.locals.success        = req.flash("success");
