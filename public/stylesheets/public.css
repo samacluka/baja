@@ -9,9 +9,8 @@
   margin-top: 20px;
 }
 
-#home .col-lg-6.blog-post-preview {
-  padding: 60px;
-  background-color: #EFEFEF;
+#home .blog-post-preview {
+  text-indent: 50px;
 }
 
 #home a:hover{

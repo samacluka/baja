@@ -14,18 +14,25 @@
             <div class="card card-lg card-shadow">
               <div class="row row-eq-height row-no-padding">
 
-                  <div class="col-lg-6 blog-post-preview">
-                    <p class="card-text">
-                      <%= post.content.length > 25 ?
-                      post.content.substring(0, 25) + "..." :
-                      post.content; %>
-                    </p>
+                  <div class="col-lg-6">
+                    <div class="card-img-mask card-img-mask-full">
+                      <% images.resources.forEach((image) => { %>
+                        <% if(image.filename == post.title){ %>
+                          <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="Blog Image">
+                        <% } %>
+                      <% }) %>
+                    </div>
                   </div>
 
                   <div class="col-lg-6">
                     <div class="card-body card-link-floater">
                       <h3 class="card-title"><%= post.title %></h3>
                       <p><%= post.updated.substring(0,10) %></p>
+                      <p class="card-text blog-post-preview">
+                        <%= post.content.length > 25 ?
+                        post.content.substring(0, 25) + "..." :
+                        post.content; %>
+                      </p>
                     </div>
                   </div>
 
@@ -41,18 +48,25 @@
               <div class="card card-lg card-shadow">
                   <div class="row row-eq-height row-no-padding">
 
-                      <div class="col-lg-6 order-md-2 blog-post-preview">
-                        <p class="card-text">
-                          <%= post.content.length > 25 ?
-                          post.content.substring(0, 25) + "..." :
-                          post.content; %>
-                        </p>
+                      <div class="col-lg-6 order-md-2">
+                        <div class="card-img-mask card-img-mask-full">
+                          <% images.resources.forEach((image) => { %>
+                            <% if(image.filename == post.title){ %>
+                              <img src="https://res.cloudinary.com/<%= process.env.CLOUDINARY_CLOUD_NAME %>/image/upload/q_25/<%= image.public_id %>" alt="Blog Image">
+                            <% } %>
+                          <% }) %>
+                        </div>
                       </div>
 
                       <div class="col-lg-6">
                         <div class="card-body card-link-floater">
                           <h3 class="card-title"><%= post.title %></h3>
                           <p><%= post.updated.substring(0,10) %></p>
+                          <p class="card-text blog-post-preview">
+                            <%= post.content.length > 25 ?
+                            post.content.substring(0, 25) + "..." :
+                            post.content; %>
+                          </p>
                         </div>
                       </div>
 
