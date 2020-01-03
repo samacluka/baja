@@ -124,8 +124,6 @@ callbacks.index.get.index = function(req,res){
   request('https://www.googleapis.com/blogger/v3/blogs/1611983928963100169/posts?key='+process.env.GOOGLE_API_KEY, { json: true }, (err, resp, body) => {
     if (err) { return console.log(err); }
     cloudinary.search.expression('folder: blogs').execute().then((foundImages) => {
-      console.log(body.items);
-      console.log(foundImages.resources);
       res.render(views.public.home2, {posts: body.items, images: foundImages});
     });
   });
@@ -185,6 +183,7 @@ callbacks.expenseReports.get.index = function(req,res){
     if(err){
       console.log(err);
     } else {
+      console.log(req.user);
       if(req.user.clearanceIsGET(userClearance.captain)){
         var csv_href_rep = support.create_href_reports(allExpenseReports);
         var csv_href_item = support.create_href_items(allExpenseReports);
