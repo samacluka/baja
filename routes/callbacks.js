@@ -106,6 +106,7 @@ callbacks.auth.google.callback = passport.authenticate('google', {
 
 callbacks.auth.google.success = function(req,res){
   if(req.user.approved){
+    console.log("from callbacks.auth.google.success NODE_ENV: "+proces.env.NODE_ENV);
     console.log("From Google Success: "+req.user);
     req.flash("success","Welcome to McMaster Baja Racing " + req.user.firstName);
     res.redirect("/expenseReports");

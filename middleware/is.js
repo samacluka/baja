@@ -7,6 +7,9 @@ var userClearance = require("../interface/clearance.js");
 var is = {};
 
 is.approved = function(req,res,next){
+  console.log("from is.approved NODE_ENV: "+proces.env.NODE_ENV);
+  console.log("from is.approved USER: "+req.user);
+
   if(process.env.NODE_ENV=="development"){ return next(); } // Skip middleware if in development mode
 
   if(req.isAuthenticated()){
