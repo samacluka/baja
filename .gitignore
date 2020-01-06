@@ -93,4 +93,10 @@ typings/
 #All files in following folders
 junk/
 locked/
-node_modules
+node_modules/
+
+#Firebase
+firebase/
+.firebaserc
+firebase.json
+.firebase

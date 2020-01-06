@@ -26,7 +26,6 @@ var callbacks = {
     google: {
       // index
       // callback
-      // success
     },
   },
   index: {
@@ -101,8 +100,7 @@ callbacks.auth.google.index = passport.authenticate('google', {
 
 callbacks.auth.google.callback = passport.authenticate('google', {
   failureFlash:    'Authentication failed',
-  failureRedirect: '/auth',
-  successRedirect: '/auth/google/success'
+  failureRedirect: '/auth'
 });
 
 callbacks.auth.google.success = function(req,res){
@@ -113,7 +111,7 @@ callbacks.auth.google.success = function(req,res){
     req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
     res.redirect("/");
   }
-};
+}
 
 // ======================================== INDEX ========================================
 // GET
@@ -357,8 +355,7 @@ callbacks.expenseReports.put.save = function(req,res){
                       res.redirect("/expenseReports/"+req.params.id);
                     }
                   } else { // If a new image was uploaded save to cloudinary and save form data
-
-                    cloudinary.uploader.destroy(finalExpenseReport.image_id, function(err){
+                    cloudinary.uploader.destroy(finalExpenseReport.image_id, function(err){ // Delete old image
                       if(err){
                         console.log(err);
                       } else {
@@ -404,6 +401,7 @@ callbacks.expenseReports.put.save = function(req,res){
 
                       }
                     });
+
                   }
                 }).catch((err) => {
                   console.log(err);
@@ -556,48 +554,84 @@ callbacks.members.put.save = function(req,res){
           }
 
         } else { // If a new image was uploaded save to cloudinary and save form data
+          if(savedUser.image_id != ""){ // If a user had an image previously stored in cloudinary - remove the image
+            cloudinary.uploader.destroy(savedUser.image_id, function(err){
+              if(err){
+                console.log(err);
+              } else {
+                cloudinary.uploader.upload(multer.dataUri(req).content,
+                {
+                  folder: "users",             // Folder the image is being saved to on cloud
+                  eager : [{quality: "auto:low"}], // Reduce image quality for speed
+                  eager_async: true,              // Do operations async
+                }, function(err, result){ // Upload image to cloudinary
+                  if(err){
+                    console.log("Cloudinary Upload Error: "+err);
+                  } else {
+                    savedUser.image_id = result.public_id;
+                    savedUser.save().then((savedUser) => {
 
-          cloudinary.uploader.destroy(savedUser.image_id, function(err){
-            if(err){
-              console.log(err);
-            } else {
-              cloudinary.uploader.upload(multer.dataUri(req).content,
-              {
-                folder: "users",             // Folder the image is being saved to on cloud
-                eager : [{quality: "auto:low"}], // Reduce image quality for speed
-                eager_async: true,              // Do operations async
-              }, function(err, result){ // Upload image to cloudinary
-                if(err){
-                  console.log("Cloudinary Upload Error: "+err);
-                } else {
-                  savedUser.image_id = result.public_id;
-                  savedUser.save().then((savedUser) => {
+                      if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
+                        nodemailer.sendMail({
+                          from: process.env.GMAIL_USERNAME,
+                          to: process.env.GMAIL_USERNAME,
+                          subject: 'Updated Member Information',
+                          text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
+                        }, (error, info) => {
+                          if (error) {
+                            console.log(error);
+                          } else {
+                            console.log('Email sent: ' + info.response);
+                            req.flash("success","Member successfully saved");
+                            res.redirect("/members");
+                          }
+                        });
+                      } else {
+                        req.flash("success","Member successfully saved");
+                        res.redirect("/members");
+                      }
+                    }).catch((err) => { console.log(err); });
+                  }
+                });
 
-                    if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
-                      nodemailer.sendMail({
-                        from: process.env.GMAIL_USERNAME,
-                        to: process.env.GMAIL_USERNAME,
-                        subject: 'Updated Member Information',
-                        text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
-                      }, (error, info) => {
-                        if (error) {
-                          console.log(error);
-                        } else {
-                          console.log('Email sent: ' + info.response);
-                          req.flash("success","Member successfully saved");
-                          res.redirect("/members");
-                        }
-                      });
-                    } else {
-                      req.flash("success","Member successfully saved");
-                      res.redirect("/members");
-                    }
-                  }).catch((err) => { console.log(err); });
-                }
-              });
+              }
+            });
+          } else { // If the user had no image previously stored on cloudinary
+            cloudinary.uploader.upload(multer.dataUri(req).content,
+            {
+              folder: "users",             // Folder the image is being saved to on cloud
+              eager : [{quality: "auto:low"}], // Reduce image quality for speed
+              eager_async: true,              // Do operations async
+            }, function(err, result){ // Upload image to cloudinary
+              if(err){
+                console.log("Cloudinary Upload Error: "+err);
+              } else {
+                savedUser.image_id = result.public_id;
+                savedUser.save().then((savedUser) => {
 
-            }
-          });
+                  if(!req.user.clearanceIsGET(userClearance.captain)){ // Captains dont need to recieve emails for their own submission
+                    nodemailer.sendMail({
+                      from: process.env.GMAIL_USERNAME,
+                      to: process.env.GMAIL_USERNAME,
+                      subject: 'Updated Member Information',
+                      text: 'Updated by: '+ req.user.firstName + ' ' + req.user.lastName
+                    }, (error, info) => {
+                      if (error) {
+                        console.log(error);
+                      } else {
+                        console.log('Email sent: ' + info.response);
+                        req.flash("success","Member successfully saved");
+                        res.redirect("/members");
+                      }
+                    });
+                  } else {
+                    req.flash("success","Member successfully saved");
+                    res.redirect("/members");
+                  }
+                }).catch((err) => { console.log(err); });
+              }
+            });
+          }
         }
       }).catch((err) => { console.log(err); });
     };
