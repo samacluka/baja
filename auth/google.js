@@ -16,6 +16,7 @@ passport.use(new GoogleStrategy({
         console.log(err);
         done(err, null);
       } else if(user){
+        console.log(user);
         done(null, user);
       } else {
         User.create({
