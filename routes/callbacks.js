@@ -26,6 +26,7 @@ var callbacks = {
     google: {
       // index
       // callback
+      // success
     },
   },
   index: {
@@ -111,7 +112,7 @@ callbacks.auth.google.success = function(req,res){
     req.flash("success","Thank you for registering with McMaster Baja Racing! Your account is being reviewed by the captains.");
     res.redirect("/");
   }
-}
+};
 
 // ======================================== INDEX ========================================
 // GET

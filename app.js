@@ -23,7 +23,7 @@ const userClearance                       = require("./interface/clearance.js"),
 /* Configure Database */
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser:  true,
                                             useCreateIndex:   true,
-                                            useFindAndModify: false });
+                                            useFindAndModify: false }, () => { console.log("DB Connected")}).catch((err) => console.log(err));
 
 /* Configure Other packages */
 app.use(bodyParser.urlencoded({extended: true}));
