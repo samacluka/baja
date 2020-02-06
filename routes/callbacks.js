@@ -82,11 +82,6 @@ var callbacks = {
 };
 
 // ======================================== AUTH ========================================
-// INDEX
-callbacks.auth.index = function(req,res){
-  res.render(views.auth.index);
-};
-
 // LOGOUT
 callbacks.auth.logout = function(req,res){
   req.logout();

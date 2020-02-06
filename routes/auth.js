@@ -3,9 +3,6 @@ const express = require("express"),
 
 const callbacks       = require("./callbacks.js");
 
-// INDEX
-router.get("/", callbacks.auth.index);
-
 // LOGOUT
 router.get("/logout", callbacks.auth.logout);
 
